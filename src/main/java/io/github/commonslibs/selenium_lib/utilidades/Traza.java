@@ -1,4 +1,4 @@
-package es.juntadeandalucia.agapa.pruebasSelenium.utilidades;
+package io.github.commonslibs.selenium_lib.utilidades;
 
 import lombok.extern.slf4j.Slf4j;
 import org.testng.Reporter;

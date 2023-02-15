@@ -1,10 +1,11 @@
-package es.juntadeandalucia.agapa.pruebasSelenium.utilidades.robots;
+package io.github.commonslibs.selenium_lib.utilidades.robots;
 
-import es.juntadeandalucia.agapa.pruebasSelenium.excepciones.PruebaAceptacionExcepcion;
-import es.juntadeandalucia.agapa.pruebasSelenium.webdriver.WebDriverFactory.Navegador;
 import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
+
+import io.github.commonslibs.selenium_lib.excepciones.PruebaAceptacionExcepcion;
+import io.github.commonslibs.selenium_lib.webdriver.WebDriverFactory.Navegador;
 import lombok.extern.slf4j.Slf4j;
 
 

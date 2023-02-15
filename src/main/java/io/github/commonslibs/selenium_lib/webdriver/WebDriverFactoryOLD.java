@@ -1,4 +1,4 @@
-package es.juntadeandalucia.agapa.pruebasSelenium.webdriver;
+package io.github.commonslibs.selenium_lib.webdriver;
 
 import java.io.File;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import org.openqa.selenium.firefox.GeckoDriverService;
  * @author dmartinez
  */
 @Slf4j
-public class WebDriverFactory {
+public class WebDriverFactoryOLD {
 
    public enum Navegador {
       CHROME, FIREFOX, MSEDGE

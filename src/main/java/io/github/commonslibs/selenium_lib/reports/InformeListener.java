@@ -1,4 +1,4 @@
-package es.juntadeandalucia.agapa.pruebasSelenium.reports;
+package io.github.commonslibs.selenium_lib.reports;
 
 import static java.util.stream.Collectors.toList;
 

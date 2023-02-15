@@ -1,4 +1,4 @@
-package es.juntadeandalucia.agapa.pruebasSelenium.excepciones;
+package io.github.commonslibs.selenium_lib.excepciones;
 
 /**
  * La Class PruebaAceptacionExcepcion.

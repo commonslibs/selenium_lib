@@ -1,19 +1,21 @@
-package es.juntadeandalucia.agapa.pruebasSelenium.utilidades;
+package io.github.commonslibs.selenium_lib.utilidades;
 
-import es.juntadeandalucia.agapa.pruebasSelenium.excepciones.PruebaAceptacionExcepcion;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import lombok.extern.slf4j.Slf4j;
+
 import org.testng.Assert;
+
+import io.github.commonslibs.selenium_lib.excepciones.PruebaAceptacionExcepcion;
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
  * Clase que contiene las conexiones a base de datos.
  *
- * @author ISOTROL
+ * @author AGAPA
  */
 @Slf4j
 public class BaseDeDatos {
@@ -34,7 +36,7 @@ public class BaseDeDatos {
          conexion = DriverManager.getConnection(cadenaDeConexion, usuario, contrasena);
       }
       catch (SQLException e) {
-         log.error("Error al conectarse a la base de datos. " + e);
+         BaseDeDatos.log.error("Error al conectarse a la base de datos. " + e);
          throw new PruebaAceptacionExcepcion(e.getLocalizedMessage());
       }
 
@@ -61,7 +63,8 @@ public class BaseDeDatos {
          rs = stm.executeQuery(queryString);
       }
       catch (SQLException e) {
-         log.error("Error al ejecutar consulta." + queryString + ". Error SQL: " + e.getErrorCode() + "-" + e.getLocalizedMessage(), e);
+         BaseDeDatos.log.error("Error al ejecutar consulta." + queryString + ". Error SQL: " + e.getErrorCode() + "-"
+               + e.getLocalizedMessage(), e);
          throw new PruebaAceptacionExcepcion(e.getLocalizedMessage());
       }
 
@@ -77,7 +80,7 @@ public class BaseDeDatos {
          }
       }
       catch (SQLException e) {
-         log.error("Error al cerrar la base de datos", e);
+         BaseDeDatos.log.error("Error al cerrar la base de datos", e);
          throw new PruebaAceptacionExcepcion(e.getLocalizedMessage());
       }
    }
@@ -102,7 +105,8 @@ public class BaseDeDatos {
          result = stm.execute(queryString);
       }
       catch (SQLException e) {
-         log.error("Error al ejecutar consulta." + queryString + ". Error SQL: " + e.getErrorCode() + "-" + e.getLocalizedMessage(), e);
+         BaseDeDatos.log.error("Error al ejecutar consulta." + queryString + ". Error SQL: " + e.getErrorCode() + "-"
+               + e.getLocalizedMessage(), e);
          throw new PruebaAceptacionExcepcion(e.getLocalizedMessage());
       }
 

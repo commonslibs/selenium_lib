@@ -5,6 +5,7 @@ Esta librería define una serie de métodos comunes para utilizar en las pruebas
 ## CONFIGURACIÓN DE LAS PRUEBAS
 
 En el fichero de properties de la aplicación que se vaya a usar deberán existir las siguientes propiedades:
+- HTTP_HUB_SELENIUM. URL del Hub de selenium. Normalmente: http://localhost:4444/wd/hub
 - URL_APLICACION. URL en la que se encuentra la aplicación a probar.
 - NAVEGADOR. Obligatorio. Posibles valores:
 	- CHROME
@@ -26,3 +27,4 @@ El proyecto usa la librería http://automation-remarks.com/video-recorder-java/ 
 # Versiones
 
 0.0.0.1: 06/02/2023: Version de prueba
+0.0.0.2: 15/02/2023: Siguiente version Beta de pruebas

@@ -1,6 +1,5 @@
-package es.juntadeandalucia.agapa.pruebasSelenium.reports;
+package io.github.commonslibs.selenium_lib.reports;
 
-import es.juntadeandalucia.agapa.pruebasSelenium.suite.TestSeleniumAbstracto;
 import java.io.File;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +12,8 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.Reporter;
+
+import io.github.commonslibs.selenium_lib.suite.TestSeleniumAbstracto;
 
 
 @Slf4j
