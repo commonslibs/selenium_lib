@@ -1156,4 +1156,26 @@ public class WebElementWrapper {
       }
       return true;
    }
+
+   public WebElement obtenerElemento(By testObject) throws PruebaAceptacionExcepcion {
+      WebElementWrapper.log.debug("obtenerElemento->" + testObject.toString());
+      WebElement elemento = null;
+      try {
+         if (this.isObjetoPresente(testObject, WebElementWrapper.NUMERO_MAXIMO_INTENTOS)) {
+            elemento = this.esperaBasica(testObject);
+
+            this.resaltaObjeto(elemento, WebElementWrapper.COLOR_AZUL);
+            return elemento;
+         }
+
+      }
+      catch (PruebaAceptacionExcepcion e) {
+         String mensaje = "Error al obtenerElemento el elemento. Motivo del error: " + e.getLocalizedMessage();
+         WebElementWrapper.log.error(mensaje);
+         throw new PruebaAceptacionExcepcion(mensaje);
+      }
+
+      return elemento;
+
+   }
 }

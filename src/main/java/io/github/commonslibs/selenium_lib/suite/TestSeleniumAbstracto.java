@@ -85,7 +85,6 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
             if (screens.length > 1) {
                Rectangle area = screens[1].getDefaultConfiguration().getBounds();
                this.driver.manage().window().setPosition(new Point(area.x, 0));
-               String areaString = ":" + (area.x * -1);
             }
          }
 
@@ -110,4 +109,5 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
    private void terminar() throws PruebaAceptacionExcepcion {
       this.driver.quit();
    }
+
 }

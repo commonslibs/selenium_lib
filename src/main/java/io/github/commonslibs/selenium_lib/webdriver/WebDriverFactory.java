@@ -65,15 +65,19 @@ public class WebDriverFactory {
                                                                                        ChromeOptions options =
                                                                                              new ChromeOptions();
                                                                                        // Parametros para evitar errores
-                                                                                       // al ejecutar Google Chrome con usuario
-                                                                                       // root en linux (se aconseja incluirla
-                                                                                       // cuando se ejecuta chrome en un 
+                                                                                       // al ejecutar Google Chrome con
+                                                                                       // usuario
+                                                                                       // root en linux (se aconseja
+                                                                                       // incluirla
+                                                                                       // cuando se ejecuta chrome en un
                                                                                        // entorno docker como es el caso
                                                                                        options.addArguments(
                                                                                              "no-sandbox");
-                                                                                       
-                                                                                       // se aconseja incluirla cuando se ejecuta
-                                                                                       // chrome en un entorno docker como es el caso
+
+                                                                                       // se aconseja incluirla cuando
+                                                                                       // se ejecuta
+                                                                                       // chrome en un entorno docker
+                                                                                       // como es el caso
                                                                                        options.addArguments(
                                                                                              "disable-dev-shm-usage");
 
@@ -82,11 +86,14 @@ public class WebDriverFactory {
                                                                                        options.addArguments("verbose");
 
                                                                                        // Se deshabiitan las extensiones
-                                                                                       options.addArguments("disable-extensions");
-                                                                                       
+                                                                                       options.addArguments(
+                                                                                             "disable-extensions");
+
                                                                                        // Se deshabiitan el sonido
-                                                                                       // Aconsejado en entorno docker de tests como es el caso
-                                                                                       options.addArguments("mute-audio");
+                                                                                       // Aconsejado en entorno docker
+                                                                                       // de tests como es el caso
+                                                                                       options.addArguments(
+                                                                                             "mute-audio");
 
                                                                                        // Para lanzar en modo incognito
                                                                                        if (WebDriverFactory.IS_MODO_INCOGNITO) {
@@ -121,11 +128,11 @@ public class WebDriverFactory {
                                                                                        if (WebDriverFactory.IS_REMOTE_SELENIUM_GRID) {
                                                                                           DesiredCapabilities capabilities =
                                                                                                 new DesiredCapabilities();
-                                                                                          
+
                                                                                           capabilities.setCapability(
                                                                                                 ChromeOptions.CAPABILITY,
                                                                                                 options);
-											  
+
                                                                                           return WebDriverManager
                                                                                                 .chromedriver()
                                                                                                 .capabilities(
@@ -135,7 +142,8 @@ public class WebDriverFactory {
                                                                                                 .create();
                                                                                        }
                                                                                        else {
-                                                                                          return new ChromeDriver(options);
+                                                                                          return new ChromeDriver(
+                                                                                                options);
                                                                                        }
                                                                                     };
 
@@ -145,7 +153,7 @@ public class WebDriverFactory {
                                                                                                    WebDriverFactory.HTTPS_PROXY)
                                                                                              .setup();
 
-										       FirefoxOptions options =
+                                                                                       FirefoxOptions options =
                                                                                              new FirefoxOptions();
 
                                                                                        // Parámetro para no abrir el
@@ -155,19 +163,19 @@ public class WebDriverFactory {
                                                                                                 "headless");
                                                                                        }
 
-										       // Para lanzar en modo incognito
+                                                                                       // Para lanzar en modo incognito
                                                                                        if (WebDriverFactory.IS_MODO_INCOGNITO) {
                                                                                           options.addArguments(
-                                                                                                "private");
-                                                                                       }      
-      
+                                                                                                "-private");
+                                                                                       }
+
                                                                                        if (WebDriverFactory.IS_REMOTE_SELENIUM_GRID) {
                                                                                           DesiredCapabilities capabilities =
                                                                                                 new DesiredCapabilities();
-                                                                                          
+
                                                                                           capabilities.setCapability(
-                                                                                                //FirefoxOptions.CAPABILITY,
-                                                                                                //"moz:firefoxOptions"
+                                                                                                // FirefoxOptions.CAPABILITY,
+                                                                                                // "moz:firefoxOptions"
                                                                                                 FirefoxOptions.FIREFOX_OPTIONS,
                                                                                                 options);
 
@@ -180,7 +188,8 @@ public class WebDriverFactory {
                                                                                                 .create();
                                                                                        }
                                                                                        else {
-                                                                                          return new FirefoxDriver(options);
+                                                                                          return new FirefoxDriver(
+                                                                                                options);
                                                                                        }
                                                                                     };
 
@@ -190,7 +199,7 @@ public class WebDriverFactory {
                                                                                                    WebDriverFactory.HTTPS_PROXY)
                                                                                              .setup();
 
-										       EdgeOptions options =
+                                                                                       EdgeOptions options =
                                                                                              new EdgeOptions();
 
                                                                                        // Para lanzar en modo incognito
@@ -209,7 +218,7 @@ public class WebDriverFactory {
                                                                                        if (WebDriverFactory.IS_REMOTE_SELENIUM_GRID) {
                                                                                           DesiredCapabilities capabilities =
                                                                                                 new DesiredCapabilities();
-                                                                                          
+
                                                                                           capabilities.setCapability(
                                                                                                 EdgeOptions.CAPABILITY,
                                                                                                 options);
@@ -223,7 +232,8 @@ public class WebDriverFactory {
                                                                                                 .create();
                                                                                        }
                                                                                        else {
-                                                                                          return new EdgeDriver(options);
+                                                                                          return new EdgeDriver(
+                                                                                                options);
                                                                                        }
 
                                                                                     };
