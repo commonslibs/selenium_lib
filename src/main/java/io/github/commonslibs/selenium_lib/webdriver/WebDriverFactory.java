@@ -98,7 +98,7 @@ public class WebDriverFactory {
                                                                                        // modo gráfico del navegador.
                                                                                        if (WebDriverFactory.IS_HEADLESS) {
                                                                                           options.addArguments(
-                                                                                                "headless");
+                                                                                                "--headless=new");
                                                                                        }
                                                                                        else {
                                                                                           // Deshabilitamos el mensaje
