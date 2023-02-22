@@ -4,31 +4,35 @@ import java.awt.AWTException;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 
+import org.testng.Assert;
+
 import io.github.commonslibs.selenium_lib.excepciones.PruebaAceptacionExcepcion;
+import io.github.commonslibs.selenium_lib.webdriver.WebDriverFactory;
 import io.github.commonslibs.selenium_lib.webdriver.WebDriverFactory.Navegador;
 import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
 /**
- * Proporciona una utilidad para poder realizar la firma con autofirma de forma externa al navegador. Hay que tener en cuenta que cuando el
- * navegador invoca a la aplicación externa de Autofirma, la primera vez siempre muestra el diálogo para dar permiso a la aplicación, en
- * siguientes llamadas dentro de la misma sesión del webdriver no se muestra.
+ * Proporciona una utilidad para poder realizar la firma con autofirma de forma externa al navegador. Hay que tener en
+ * cuenta que cuando el navegador invoca a la aplicación externa de Autofirma, la primera vez siempre muestra el diálogo
+ * para dar permiso a la aplicación, en siguientes llamadas dentro de la misma sesión del webdriver no se muestra.
  *
  * @author dmartinez
  */
 public class Autofirma {
 
    public static void firmarConAutofirma(Navegador navegador) throws PruebaAceptacionExcepcion {
-      firmarConAutofirma(navegador, true);
+      Autofirma.firmarConAutofirma(navegador, true);
    }
 
-   public static void firmarConAutofirma(Navegador navegador, boolean primeraEjecucion) throws PruebaAceptacionExcepcion {
+   public static void firmarConAutofirma(Navegador navegador, boolean primeraEjecucion)
+         throws PruebaAceptacionExcepcion {
       if (Navegador.FIREFOX == navegador) {
-         autoFirmaFirefox(primeraEjecucion);
+         Autofirma.autoFirmaFirefox(primeraEjecucion);
       }
       else if (Navegador.CHROME == navegador || Navegador.MSEDGE == navegador) {
-         autoFirmaChromium(primeraEjecucion);
+         Autofirma.autoFirmaChromium(primeraEjecucion);
       }
       else {
          throw new PruebaAceptacionExcepcion("No existe manejador para Autofirma en el navegador " + navegador.name());
@@ -44,14 +48,14 @@ public class Autofirma {
       Runnable runnable = new Runnable() {
          @Override
          public void run() {
-            log.info("Iniciando robot para firmar con Autofirma (Chromium)...");
+            Autofirma.log.info("Iniciando robot para firmar con Autofirma (Chromium)...");
             Robot robot = null;
             try {
                robot = new Robot();
                robot.delay(5000);
             }
             catch (AWTException e) {
-               log.error("Error al instanciar el robot para firmar con autofirma (Chromium)", e);
+               Autofirma.log.error("Error al instanciar el robot para firmar con autofirma (Chromium)", e);
             }
             // Pantalla de dialogo de chrome para seleccionar aplicación que trate Autofirma (siempre se muestra)
             if (primeraEjecucion) {
@@ -67,7 +71,7 @@ public class Autofirma {
             robot.keyPress(KeyEvent.VK_ENTER);
             robot.keyRelease(KeyEvent.VK_ENTER);
 
-            log.info("Terminado robot para firmar con Autofirma (Chromium)...");
+            Autofirma.log.info("Terminado robot para firmar con Autofirma (Chromium)...");
             robot.delay(2000);
          }
       };
@@ -84,14 +88,14 @@ public class Autofirma {
       Runnable runnable = new Runnable() {
          @Override
          public void run() {
-            log.info("Iniciando robot para firmar con Autofirma (Firefox)...");
+            Autofirma.log.info("Iniciando robot para firmar con Autofirma (Firefox)...");
             Robot robot = null;
             try {
                robot = new Robot();
                robot.delay(5000);
             }
             catch (AWTException e) {
-               log.error("Error al instanciar el robot para firmar con autofirma (Firefox)", e);
+               Autofirma.log.error("Error al instanciar el robot para firmar con autofirma (Firefox)", e);
             }
             // Pantalla de dialogo de firefox para seleccionar aplicación que trate Autofirma (siempre se muestra)
             if (primeraEjecucion) {
@@ -108,7 +112,7 @@ public class Autofirma {
             robot.keyPress(KeyEvent.VK_ENTER);
             robot.keyRelease(KeyEvent.VK_ENTER);
 
-            log.info("Terminado robot para firmar con Autofirma (Firefox)...");
+            Autofirma.log.info("Terminado robot para firmar con Autofirma (Firefox)...");
             robot.delay(2000);
          }
       };
@@ -116,4 +120,35 @@ public class Autofirma {
       new Thread(runnable).start();
    }
 
+   /**
+    * Aceptar dialog auto firma.
+    *
+    * @throws PruebaAceptacionExcepcion
+    *            la prueba aceptacion excepcion
+    */
+   public static void aceptarDialogAutoFirma() throws PruebaAceptacionExcepcion {
+
+      Assert.assertFalse(WebDriverFactory.IS_REMOTE_SELENIUM_GRID,
+            "Este test utiliza la clase Robot y su uso no es compatible con Selenium Grid");
+
+      Autofirma.log.info("Aceptar Dialog Autofirma...");
+      Robot robot;
+      try {
+         robot = new Robot();
+         robot.delay(3000);
+      }
+      catch (AWTException e) {
+         Autofirma.log.error("Error al instanciar el robot para firmar con autofirma", e);
+         throw new PruebaAceptacionExcepcion(e.getMessage());
+      }
+
+      robot.keyPress(KeyEvent.VK_TAB);
+      robot.keyRelease(KeyEvent.VK_TAB);
+
+      robot.keyPress(KeyEvent.VK_ENTER);
+      robot.keyRelease(KeyEvent.VK_ENTER);
+
+      robot.delay(2000);
+      Autofirma.log.info("Terminado robot para Aceptar Dialog Autofirma...");
+   }
 }

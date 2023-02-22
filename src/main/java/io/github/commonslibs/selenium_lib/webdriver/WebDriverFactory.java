@@ -71,34 +71,46 @@ public class WebDriverFactory {
                                                                                        // incluirla
                                                                                        // cuando se ejecuta chrome en un
                                                                                        // entorno docker como es el caso
+
                                                                                        options.addArguments(
-                                                                                             "no-sandbox");
+                                                                                             "--no-sandbox");
+
+                                                                                       options.addArguments(
+                                                                                             "--enable-npapi");
+
+                                                                                       // Habilitar la opción "Ejecutar
+                                                                                       // contenido Java"
+                                                                                       options.addArguments(
+                                                                                             "--enable-internal-ehb");
 
                                                                                        // se aconseja incluirla cuando
                                                                                        // se ejecuta
                                                                                        // chrome en un entorno docker
                                                                                        // como es el caso
+
                                                                                        options.addArguments(
-                                                                                             "disable-dev-shm-usage");
+                                                                                             "--disable-dev-shm-usage");
 
                                                                                        // Para habilitar el registro
                                                                                        // detallado
-                                                                                       options.addArguments("verbose");
+                                                                                       options
+                                                                                             .addArguments("--verbose");
 
-                                                                                       // Se deshabiitan las extensiones
+                                                                                       // Se deshabilitan las
+                                                                                       // extensiones
                                                                                        options.addArguments(
-                                                                                             "disable-extensions");
+                                                                                             "--disable-extensions");
 
                                                                                        // Se deshabiitan el sonido
                                                                                        // Aconsejado en entorno docker
                                                                                        // de tests como es el caso
                                                                                        options.addArguments(
-                                                                                             "mute-audio");
+                                                                                             "--mute-audio");
 
                                                                                        // Para lanzar en modo incognito
                                                                                        if (WebDriverFactory.IS_MODO_INCOGNITO) {
                                                                                           options.addArguments(
-                                                                                                "incognito");
+                                                                                                "--incognito");
                                                                                        }
 
                                                                                        // Parámetro para no abrir el

@@ -38,6 +38,9 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
    @Getter
    protected WebDriver driver;
 
+   @Getter
+   protected Navegador navegador;
+
    /**
     * Metodo que se ejecuta antes de los test.
     *
@@ -69,9 +72,9 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
    }
 
    private void iniciar() throws PruebaAceptacionExcepcion {
-      Navegador navegador = Navegador.valueOf(VariablesGlobalesTest.getPropiedad(PropiedadesTest.NAVEGADOR.name()));
-      this.driver = WebDriverFactory.obtenerInstancia(navegador);
-      Assert.assertNotNull(this.driver, "Error al instanciar el driver de " + navegador);
+      this.navegador = Navegador.valueOf(VariablesGlobalesTest.getPropiedad(PropiedadesTest.NAVEGADOR.name()));
+      this.driver = WebDriverFactory.obtenerInstancia(this.navegador);
+      Assert.assertNotNull(this.driver, "Error al instanciar el driver de " + this.navegador);
 
       // Borrado de todas las Cookies
       this.driver.manage().deleteAllCookies();
