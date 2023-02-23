@@ -21,10 +21,21 @@ import lombok.extern.slf4j.Slf4j;
 public class BaseDeDatos {
 
    /**
-    * Open and return a conexion to database
+    * Abre y retorna una conexion a BBDD
     *
-    * @return an instance of java.sql.Connection
-    * @throws PruebaAceptacionExcepcion
+    * @param bd
+    *           base de datos para la conexion a la BBDD
+    * @param host
+    *           host donde esta la BBDD
+    * @param puerto
+    *           puerto del host donde se encuentra la BBDD
+    * @param usuario
+    *           usuario de la BBDD
+    * @param contrasena
+    *           password de la BBDD
+    *
+    * @return una instancia de tipo java.sql.Connection
+    * @throws PruebaAceptacionExcepcion si se produce un error de conexion a BBDD
     */
    public static Connection conectar(String bd, String host, String puerto, String usuario, String contrasena)
          throws PruebaAceptacionExcepcion {
@@ -44,12 +55,14 @@ public class BaseDeDatos {
    }
 
    /**
-    * execute a SQL query on database
+    * ejecuta una consulta SQL a la BBDD
     *
+    * @param conexion
+    *           conexion a BBDD
     * @param queryString
-    *           SQL query string
-    * @return a reference to returned data collection, an instance of java.sql.ResultSet
-    * @throws PruebaAceptacionExcepcion
+    *           cadena SQL
+    * @return una referencia a la coleccion de retorno, del tipo java.sql.ResultSet
+    * @throws PruebaAceptacionExcepcion si se produce un error al ejecutar una consulta de BBDD
     */
    public static ResultSet executeQuery(Connection conexion, String queryString) throws PruebaAceptacionExcepcion {
       Assert.assertNotNull(conexion);
@@ -71,6 +84,13 @@ public class BaseDeDatos {
       return rs;
    }
 
+   /**
+    * cierra la conexion con la BBDD
+    *
+    * @param conexion
+    *           conexion a BBDD
+    * @throws PruebaAceptacionExcepcion si se produce un error al cerrar la conexion de BBDD
+    */
    public static void desconectar(Connection conexion) throws PruebaAceptacionExcepcion {
       try {
          if (conexion != null && !conexion.isClosed()) {
@@ -88,10 +108,12 @@ public class BaseDeDatos {
    /**
     * Execute non-query (usually INSERT/UPDATE/DELETE/COUNT/SUM...) on database
     *
+    * @param conexion
+    *           conexion a BBDD
     * @param queryString
     *           a SQL statement
     * @return single value result of SQL statement
-    * @throws PruebaAceptacionExcepcion
+    * @throws PruebaAceptacionExcepcion si se produce un error al ejecutar la query a la BBDD
     */
    public static boolean execute(Connection conexion, String queryString) throws PruebaAceptacionExcepcion {
       Assert.assertNotNull(conexion);

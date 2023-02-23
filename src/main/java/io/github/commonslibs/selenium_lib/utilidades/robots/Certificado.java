@@ -29,6 +29,7 @@ public class Certificado {
     *           El navegador en el que está corriendo selenium
     * @param posicionCertificado
     *           La posición donde se encuentra el certificado, siendo 1 la primera posición
+    * @throws PruebaAceptacionExcepcion prueba de aceptacion
     */
    public static void seleccionarCertificado(Navegador navegador, int posicionCertificado)
          throws PruebaAceptacionExcepcion {

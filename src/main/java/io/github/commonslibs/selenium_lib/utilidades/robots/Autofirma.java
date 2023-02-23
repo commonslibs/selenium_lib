@@ -42,7 +42,9 @@ public class Autofirma {
    /**
     * Robot de autofirma específico para Chromium (Chrome y Edge)
     *
-    * @throws PruebaAceptacionExcepcion
+    * @param primeraEjecucion
+	*        indica si es una primera ejecucion o no
+    * @throws PruebaAceptacionExcepcion prueba de aceptacion
     */
    public static void autoFirmaChromium(boolean primeraEjecucion) throws PruebaAceptacionExcepcion {
       Runnable runnable = new Runnable() {
@@ -82,7 +84,9 @@ public class Autofirma {
    /**
     * Robot de autofirma específico para Firefox
     *
-    * @throws PruebaAceptacionExcepcion
+    * @param primeraEjecucion
+	*        indica si es una primera ejecucion o no
+    * @throws PruebaAceptacionExcepcion prueba de aceptacion
     */
    public static void autoFirmaFirefox(boolean primeraEjecucion) throws PruebaAceptacionExcepcion {
       Runnable runnable = new Runnable() {

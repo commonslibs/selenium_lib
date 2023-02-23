@@ -44,7 +44,7 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
    /**
     * Metodo que se ejecuta antes de los test.
     *
-    * @throws PruebaAceptacionExcepcion
+    * @throws PruebaAceptacionExcepcion si se produce un error en las operaciones Pretest
     */
    @BeforeTest
    public void beforeTest() throws PruebaAceptacionExcepcion {

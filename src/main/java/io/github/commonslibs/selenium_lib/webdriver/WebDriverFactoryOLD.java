@@ -95,7 +95,9 @@ public class WebDriverFactoryOLD {
     * No se implementa como singleton debido a una posible ejecución en paralelo.
     *
     * @param navegador
-    * @return
+	*        el navegador que se usara para la prueba
+    * @return wd
+	*         el webdriver
     */
    public static WebDriver obtenerInstancia(Navegador navegador) {
       WebDriverFactoryOLD.log.info("Obteniendo una nueva instancia del navegador " + navegador.toString());
@@ -108,7 +110,8 @@ public class WebDriverFactoryOLD {
     * Lectura del driver en disco
     *
     * @param filename
-    * @return @throws
+	*        nombre del fichero
+    * @return siempre nada
     */
    private static String buscarFichero(String filename) {
       List<String> paths = new ArrayList<>();

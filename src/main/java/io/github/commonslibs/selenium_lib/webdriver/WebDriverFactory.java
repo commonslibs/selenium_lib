@@ -262,7 +262,9 @@ public class WebDriverFactory {
     * No se implementa como singleton debido a una posible ejecución en paralelo.
     *
     * @param navegador
-    * @return
+	*        navegador web que se usara para la prueba
+    * @return wd
+	*         el webdriver
     */
    public static WebDriver obtenerInstancia(Navegador navegador) {
       WebDriverFactory.log.info("Obteniendo una nueva instancia del navegador " + navegador.toString());

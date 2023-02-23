@@ -54,7 +54,7 @@ public class WebElementWrapper {
     *           objeto combo
     * @param labelValue,
     *           etiqueta que se quiere seleccionar del combo
-    * @throws PruebaAceptacionExcepcion
+    * @throws PruebaAceptacionExcepcion si se produce un error sobre el combo que se indica 
     */
    public void seleccionarElementoComboConEspera(By testObject, String labelValue) throws PruebaAceptacionExcepcion {
       this.click(testObject);
@@ -71,13 +71,21 @@ public class WebElementWrapper {
     *           objeto combo
     * @param labelValue,
     *           etiqueta que se quiere seleccionar del combo
-    * @throws PruebaAceptacionExcepcion
+    * @throws PruebaAceptacionExcepcion si se produce un error a la hora de seleccionar un elemento en el combo
     */
    public void seleccionarElementoCombo(By testObject, String labelValue) throws PruebaAceptacionExcepcion {
       this.click(testObject);
       this.click(By.xpath("//span[text() = '" + labelValue + "']"));
    }
 
+   /**
+    * Acción de hacer click en un elemento identificado por el @param testObject.
+    *
+    * @param testObject,
+    *           objeto donde se hace click
+	* @return elemento elemento
+    * @throws PruebaAceptacionExcepcion si se produce error al hacer click en el objeto que se indica
+    */
    public WebElement click(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("click->" + testObject.toString());
       boolean conseguido = false;
@@ -105,6 +113,13 @@ public class WebElementWrapper {
       return elemento;
    }
 
+   /**
+    * Acción de hacer doble click en un elemento identificado por el @param testObject.
+    *
+    * @param testObject,
+    *           objeto donde se hace doble click
+    * @throws PruebaAceptacionExcepcion si se produce error al hacer doble click en el objeto que se indica
+    */
    public void doubleClick(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("doubleClick->" + testObject.toString());
       boolean conseguido = false;
@@ -133,6 +148,13 @@ public class WebElementWrapper {
 
    }
 
+   /**
+    * Acción de resaltar un elemento con un color determinado en el navegador si éste esta presente.
+    *
+    * @param testObject,
+    *           objeto que se quiere resaltar
+    * @throws PruebaAceptacionExcepcion si el elemento que se quiere resaltar no se encuentra
+    */
    public void mostrarElementoPresente(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("mostrarElementoPresente->" + testObject.toString());
 
@@ -166,6 +188,15 @@ public class WebElementWrapper {
 
    }
 
+   /**
+    * Acción de escribir texto en un elemento identificado por el @param testObject.
+    *
+    * @param testObject,
+    *           objeto al que se le quiere indicar un texto
+    * @param texto,
+    *           texto que se quiere indicar en el campo de texto
+    * @throws PruebaAceptacionExcepcion si se produce error al intentar escribir el texto en el objeto en cuestion
+    */
    public void escribeTexto(By testObject, String texto) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("escribeTexto->" + testObject.toString() + ". Texto=" + texto);
 
@@ -379,8 +410,10 @@ public class WebElementWrapper {
     * así que usarlo con cuidado
     *
     * @param testObject
-    * @param text
-    * @throws PruebaAceptacionExcepcion
+    *        objeto	
+    * @param text 
+	*        texto que se quiere comprobar
+    * @throws PruebaAceptacionExcepcion si se produce un error
     */
    public void waitUntilElementTextChangedOrDisapeared(By testObject, String text) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log
@@ -536,7 +569,7 @@ public class WebElementWrapper {
    }
 
    /**
-    * Click para upload fichero.
+    * Click para subir un fichero.
     *
     * @param testObject
     *           valor para: test object
@@ -660,7 +693,7 @@ public class WebElementWrapper {
     * @param testObject
     *           objeto de test consdierado.
     * @return el numero de opciones presentes en el select cuyo objeto de test se pasa como parametro.
-    * @throws PruebaAceptacionExcepcion
+    * @throws PruebaAceptacionExcepcion para la prueba de aceptacion
     */
    public int cuentaNumeroDeOpcionesEnSelect(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("cuentaNumeroDeOpcionesEnSelect->" + testObject.toString());
@@ -696,13 +729,11 @@ public class WebElementWrapper {
     * Obtiene la fila de una tabla que contiene el @param texto en alguna de sus columnas. Las filas están numeradas de
     * 0 en adelante. Si no encuentra el texto en ninguna fila, devuelve -1.
     *
-    * @param driver
-    *           valor para: driver
     * @param testObject
     *           valor para: Locator del elemento tabla
     * @param texto
     *           valor para: texto
-    * @return int
+    * @return int numero de la fila
     * @throws PruebaAceptacionExcepcion
     *            la prueba aceptacion excepcion
     */
@@ -870,7 +901,7 @@ public class WebElementWrapper {
     * @param tabla,
     *           identificador de la tabla de la que se quiere tener el nº de registros
     * @return nº de registros de la @param tabla
-    * @throws PruebaAceptacionExcepcion
+    * @throws PruebaAceptacionExcepcion prueba de aceptacion
     */
    public int obtenerNumeroRegistrosTabla(By tabla) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("obtenerNumeroRegistrosTabla->" + tabla.toString());
@@ -1041,7 +1072,8 @@ public class WebElementWrapper {
     * Método que permite saber si el @param ha dejado de ser visible. En caso de que siga visible lanza un error.
     *
     * @param testObject
-    * @throws PruebaAceptacionExcepcion
+	*        del objeto
+    * @throws PruebaAceptacionExcepcion prueba de aceptacion
     */
    private void esperarHastaQueElementoNoSeaVisible(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("esperarHastaQueElementoNoSeaVisible->" + testObject.toString());
@@ -1099,10 +1131,11 @@ public class WebElementWrapper {
    /**
     * Resalta el @element de @param color, útil para seguir una traza visual.
     *
-    * @param driver
     * @param element
+	*        identificador del elemento para resaltar
     * @param color
-    * @throws PruebaAceptacionExcepcion
+	*        color con el que resaltara
+    * @throws PruebaAceptacionExcepcion prueba de aceptacion
     */
    private void resaltaObjeto(WebElement element, String color) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.trace("resaltaObjeto->" + element.toString() + ". Color=" + color);
@@ -1122,8 +1155,9 @@ public class WebElementWrapper {
     * Comprueba si el elemento extiste y luego obtiene el texto. El obejeto no tiene porque estar presente.
     *
     * @param testObject
+	*        identificador del objeto
     * @return si no existe el elemento devuelve "", sino el valor.
-    * @throws PruebaAceptacionExcepcion
+    * @throws PruebaAceptacionExcepcion para la prueba de aceptacion
     */
    public String obtenerTextoElemento(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("obtenerTextoElemento->" + testObject.toString());

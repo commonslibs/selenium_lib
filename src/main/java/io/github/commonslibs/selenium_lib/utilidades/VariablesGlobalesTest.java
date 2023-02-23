@@ -32,8 +32,10 @@ public class VariablesGlobalesTest {
     * Recoge el valor del porperty filtrando por el entorno de desarollo, por defecto recoge IC
     *
     * @param propiedad
+	*        propiedad de la queremos obtener su valor del fichero de propiedades
+	*
     * @return Valor de las propiedades del property
-    * @throws IllegalArgumentException
+    * @throws IllegalArgumentException si la propiedad indicada no existe en el fichero de propiedades
     */
    public static String getPropiedad(String propiedad) throws IllegalArgumentException {
       if (VariablesGlobalesTest.propiedades == null) {
@@ -65,7 +67,9 @@ public class VariablesGlobalesTest {
     * Saca los valores del archivo.
     *
     * @param fileName
+	*        nombre del fichero
     * @return Valores del archivo.
+	* @throws IllegalArgumentException si el nombre del fichero indicado no existe
     */
    private static Properties getFilePathToSaveStatic(String fileName) throws IllegalArgumentException {
 
@@ -83,6 +87,13 @@ public class VariablesGlobalesTest {
       return prop;
    }
 
+   /**
+    * Devuelve la url del fichero de recursos que se indica.
+    *
+    * @param fichero
+	*        nombre del fichero
+    * @return URL del fichero indicado
+    */
    protected static boolean existeFicheroResource(String fichero) {
       ClassLoader classLoader = VariablesGlobalesTest.class.getClassLoader();
       URL url = classLoader.getResource(fichero);

@@ -48,4 +48,5 @@ El proyecto usa la librería http://automation-remarks.com/video-recorder-java/ 
 # Versiones
 
 0.0.0.1: 06/02/2023: Version de prueba
+
 0.0.0.2: 23/02/2023: Primera version que se considera OK.
