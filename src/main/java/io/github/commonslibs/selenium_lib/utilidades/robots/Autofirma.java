@@ -129,13 +129,13 @@ public class Autofirma {
    public static void aceptarDialogAutoFirma() throws PruebaAceptacionExcepcion {
 
       Assert.assertFalse(WebDriverFactory.IS_REMOTE_SELENIUM_GRID,
-            "Este test utiliza la clase Robot y su uso no es compatible con Selenium Grid");
+            "Este método aceptarDialogAutoFirma, utiliza la clase Robot y su uso no es compatible con Selenium Grid");
 
       Autofirma.log.info("Aceptar Dialog Autofirma...");
       Robot robot;
       try {
          robot = new Robot();
-         robot.delay(3000);
+         robot.delay(300);
       }
       catch (AWTException e) {
          Autofirma.log.error("Error al instanciar el robot para firmar con autofirma", e);
@@ -143,12 +143,15 @@ public class Autofirma {
       }
 
       robot.keyPress(KeyEvent.VK_TAB);
+      robot.delay(100);
       robot.keyRelease(KeyEvent.VK_TAB);
+      robot.delay(300);
 
       robot.keyPress(KeyEvent.VK_ENTER);
+      robot.delay(100);
       robot.keyRelease(KeyEvent.VK_ENTER);
+      robot.delay(300);
 
-      robot.delay(2000);
       Autofirma.log.info("Terminado robot para Aceptar Dialog Autofirma...");
    }
 }

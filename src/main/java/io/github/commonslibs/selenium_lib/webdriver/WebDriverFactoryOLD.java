@@ -1,10 +1,12 @@
 package io.github.commonslibs.selenium_lib.webdriver;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-import lombok.extern.slf4j.Slf4j;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeDriverService;
@@ -13,6 +15,8 @@ import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeDriverService;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.GeckoDriverService;
+
+import lombok.extern.slf4j.Slf4j;
 
 
 /**
@@ -31,32 +35,42 @@ public class WebDriverFactoryOLD {
 
    private static final Supplier<WebDriver>                 chromeDriverSupplier  = () -> {
                                                                                      String driverPath = "chromedriver";
-                                                                                     if (System.getProperty("os.name").toLowerCase()
+                                                                                     if (System.getProperty("os.name")
+                                                                                           .toLowerCase()
                                                                                            .contains("win")) {
                                                                                         driverPath += ".exe";
                                                                                      }
                                                                                      System.setProperty(
                                                                                            ChromeDriverService.CHROME_DRIVER_EXE_PROPERTY,
-                                                                                           buscarFichero(driverPath));
-                                                                                     System.setProperty("webdriver.chrome.whitelistedIps",
+                                                                                           WebDriverFactoryOLD
+                                                                                                 .buscarFichero(
+                                                                                                       driverPath));
+                                                                                     System.setProperty(
+                                                                                           "webdriver.chrome.whitelistedIps",
                                                                                            "");
-                                                                                     ChromeOptions options = new ChromeOptions();
+                                                                                     ChromeOptions options =
+                                                                                           new ChromeOptions();
 
-                                                                                     options.addArguments("--no-sandbox");
-                                                                                     options.addArguments("--disable-dev-shm-usage");
+                                                                                     options.addArguments(
+                                                                                           "--no-sandbox");
+                                                                                     options.addArguments(
+                                                                                           "--disable-dev-shm-usage");
                                                                                      options.addArguments("--verbose");
                                                                                      return new ChromeDriver(options);
                                                                                   };
 
    private static final Supplier<WebDriver>                 firefoxDriverSupplier = () -> {
                                                                                      String driverPath = "geckodriver";
-                                                                                     if (System.getProperty("os.name").toLowerCase()
+                                                                                     if (System.getProperty("os.name")
+                                                                                           .toLowerCase()
                                                                                            .contains("win")) {
                                                                                         driverPath += ".exe";
                                                                                      }
                                                                                      System.setProperty(
                                                                                            GeckoDriverService.GECKO_DRIVER_EXE_PROPERTY,
-                                                                                           buscarFichero(driverPath));
+                                                                                           WebDriverFactoryOLD
+                                                                                                 .buscarFichero(
+                                                                                                       driverPath));
                                                                                      return new FirefoxDriver();
 
                                                                                   };
@@ -64,15 +78,17 @@ public class WebDriverFactoryOLD {
    private static final Supplier<WebDriver>                 edgeDriverSupplier    = () -> {
                                                                                      System.setProperty(
                                                                                            EdgeDriverService.EDGE_DRIVER_EXE_PROPERTY,
-                                                                                           buscarFichero("msedgedriver.exe"));
+                                                                                           WebDriverFactoryOLD
+                                                                                                 .buscarFichero(
+                                                                                                       "msedgedriver.exe"));
                                                                                      return new EdgeDriver();
                                                                                   };
 
    static {
       navegadores = new HashMap<>();
-      navegadores.put(Navegador.CHROME, chromeDriverSupplier);
-      navegadores.put(Navegador.FIREFOX, firefoxDriverSupplier);
-      navegadores.put(Navegador.MSEDGE, edgeDriverSupplier);
+      WebDriverFactoryOLD.navegadores.put(Navegador.CHROME, WebDriverFactoryOLD.chromeDriverSupplier);
+      WebDriverFactoryOLD.navegadores.put(Navegador.FIREFOX, WebDriverFactoryOLD.firefoxDriverSupplier);
+      WebDriverFactoryOLD.navegadores.put(Navegador.MSEDGE, WebDriverFactoryOLD.edgeDriverSupplier);
    }
 
    /**
@@ -82,9 +98,9 @@ public class WebDriverFactoryOLD {
     * @return
     */
    public static WebDriver obtenerInstancia(Navegador navegador) {
-      log.info("Obteniendo una nueva instancia del navegador " + navegador.toString());
-      WebDriver wd = navegadores.get(navegador).get();
-      log.info("Instancia obtenida: " + wd.toString());
+      WebDriverFactoryOLD.log.info("Obteniendo una nueva instancia del navegador " + navegador.toString());
+      WebDriver wd = WebDriverFactoryOLD.navegadores.get(navegador).get();
+      WebDriverFactoryOLD.log.info("Instancia obtenida: " + wd.toString());
       return wd;
    }
 
@@ -95,13 +111,16 @@ public class WebDriverFactoryOLD {
     * @return @throws
     */
    private static String buscarFichero(String filename) {
-      String paths[] = { "drivers" + File.separator };
+      List<String> paths = new ArrayList<>();
+      paths.add("drivers" + File.separator);
+      paths.add(System.getProperty("ruta.webdriver.chrome"));
+
       for (String path : paths) {
          if (new File(path + filename).exists()) {
             return path + filename;
          }
       }
-      log.error("El fichero " + filename + " no se encuentra en disco...");
+      WebDriverFactoryOLD.log.error("El fichero " + filename + " no se encuentra en disco...");
 
       return "";
    }

@@ -975,35 +975,41 @@ public class WebElementWrapper {
       }
       if (idElementoProcesando != null) {
          By by = By.id(idElementoProcesando);
-         driver.manage().timeouts().implicitlyWait(Duration.ofMillis(1));
-         List<WebElement> elementos = driver.findElements(by);
-         try {
-            if (elementos.size() > 0) {
-               if (elementos.get(0).isDisplayed()) {
-                  int tiempo = 0;
-                  while (elementos.get(0).isDisplayed()) {
-                     try {
-                        Thread.sleep(100);
-                     }
-                     catch (InterruptedException e) {
-                        // Seguramente nunca se produzca esta excepción
-                        WebElementWrapper.log.error("Error al parar el procesamiento del hilo de ejecución");
-                     }
-                     tiempo += 100;
-                     if (tiempo > Integer.parseInt(
-                           VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_MEDIO.name())) * 1000) {
-                        String mensaje = "La ventana \"Procesando...\" no desaparece";
-                        WebElementWrapper.log.error(mensaje);
-                        throw new PruebaAceptacionExcepcion(mensaje);
-                     }
+         this.esperarDesaparezcaElemento(driver, by);
+      }
+   }
+
+   public void esperarDesaparezcaElemento(WebDriver driver, By elemento) throws PruebaAceptacionExcepcion {
+
+      driver.manage().timeouts().implicitlyWait(Duration.ofMillis(1));
+      List<WebElement> elementos = driver.findElements(elemento);
+      try {
+         if (!elementos.isEmpty()) {
+            if (elementos.get(0).isDisplayed()) {
+               int tiempo = 0;
+               while (elementos.get(0).isDisplayed()) {
+                  try {
+                     Thread.sleep(100);
+                  }
+                  catch (InterruptedException e) {
+                     // Seguramente nunca se produzca esta excepción
+                     WebElementWrapper.log.error("Error al parar el procesamiento del hilo de ejecución");
+                  }
+                  tiempo += 100;
+                  if (tiempo > Integer.parseInt(
+                        VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_MEDIO.name())) * 1000) {
+                     String mensaje = "La ventana \"Procesando...\" no desaparece";
+                     WebElementWrapper.log.error(mensaje);
+                     throw new PruebaAceptacionExcepcion(mensaje);
                   }
                }
             }
          }
-         catch (StaleElementReferenceException e) {
-            WebElementWrapper.log.debug("La ventana procesando ya no está visible");
-         }
       }
+      catch (StaleElementReferenceException e) {
+         WebElementWrapper.log.debug("La ventana procesando ya no está visible");
+      }
+
    }
 
    public WebElement esperaBasica(By testObject) throws PruebaAceptacionExcepcion {

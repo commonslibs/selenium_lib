@@ -79,18 +79,17 @@ public class Certificado {
    public static void seleccionarCertificado(String posicionCertificado) throws PruebaAceptacionExcepcion {
 
       Assert.assertFalse(WebDriverFactory.IS_REMOTE_SELENIUM_GRID,
-            "Este test utiliza la clase Robot y su uso no es compatible con Selenium Grid");
+            "Este método seleccionarCertificado, utiliza la clase Robot y su uso no es compatible con Selenium Grid");
 
       int posCertificado = 1;
       if (!StringUtils.isBlank(posicionCertificado)) {
-         posCertificado = Integer.parseInt(posicionCertificado);
+         posCertificado = Integer.parseInt(posicionCertificado.trim());
       }
 
       Certificado.log.info("Iniciando robot para seleccionar certificado...");
       Robot robot;
       try {
          robot = new Robot();
-         robot.delay(3000);
       }
       catch (AWTException e) {
          Certificado.log.error("Error al instanciar el robot para seleccionar certificado", e);
@@ -102,13 +101,14 @@ public class Certificado {
          robot.keyPress(KeyEvent.VK_DOWN);
          robot.delay(100);
          robot.keyRelease(KeyEvent.VK_DOWN);
-         robot.delay(500);
+         robot.delay(300);
       }
 
       // En este punto se muestra el dialogo de seleccion de certificado --> Intro del certificado
       robot.keyPress(KeyEvent.VK_ENTER);
+      robot.delay(100);
       robot.keyRelease(KeyEvent.VK_ENTER);
-      robot.delay(2000);
+      robot.delay(300);
 
       Certificado.log.info("Terminado robot para seleccionar certificado...");
    }
