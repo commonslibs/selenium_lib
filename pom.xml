@@ -101,12 +101,31 @@
 			<artifactId>testng</artifactId>
 			<version>${testng.version}</version>
 		</dependency>
-		<!-- video-recorder para TESTNG-->
+		
+		<!-- INICIO: video-recorder para TESTNG-->
 		<dependency>
 			<groupId>com.automation-remarks</groupId>
 			<artifactId>video-recorder-testng</artifactId>
 			<version>2.0</version>
+			<exclusions>
+				<exclusion>  <!-- evitamos el uso de la libreria de log 1.2 por tema de vulnerabilidades -->
+					<groupId>log4j</groupId>
+					<artifactId>log4j</artifactId>
+				</exclusion>
+				<exclusion>  <!-- evitamos el uso de la version de la libreria json para recuperar la ultima por tema de vulnerabilidades -->
+					<groupId>org.json</groupId>
+					<artifactId>json</artifactId>
+				</exclusion>
+			</exclusions> 
 		</dependency>
+		
+		<!-- Libreria requerida por: video-recorder para TESTNG. La ponemos aparte ya que la version que trae la propia libreria "video-recorder-testng" tiene vulnerabilidades -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20220924</version>
+		</dependency>
+		<!-- FIN: video-recorder para TESTNG-->
 
 		<!-- Para actualizacion de webdrivermanager -->
 		<dependency>

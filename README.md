@@ -22,6 +22,27 @@ En el fichero de properties de la aplicación que se vaya a usar deberán existi
 
 En el fichero properties que se vaya a usar podrán existir otras propiedades adicionales que se estimen necesarias.
 
+## Publicacion de la libreria en MAVEN CENTRAL ⚙️
+
+Prerrequisitos: Debemos tener instalado en la maquina desde la que se quiera realizar la subida de la librería a Maven Central el certificado digital (GPG) del usuario que puede subir la libreria Maven Central: En concreto el certificado que estamos usando para esta libreria pertenece al usuario: josec.serrano@gmail.com
+Ejemplo: Para instalar el certificado digital en un PC, podemos hacer uso de la aplicación Kleopatra (tanto para windows como para Linux).
+
+Posteriormente y desde consola, ejecutaremos el siguiente comando: 
+
+```
+mvn clean deploy -PCENTRAL
+```
+
+## Analisis de librerias vulnerables. (dependency check) ⚙️
+
+Antes de realizar una revisión de librerías vulnerables, es necesario que se compile el proyecto y se genere el JAR del mismo. Posteriormente, para generar el informe de librerías vulnerables debemos ejecutar el comando siguiente:
+
+```
+mvn clean package org.owasp:dependency-check-maven:check
+```
+
+Una vez ejecutado el comando anterior, se habrá generado el fichero _dependency-check-report.html_ en el directorio target con el resultado del análisis.
+
 El proyecto usa la librería http://automation-remarks.com/video-recorder-java/ para guardar vídeos de las pruebas. Opcionalmente, es posible añadir propiedades adicionales al fichero properties usado, con las propiedades que permite el propio componente para refinar la configuración de los vídeos generados.
 
 # Versiones
