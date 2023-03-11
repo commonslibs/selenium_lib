@@ -6,7 +6,7 @@
 
 	<groupId>io.github.commonslibs</groupId>
 	<artifactId>selenium_lib</artifactId>
-	<version>0.0.0.2</version>
+	<version>0.1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>Librería para realizar pruebas con Selenium</name>
@@ -59,18 +59,18 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>11</java.version>
 		<ojdbc7.version>12.1.0.2</ojdbc7.version>
-		<maven-compiler-plugin.version>3.10.1</maven-compiler-plugin.version>
+		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 		<testng.version>7.7.1</testng.version>
 		<jacoco.version>0.8.8</jacoco.version>
 		<bonigarcia-webdrivermanager.version>5.3.2</bonigarcia-webdrivermanager.version>
-		<selenium-java.version>4.8.0</selenium-java.version>
+		<selenium-java.version>4.8.1</selenium-java.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-            <version>3.0.2</version>
+            <version>3.0.4</version>
         </dependency>
 
         <!-- Util para logs y evitar escribir código getter/setter -->
@@ -106,7 +106,7 @@
 		<dependency>
 			<groupId>com.automation-remarks</groupId>
 			<artifactId>video-recorder-testng</artifactId>
-			<version>2.0</version>
+			<version>LATEST</version>
 			<exclusions>
 				<exclusion>  <!-- evitamos el uso de la libreria de log 1.2 por tema de vulnerabilidades -->
 					<groupId>log4j</groupId>
@@ -123,7 +123,7 @@
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20220924</version>
+			<version>20230227</version>
 		</dependency>
 		<!-- FIN: video-recorder para TESTNG-->
 

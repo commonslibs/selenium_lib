@@ -45,8 +45,8 @@ Una vez ejecutado el comando anterior, se habrá generado el fichero _dependency
 
 El proyecto usa la librería http://automation-remarks.com/video-recorder-java/ para guardar vídeos de las pruebas. Opcionalmente, es posible añadir propiedades adicionales al fichero properties usado, con las propiedades que permite el propio componente para refinar la configuración de los vídeos generados.
 
-# Versiones
+# Versiones - Changelog
 
 0.0.0.1: 06/02/2023: Version de prueba
-
 0.0.0.2: 23/02/2023: Primera version que se considera OK.
+0.1.0.0: 11/03/2023: Actualizacion de librerias
