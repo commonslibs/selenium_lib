@@ -102,7 +102,7 @@
 			<version>${testng.version}</version>
 		</dependency>
 		
-		<!-- INICIO: video-recorder para TESTNG-->
+		<!-- INICIO: video-recorder para TESTNG -->
 		<dependency>
 			<groupId>com.automation-remarks</groupId>
 			<artifactId>video-recorder-testng</artifactId>
@@ -116,8 +116,18 @@
 					<groupId>org.json</groupId>
 					<artifactId>json</artifactId>
 				</exclusion>
+				<exclusion>   evitamos el uso de la version de la libreria json para recuperar la ultima por tema de vulnerabilidades - - >
+				    <groupId>org.apache.httpcomponents</groupId>
+				    <artifactId>httpclient</artifactId>
+				</exclusion>
 			</exclusions> 
 		</dependency>
+		
+		<dependency>
+            <groupId>com.automation-remarks</groupId>
+            <artifactId>video-recorder-junit</artifactId>
+            <version>LATEST</version>
+        </dependency>
 		
 		<!-- Libreria requerida por: video-recorder para TESTNG. La ponemos aparte ya que la version que trae la propia libreria "video-recorder-testng" tiene vulnerabilidades -->
 		<dependency>
@@ -132,7 +142,20 @@
 		    <groupId>io.github.bonigarcia</groupId>
 		    <artifactId>webdrivermanager</artifactId>
 		    <version>${bonigarcia-webdrivermanager.version}</version>
+		    <exclusions>
+		    	<exclusion>  <!-- evitamos el uso de la version de la libreria json para recuperar la ultima por tema de vulnerabilidades -->
+				    <groupId>org.apache.httpcomponents.client5</groupId>
+				    <artifactId>httpclient5</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5 -->
+		<dependency>
+		    <groupId>org.apache.httpcomponents.client5</groupId>
+		    <artifactId>httpclient5</artifactId>
+		    <version>5.2.1</version>
+		</dependency>
+
 
 		<!-- WebDrivers de selenium -->
 		<dependency>
