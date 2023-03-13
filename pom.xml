@@ -116,7 +116,7 @@
 					<groupId>org.json</groupId>
 					<artifactId>json</artifactId>
 				</exclusion>
-				<exclusion>   evitamos el uso de la version de la libreria json para recuperar la ultima por tema de vulnerabilidades - - >
+				<exclusion>  <!-- evitamos el uso de la version de la libreria json para recuperar la ultima por tema de vulnerabilidades -->
 				    <groupId>org.apache.httpcomponents</groupId>
 				    <artifactId>httpclient</artifactId>
 				</exclusion>
