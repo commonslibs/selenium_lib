@@ -6,7 +6,7 @@
 
 	<groupId>io.github.commonslibs</groupId>
 	<artifactId>selenium_lib</artifactId>
-	<version>0.1.0.0</version>
+	<version>0.1.0.1</version>
 	<packaging>jar</packaging>
 
 	<name>Librería para realizar pruebas con Selenium</name>
@@ -106,7 +106,7 @@
 		<dependency>
 			<groupId>com.automation-remarks</groupId>
 			<artifactId>video-recorder-testng</artifactId>
-			<version>LATEST</version>
+			<version>2.0</version>
 			<exclusions>
 				<exclusion>  <!-- evitamos el uso de la libreria de log 1.2 por tema de vulnerabilidades -->
 					<groupId>log4j</groupId>
@@ -122,12 +122,6 @@
 				</exclusion>
 			</exclusions> 
 		</dependency>
-		
-		<dependency>
-            <groupId>com.automation-remarks</groupId>
-            <artifactId>video-recorder-junit</artifactId>
-            <version>LATEST</version>
-        </dependency>
 		
 		<!-- Libreria requerida por: video-recorder para TESTNG. La ponemos aparte ya que la version que trae la propia libreria "video-recorder-testng" tiene vulnerabilidades -->
 		<dependency>
