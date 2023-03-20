@@ -78,6 +78,18 @@ public class WebDriverFactory {
                                                                                        options.addArguments(
                                                                                              "--enable-npapi");
 
+                                                                                       // Incompatibilidad de selenium y
+                                                                                       // chrome 111 al utilizar
+                                                                                       // direcciones sin https
+                                                                                       // https://stackoverflow.com/questions/75678572/java-io-ioexception-invalid-status-code-403-text-forbidden
+                                                                                       options.addArguments(
+                                                                                             "--remote-allow-origins=*");
+
+                                                                                       // Para ignorar las advertencias
+                                                                                       // al no utilizar https
+                                                                                       options.addArguments(
+                                                                                             "ignore-certificate-errors");
+
                                                                                        // Habilitar la opción "Ejecutar
                                                                                        // contenido Java"
                                                                                        options.addArguments(
@@ -126,9 +138,6 @@ public class WebDriverFactory {
                                                                                           // automatizado de pruebas
                                                                                           // está
                                                                                           // controlando Chrome."
-                                                                                          options.setExperimentalOption(
-                                                                                                "useAutomationExtension",
-                                                                                                false);
                                                                                           options.setExperimentalOption(
                                                                                                 "excludeSwitches",
                                                                                                 Collections
@@ -262,9 +271,8 @@ public class WebDriverFactory {
     * No se implementa como singleton debido a una posible ejecución en paralelo.
     *
     * @param navegador
-	*        navegador web que se usara para la prueba
-    * @return wd
-	*         el webdriver
+    *           navegador web que se usara para la prueba
+    * @return wd el webdriver
     */
    public static WebDriver obtenerInstancia(Navegador navegador) {
       WebDriverFactory.log.info("Obteniendo una nueva instancia del navegador " + navegador.toString());
