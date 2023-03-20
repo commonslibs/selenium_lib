@@ -74,7 +74,8 @@ public class WebDriverFactory {
 
                                                                                        options.addArguments(
                                                                                              "--no-sandbox");
-
+																						
+																					   // IMPORTANTE: Para que sirve la siguiente propiedad?	
                                                                                        options.addArguments(
                                                                                              "--enable-npapi");
 
@@ -99,7 +100,6 @@ public class WebDriverFactory {
                                                                                        // se ejecuta
                                                                                        // chrome en un entorno docker
                                                                                        // como es el caso
-
                                                                                        options.addArguments(
                                                                                              "--disable-dev-shm-usage");
 
