@@ -27,7 +27,7 @@ En el fichero properties que se vaya a usar podrán existir otras propiedades ad
 Prerrequisitos: Debemos tener instalado en la maquina desde la que se quiera realizar la subida de la librería a Maven Central el certificado digital (GPG) del usuario que puede subir la libreria Maven Central: En concreto el certificado que estamos usando para esta libreria pertenece al usuario: josec.serrano@gmail.com
 Ejemplo: Para instalar el certificado digital en un PC, podemos hacer uso de la aplicación Kleopatra (tanto para windows como para Linux).
 
-Posteriormente y desde consola, ejecutaremos el siguiente comando: 
+Posteriormente y desde consola, ejecutaremos el siguiente comando:
 
 ```
 mvn clean deploy -PCENTRAL
@@ -48,5 +48,11 @@ El proyecto usa la librería http://automation-remarks.com/video-recorder-java/ 
 # Versiones - Changelog
 
 0.0.0.1: 06/02/2023: Version de prueba
+
 0.0.0.2: 23/02/2023: Primera version que se considera OK.
+
 0.1.0.0: 11/03/2023: Actualizacion de librerias
+
+0.1.0.1: 15/03/2023: Pequeñas mejoras en las librerias del proyecto
+
+0.1.0.2: 21/03/2023: Se incluye compatibilidad con Google Chrome 111
