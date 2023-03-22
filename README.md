@@ -14,6 +14,7 @@ En el fichero de properties de la aplicación que se vaya a usar deberán existi
 - MAXIMIZAR. Opcional. Posibles valores:
 	- TRUE. Es el valor por defecto. El navegador se maximizará hasta ocupar la pantalla completa al inicio de cada prueba.
 	- FALSE
+- TIEMPO_PARADA_TITULO_TEST. Obligatorio. Tiempo en segundos que la aplicación parará en la entrada para mostrar el titulo del test
 - TIEMPO_RETRASO_CORTO. Obligatorio. Tiempo en segundos de retraso mas corto posible. Valor típico: 1.
 - TIEMPO_RETRASO_MEDIO Obligatorio. Tiempo en segundos de retraso medio. Valor típico: 5.
 - TIEMPO_RETRASO_LARGO Obligatorio. Tiempo en segundos de retraso mas largo posible. Valor típico: 10.
@@ -47,12 +48,23 @@ El proyecto usa la librería http://automation-remarks.com/video-recorder-java/ 
 
 # Versiones - Changelog
 
-0.0.0.1: 06/02/2023: Version de prueba
+0.1.0.3: 22/03/2023: El driver JDBC de Oracle pasa a ser el optimo para Oracle 19.
+                     Se incluye propiedad: TIEMPO_PARADA_TITULO_TEST para forzar una parada en la entrada de la aplicación para mostrar titulo de test
 
-0.0.0.2: 23/02/2023: Primera version que se considera OK.
-
-0.1.0.0: 11/03/2023: Actualizacion de librerias
+0.1.0.2: 21/03/2023: Se incluye compatibilidad con Google Chrome 111
 
 0.1.0.1: 15/03/2023: Pequeñas mejoras en las librerias del proyecto
 
-0.1.0.2: 21/03/2023: Se incluye compatibilidad con Google Chrome 111
+0.1.0.0: 11/03/2023: Actualizacion de librerias
+
+0.0.0.2: 23/02/2023: Primera version que se considera OK
+
+0.0.0.1: 06/02/2023: Version de prueba
+
+
+
+
+
+
+
+

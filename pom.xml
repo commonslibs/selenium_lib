@@ -6,7 +6,7 @@
 
 	<groupId>io.github.commonslibs</groupId>
 	<artifactId>selenium_lib</artifactId>
-	<version>0.1.0.2</version>
+	<version>0.1.0.3</version>
 	<packaging>jar</packaging>
 
 	<name>Librería para realizar pruebas con Selenium</name>
@@ -58,7 +58,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>11</java.version>
-		<ojdbc7.version>12.1.0.2</ojdbc7.version>
+		<ojdbc10.version>19.18.0.0</ojdbc10.version>
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 		<testng.version>7.7.1</testng.version>
 		<jacoco.version>0.8.8</jacoco.version>
@@ -160,9 +160,9 @@
 
   		<!-- Conexión con la BD para establecer condiciones iniciales en las pruebas -->
 		<dependency>
-			<groupId>com.oracle</groupId>
-			<artifactId>ojdbc7</artifactId>
-			<version>${ojdbc7.version}</version>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc10</artifactId>
+			<version>${ojdbc10.version}</version>
 		</dependency>
 
 	</dependencies>
