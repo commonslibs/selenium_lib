@@ -5,7 +5,19 @@
 
 version: 2
 updates:
-  - package-ecosystem: "maven" # See documentation for possible values
-    directory: "/" # Location of package manifests
+  # Gestor de paquetes del proyecto
+  - package-ecosystem: "maven"
+    # Location of package manifests
+    directory: "/"
     schedule:
-      interval: "weekly"
+      # Intervalo para la busqueda de nuevas versiones de librerias
+      interval: "weekly" 
+      # Dia de la semana en la que buscará las nuevas versiones de librerias
+      day: "sunday"
+    # Usuario asignado (Pendiente de analizar esta propiedad)   
+    assignees:
+    - "Jose Carlos Serrano Catena"
+    # Permite que dependabot pueda tener hasta un maximo de 10 pull request abiertas 
+    open-pull-requests-limit: 10
+    # Rama contra la que realizara el pull request
+    target-branch: "master"
