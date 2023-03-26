@@ -70,7 +70,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-            <version>3.0.4</version>
+            <version>3.0.5</version>
         </dependency>
 
         <!-- Util para logs y evitar escribir código getter/setter -->
