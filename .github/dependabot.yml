@@ -18,8 +18,6 @@ updates:
     - "Jose Carlos Serrano Catena"
     # Permite que dependabot pueda tener hasta un maximo de 10 pull request abiertas 
     open-pull-requests-limit: 10
-    # Rama contra la que realizara el pull request
-    target-branch: "develop"
     # Ignorar determinadas actualizaciones de librerias
     ignore:
       # Ignoramos las actualizaciones de spring boot rama 3.x ya que el proyecto se compila con Java 11 y debemos usar exclusivamente las versiones 2.x
