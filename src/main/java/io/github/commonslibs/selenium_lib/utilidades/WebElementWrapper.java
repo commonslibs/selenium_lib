@@ -1231,4 +1231,45 @@ public class WebElementWrapper {
       return elemento;
 
    }
+
+   public void seleccionaDesplegableByLabel(String idDivSelect, String labelBuscada) throws PruebaAceptacionExcepcion {
+      WebElementWrapper.log.debug("seleccionaDesplegableByLabel->" + idDivSelect + ", " + labelBuscada);
+
+      By label = By.id(idDivSelect + "_label");
+      By filtro = By.id(idDivSelect + "_filter");
+      this.seleccionaDesplegableByLabel(labelBuscada, label, filtro);
+
+   }
+
+   public void seleccionaDesplegableByLabel(String labelBuscada, By label, By filtro) throws PruebaAceptacionExcepcion {
+      WebElementWrapper.log.debug("seleccionaDesplegableByLabel->" + label.toString());
+      boolean conseguido = false;
+      WebElement elementoLabel = null;
+      PruebaAceptacionExcepcion excepcion = null;
+      for (int i = 1; !conseguido && i <= WebElementWrapper.NUMERO_MAXIMO_INTENTOS; i++) {
+         try {
+
+            elementoLabel = this.esperaBasica(label);
+            this.resaltaObjeto(elementoLabel, WebElementWrapper.COLOR_AMARILLO);
+            this.esperarHastaQueElementoClickable(elementoLabel).click();
+
+            this.esperarHastaQueElementoVisible(filtro).click();
+
+            this.escribeTexto(filtro, labelBuscada);
+
+            conseguido = true;
+         }
+         catch (PruebaAceptacionExcepcion e) {
+            conseguido = false;
+            excepcion = e;
+         }
+      }
+      if (!conseguido) {
+         String mensaje = "Error al hacer click en el elemento. Motivo del error: " + excepcion.getLocalizedMessage();
+         WebElementWrapper.log.error(mensaje);
+         throw new PruebaAceptacionExcepcion(mensaje);
+      }
+
+   }
+
 }
