@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WebElementWrapper {
 
-   private WebDriver           driver;
+   private final WebDriver     driver;
 
    private static final String COLOR_AMARILLO         = "yellow";
 
@@ -54,7 +54,8 @@ public class WebElementWrapper {
     *           objeto combo
     * @param labelValue,
     *           etiqueta que se quiere seleccionar del combo
-    * @throws PruebaAceptacionExcepcion si se produce un error sobre el combo que se indica 
+    * @throws PruebaAceptacionExcepcion
+    *            si se produce un error sobre el combo que se indica
     */
    public void seleccionarElementoComboConEspera(By testObject, String labelValue) throws PruebaAceptacionExcepcion {
       this.click(testObject);
@@ -71,7 +72,8 @@ public class WebElementWrapper {
     *           objeto combo
     * @param labelValue,
     *           etiqueta que se quiere seleccionar del combo
-    * @throws PruebaAceptacionExcepcion si se produce un error a la hora de seleccionar un elemento en el combo
+    * @throws PruebaAceptacionExcepcion
+    *            si se produce un error a la hora de seleccionar un elemento en el combo
     */
    public void seleccionarElementoCombo(By testObject, String labelValue) throws PruebaAceptacionExcepcion {
       this.click(testObject);
@@ -83,8 +85,9 @@ public class WebElementWrapper {
     *
     * @param testObject,
     *           objeto donde se hace click
-	* @return elemento elemento
-    * @throws PruebaAceptacionExcepcion si se produce error al hacer click en el objeto que se indica
+    * @return elemento elemento
+    * @throws PruebaAceptacionExcepcion
+    *            si se produce error al hacer click en el objeto que se indica
     */
    public WebElement click(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("click->" + testObject.toString());
@@ -118,7 +121,8 @@ public class WebElementWrapper {
     *
     * @param testObject,
     *           objeto donde se hace doble click
-    * @throws PruebaAceptacionExcepcion si se produce error al hacer doble click en el objeto que se indica
+    * @throws PruebaAceptacionExcepcion
+    *            si se produce error al hacer doble click en el objeto que se indica
     */
    public void doubleClick(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("doubleClick->" + testObject.toString());
@@ -153,7 +157,8 @@ public class WebElementWrapper {
     *
     * @param testObject,
     *           objeto que se quiere resaltar
-    * @throws PruebaAceptacionExcepcion si el elemento que se quiere resaltar no se encuentra
+    * @throws PruebaAceptacionExcepcion
+    *            si el elemento que se quiere resaltar no se encuentra
     */
    public void mostrarElementoPresente(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("mostrarElementoPresente->" + testObject.toString());
@@ -195,7 +200,8 @@ public class WebElementWrapper {
     *           objeto al que se le quiere indicar un texto
     * @param texto,
     *           texto que se quiere indicar en el campo de texto
-    * @throws PruebaAceptacionExcepcion si se produce error al intentar escribir el texto en el objeto en cuestion
+    * @throws PruebaAceptacionExcepcion
+    *            si se produce error al intentar escribir el texto en el objeto en cuestion
     */
    public void escribeTexto(By testObject, String texto) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("escribeTexto->" + testObject.toString() + ". Texto=" + texto);
@@ -205,12 +211,13 @@ public class WebElementWrapper {
       for (int i = 1; !conseguido && i <= WebElementWrapper.NUMERO_MAXIMO_INTENTOS; i++) {
          try {
             WebElement elemento = this.click(testObject);
-
-            while (elemento.getAttribute("value").length() > 0) {
-               // necesario porque así se soluciona donde aparece el cursor al hacer click (izq
-               // o der)
-               elemento.sendKeys(Keys.DELETE.toString());
-               elemento.sendKeys(Keys.BACK_SPACE.toString());
+            if (elemento.getAttribute("value") != null) {
+               while (elemento.getAttribute("value").length() > 0) {
+                  // necesario porque así se soluciona donde aparece el cursor al hacer click (izq
+                  // o der)
+                  elemento.sendKeys(Keys.DELETE.toString());
+                  elemento.sendKeys(Keys.BACK_SPACE.toString());
+               }
             }
             for (int x = 0; x < texto.length(); x++) {
                elemento.sendKeys(texto.substring(x, x + 1));
@@ -410,10 +417,11 @@ public class WebElementWrapper {
     * así que usarlo con cuidado
     *
     * @param testObject
-    *        objeto	
-    * @param text 
-	*        texto que se quiere comprobar
-    * @throws PruebaAceptacionExcepcion si se produce un error
+    *           objeto
+    * @param text
+    *           texto que se quiere comprobar
+    * @throws PruebaAceptacionExcepcion
+    *            si se produce un error
     */
    public void waitUntilElementTextChangedOrDisapeared(By testObject, String text) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log
@@ -693,7 +701,8 @@ public class WebElementWrapper {
     * @param testObject
     *           objeto de test consdierado.
     * @return el numero de opciones presentes en el select cuyo objeto de test se pasa como parametro.
-    * @throws PruebaAceptacionExcepcion para la prueba de aceptacion
+    * @throws PruebaAceptacionExcepcion
+    *            para la prueba de aceptacion
     */
    public int cuentaNumeroDeOpcionesEnSelect(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("cuentaNumeroDeOpcionesEnSelect->" + testObject.toString());
@@ -901,7 +910,8 @@ public class WebElementWrapper {
     * @param tabla,
     *           identificador de la tabla de la que se quiere tener el nº de registros
     * @return nº de registros de la @param tabla
-    * @throws PruebaAceptacionExcepcion prueba de aceptacion
+    * @throws PruebaAceptacionExcepcion
+    *            prueba de aceptacion
     */
    public int obtenerNumeroRegistrosTabla(By tabla) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("obtenerNumeroRegistrosTabla->" + tabla.toString());
@@ -1072,8 +1082,9 @@ public class WebElementWrapper {
     * Método que permite saber si el @param ha dejado de ser visible. En caso de que siga visible lanza un error.
     *
     * @param testObject
-	*        del objeto
-    * @throws PruebaAceptacionExcepcion prueba de aceptacion
+    *           del objeto
+    * @throws PruebaAceptacionExcepcion
+    *            prueba de aceptacion
     */
    private void esperarHastaQueElementoNoSeaVisible(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("esperarHastaQueElementoNoSeaVisible->" + testObject.toString());
@@ -1132,10 +1143,11 @@ public class WebElementWrapper {
     * Resalta el @element de @param color, útil para seguir una traza visual.
     *
     * @param element
-	*        identificador del elemento para resaltar
+    *           identificador del elemento para resaltar
     * @param color
-	*        color con el que resaltara
-    * @throws PruebaAceptacionExcepcion prueba de aceptacion
+    *           color con el que resaltara
+    * @throws PruebaAceptacionExcepcion
+    *            prueba de aceptacion
     */
    private void resaltaObjeto(WebElement element, String color) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.trace("resaltaObjeto->" + element.toString() + ". Color=" + color);
@@ -1155,9 +1167,10 @@ public class WebElementWrapper {
     * Comprueba si el elemento extiste y luego obtiene el texto. El obejeto no tiene porque estar presente.
     *
     * @param testObject
-	*        identificador del objeto
+    *           identificador del objeto
     * @return si no existe el elemento devuelve "", sino el valor.
-    * @throws PruebaAceptacionExcepcion para la prueba de aceptacion
+    * @throws PruebaAceptacionExcepcion
+    *            para la prueba de aceptacion
     */
    public String obtenerTextoElemento(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("obtenerTextoElemento->" + testObject.toString());
