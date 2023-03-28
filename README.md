@@ -25,7 +25,7 @@ En el fichero properties que se vaya a usar podrán existir otras propiedades ad
 
 ## Publicacion de la libreria en MAVEN CENTRAL ⚙️
 
-Prerrequisitos: Debemos tener instalado en la maquina desde la que se quiera realizar la subida de la librería a Maven Central el certificado digital (GPG) del usuario que puede subir la libreria Maven Central: En concreto el certificado que estamos usando para esta libreria pertenece al usuario: josec.serrano@gmail.com
+Prerrequisitos: Debemos tener instalado en la maquina desde la que se quiera realizar la subida de la librería a Maven Central el certificado digital (GPG) del usuario que puede subir la libreria Maven Central: En concreto el certificado que estamos usando para esta libreria pertenece al usuario: j o s e c . s e r r a n o a r r o b a g m a i l p u n t o c o m
 Ejemplo: Para instalar el certificado digital en un PC, podemos hacer uso de la aplicación Kleopatra (tanto para windows como para Linux).
 
 Posteriormente y desde consola, ejecutaremos el siguiente comando:
@@ -33,6 +33,10 @@ Posteriormente y desde consola, ejecutaremos el siguiente comando:
 ```
 mvn clean deploy -PCENTRAL
 ```
+
+URLs de repositorios donde se encuentra disponible la librería: 
+https://mvnrepository.com/artifact/io.github.commonslibs/selenium_lib
+https://central.sonatype.com/namespace/io.github.commonslibs
 
 ## Analisis de librerias vulnerables. (dependency check) ⚙️
 
