@@ -887,8 +887,13 @@ public class WebElementWrapper {
 
    public void esperaIncondicional(int segundos) {
       WebElementWrapper.log.debug("esperaIncondicional-> " + segundos + " segundos");
+      this.esperaIncondicionalMilisegundos(segundos * 1000);
+   }
+
+   public void esperaIncondicionalMilisegundos(int milisegundos) {
+      WebElementWrapper.log.debug("esperaIncondicionalMilisegundos-> " + milisegundos + " segundos");
       try {
-         Thread.sleep(segundos * 1000);
+         Thread.sleep(milisegundos);
       }
       catch (InterruptedException e) {
          // Seguramente nunca se produzca esta excepción
