@@ -23,11 +23,17 @@
 
 	<developers>
 		<developer>
+		  <name>Ignacio Dominguez Martín</name>
+		  <email>ignacio.dominguez@juntadeandalucia.es</email>
+		  <organization>AGAPA</organization>
+		  <organizationUrl>https://www.juntadeandalucia.es/agenciaagrariaypesquera</organizationUrl>
+		</developer>	
+		<developer>
 		  <name>Luis Escamilla Martin</name>
 		  <email>luis.escamilla@juntadeandalucia.es</email>
 		  <organization>AGAPA</organization>
 		  <organizationUrl>https://www.juntadeandalucia.es/agenciaagrariaypesquera</organizationUrl>
-		</developer>
+		</developer>		
 		<developer>
 		  <name>Raul Morales de los Santos</name>
 		  <email>raul.morales@juntadeandalucia.es</email>
