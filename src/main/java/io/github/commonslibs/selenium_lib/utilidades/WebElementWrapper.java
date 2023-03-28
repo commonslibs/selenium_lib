@@ -102,9 +102,35 @@ public class WebElementWrapper {
             this.esperarHastaQueElementoClickable(elemento).click();
             conseguido = true;
          }
-         catch (PruebaAceptacionExcepcion e) {
+         catch (Exception e) {
             conseguido = false;
-            excepcion = e;
+            excepcion = new PruebaAceptacionExcepcion(e.getMessage());
+         }
+      }
+      if (!conseguido) {
+         String mensaje = "Error al hacer click en el elemento. Motivo del error: " + excepcion.getLocalizedMessage();
+         WebElementWrapper.log.error(mensaje);
+         throw new PruebaAceptacionExcepcion(mensaje);
+      }
+
+      return elemento;
+   }
+
+   public WebElement clickSinColorear(By testObject) throws PruebaAceptacionExcepcion {
+      WebElementWrapper.log.debug("click->" + testObject.toString());
+      boolean conseguido = false;
+      WebElement elemento = null;
+      PruebaAceptacionExcepcion excepcion = null;
+      for (int i = 1; !conseguido && i <= WebElementWrapper.NUMERO_MAXIMO_INTENTOS; i++) {
+         try {
+            elemento = this.esperaBasica(testObject);
+            // this.resaltaObjeto(elemento, WebElementWrapper.COLOR_AMARILLO)
+            this.esperarHastaQueElementoClickable(elemento).click();
+            conseguido = true;
+         }
+         catch (Exception e) {
+            conseguido = false;
+            excepcion = new PruebaAceptacionExcepcion(e.getMessage());
          }
       }
       if (!conseguido) {
@@ -1264,9 +1290,9 @@ public class WebElementWrapper {
 
             conseguido = true;
          }
-         catch (PruebaAceptacionExcepcion e) {
+         catch (Exception e) {
             conseguido = false;
-            excepcion = e;
+            excepcion = new PruebaAceptacionExcepcion(e.getMessage());
          }
       }
       if (!conseguido) {
