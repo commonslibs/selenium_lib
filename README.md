@@ -47,6 +47,8 @@ Una vez ejecutado el comando anterior, se habrá generado el fichero _dependency
 El proyecto usa la librería http://automation-remarks.com/video-recorder-java/ para guardar vídeos de las pruebas. Opcionalmente, es posible añadir propiedades adicionales al fichero properties usado, con las propiedades que permite el propio componente para refinar la configuración de los vídeos generados.
 
 # Versiones - Changelog
+0.1.0.4: 28/03/2023: Se incluye el manejador para diversos componetes que no se habian probado
+                     Actualización de librerias
 
 0.1.0.3: 22/03/2023: El driver JDBC de Oracle pasa a ser el optimo para Oracle 19.
                      Se incluye propiedad: TIEMPO_PARADA_TITULO_TEST para forzar una parada en la entrada de la aplicación para mostrar titulo de test
