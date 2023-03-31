@@ -237,14 +237,7 @@ public class WebElementWrapper {
       for (int i = 1; !conseguido && i <= WebElementWrapper.NUMERO_MAXIMO_INTENTOS; i++) {
          try {
             WebElement elemento = this.click(testObject);
-            if (elemento.getAttribute("value") != null) {
-               while (elemento.getAttribute("value").length() > 0) {
-                  // necesario porque así se soluciona donde aparece el cursor al hacer click (izq
-                  // o der)
-                  elemento.sendKeys(Keys.DELETE.toString());
-                  elemento.sendKeys(Keys.BACK_SPACE.toString());
-               }
-            }
+            elemento.clear();
             for (int x = 0; x < texto.length(); x++) {
                elemento.sendKeys(texto.substring(x, x + 1));
             }
