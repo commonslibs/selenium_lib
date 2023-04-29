@@ -15,10 +15,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Verificamos proyecto - Checkout
         uses: actions/checkout@v3
-      - name: Release
+      - name: Generamos fichero Changelog
+        run: echo "# Se incluyen los siguientes cambios" > ${{ github.workspace }}-CHANGELOG.txt
+      - name: Crear Release
         uses: softprops/action-gh-release@v1
         with:
-          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
           name: v${{ github.ref }}
