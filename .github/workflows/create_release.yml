@@ -8,9 +8,6 @@ on:
     tags:
       - "*.*.*.*"
 
-permissions:
-  contents: write
-
 # Documentacion de la accion: softprops/action-gh-release@v1
 # en https://github.com/marketplace/actions/gh-release
 
