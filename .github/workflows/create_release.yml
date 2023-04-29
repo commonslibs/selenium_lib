@@ -3,7 +3,7 @@ name: CrearRelease
 on:
   push:
     tags:
-      - "v*.*.*"
+      - "*.*.*.*"
 
 jobs:
   build:
