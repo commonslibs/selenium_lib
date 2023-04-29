@@ -17,11 +17,11 @@ jobs:
     steps:
       - name: Verificamos proyecto - Checkout
         uses: actions/checkout@v3
-      - name: Generamos fichero Changelog
-        run: echo "# Se incluyen los siguientes cambios" > ${{ github.workspace }}-CHANGELOG.txt
+#      - name: Generamos fichero Changelog
+#        run: echo "# Se incluyen los siguientes cambios" > ${{ github.workspace }}-CHANGELOG.txt
       - name: Crear Release
         uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+#        if: startsWith(github.ref, 'refs/tags/')
         with:
           name: v${{ github.ref }}
           generate_release_notes: true
