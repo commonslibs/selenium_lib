@@ -26,23 +26,24 @@ jobs:
           #server-password: MAVEN_PASSWORD
           gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
-      - name: Construccion del artefacto
-        run: mvn clean package -PCENTRAL-GITHUB
+#      - name: Construccion del artefacto
+#        run: mvn clean package -PCENTRAL-GITHUB
       - name: Creacion de la release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
-          artifacts: "${{ github.workspace }}/target/*.jar"
-          name: v${{ github.ref }}
+#          artifacts: "${{ github.workspace }}/target/*.jar"
+          name: v${GITHUB_REF/refs\/tags\//}
+# v${{ github.ref }}
           generateReleaseNotes: true
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publicacion en el repositorio de Maven Central
-        run: |
-          mvn \
-            --no-transfer-progress \
-            --batch-mode \
-            clean package 
-            # deploy
+#      - name: Publicacion en el repositorio de Maven Central
+#        run: |
+#          mvn \
+#            --no-transfer-progress \
+#            --batch-mode \
+#            clean package 
+#            # deploy
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
