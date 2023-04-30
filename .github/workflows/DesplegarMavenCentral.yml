@@ -34,7 +34,7 @@ jobs:
           allowUpdates: true
           artifacts: "${{ github.workspace }}/target/*.jar"
           name: v${{ github.ref }}
-          generate_release_notes: true
+          generateReleaseNotes: true
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Publicacion en el repositorio de Maven Central
         run: |
