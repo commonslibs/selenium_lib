@@ -10,7 +10,7 @@ name: Desplegar JAR en maven central
 on:
   push:
     tags:
-      - '*.*.*.*'
+      - "*.*.*.*"
 
 jobs:
   publish:
