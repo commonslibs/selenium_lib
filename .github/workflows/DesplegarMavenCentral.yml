@@ -28,12 +28,15 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 #      - name: Construccion del artefacto
 #        run: mvn clean package -PCENTRAL-GITHUB
+      - name: Obtenemos la version de la release a partir del nombre del TAG
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
       - name: Creacion de la release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
 #          artifacts: "${{ github.workspace }}/target/*.jar"
-          name: v${GITHUB_REF/refs\/tags\//}
+          name: v${{ steps.get_version.outputs.VERSION }}
 # v${{ github.ref }}
           generateReleaseNotes: true
           token: ${{ secrets.GITHUB_TOKEN }}
