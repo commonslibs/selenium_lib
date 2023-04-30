@@ -346,22 +346,6 @@
 					</plugin>
                     <!-- FIN: Plugins requerido para publicar en MAVEN CENTRAL -->
 
-					<!-- INICIO: PENDIENTE PROBAR: 
-					     De forma predeterminada, los artefactos preparados deben obtenerse manualmente desde el sitio web de sonatype next staging.
-						 Sin embargo, esto se puede automatizar agregando nexus-staging-maven-pluginal proyecto pom. -->
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.13</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>true</autoReleaseAfterClose>
-						</configuration>
-					</plugin>
-					<!-- FIN: PENDIENTE PROBAR: -->
-
                 </plugins>
             </build>
 		</profile>
@@ -403,3 +387,5 @@
 
 		</plugins>
 	</build>
+
+</project>
