@@ -67,7 +67,7 @@
 		<ojdbc10.version>19.18.0.0</ojdbc10.version>
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 		<testng.version>7.7.1</testng.version>
-		<jacoco.version>0.8.9</jacoco.version>
+		<jacoco.version>0.8.10</jacoco.version>
 		<bonigarcia-webdrivermanager.version>5.3.2</bonigarcia-webdrivermanager.version>
 		<selenium-java.version>4.9.0</selenium-java.version>
 	</properties>
