@@ -5,6 +5,7 @@
 #
 # ¿Cuando?:
 # - Cada vez que se crea un tag
+
 name: Desplegar JAR en maven central
 
 on:
@@ -31,15 +32,20 @@ jobs:
       - name: Obtenemos la version de la release a partir del nombre del TAG
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
-      - name: Creacion de la release
-        uses: ncipollo/release-action@v1
+      - name: Crear Release
+        uses: softprops/action-gh-release@v1
         with:
-          allowUpdates: true
-#          artifacts: "${{ github.workspace }}/target/*.jar"
           name: v${{ steps.get_version.outputs.VERSION }}
-# v${{ github.ref }}
-          generateReleaseNotes: true
+          generate_release_notes: true
           token: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Creacion de la release
+#        uses: ncipollo/release-action@v1
+#        with:
+#          allowUpdates: true
+#          artifacts: "${{ github.workspace }}/target/*.jar"
+#          name: v${{ steps.get_version.outputs.VERSION }}
+#          generateReleaseNotes: true
+#          token: ${{ secrets.GITHUB_TOKEN }}
 #      - name: Publicacion en el repositorio de Maven Central
 #        run: |
 #          mvn \
