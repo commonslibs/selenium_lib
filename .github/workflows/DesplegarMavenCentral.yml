@@ -1,37 +1,48 @@
-# Usado para desplegar el JAR en Maven central de manera automatica cuando se crea un TAG
+# Accion que hace: 
+# - Compila el proyecto con maven
+# - Crea una release
+# - Publica la libreria en Maven Central
+#
+# ¿Cuando?:
+# - Cada vez que se crea un tag
 name: Desplegar JAR en maven central
-#on:
-#  push:
-#    tags:
-#      - '*.*.*.*'
+
+on:
+  push:
+    tags:
+      - '*.*.*.*'
+
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Se indica la version de Java con la que e publicara la libreria en Maven Central
         uses: actions/setup-java@v1
         with:
           java-version: 11
           server-id: ossrh
-          server-username: MAVEN_USERNAME
-          server-password: MAVEN_PASSWORD
+          #server-username: MAVEN_USERNAME
+          #server-password: MAVEN_PASSWORD
           gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
-      - name: build artifact
+      - name: Construccion del artefacto
         run: mvn clean package -PCENTRAL-GITHUB
-      - name: Create release
+      - name: Creacion de la release
         uses: ncipollo/release-action@v1
         with:
           allowUpdates: true
           artifacts: "${{ github.workspace }}/target/*.jar"
+          name: v${{ github.ref }}
+          generate_release_notes: true
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publish to the Maven Central Repository
+      - name: Publicacion en el repositorio de Maven Central
         run: |
           mvn \
             --no-transfer-progress \
             --batch-mode \
-            deploy
+            clean package 
+            # deploy
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
