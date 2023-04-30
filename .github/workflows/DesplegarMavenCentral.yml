@@ -28,11 +28,10 @@ jobs:
           #server-password: MAVEN_PASSWORD
           gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
-#      - name: Construccion del artefacto
-#        run: mvn clean package -PCENTRAL-GITHUB
+      - name: Construccion del artefacto
+        run: mvn clean package -PCENTRAL-GITHUB
       - name: Obtenemos la version de la release a partir del nombre del TAG
         id: get_version
-#        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
         run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
       - name: Crear Release
         uses: softprops/action-gh-release@v1
@@ -40,21 +39,13 @@ jobs:
           name: v${{ steps.get_version.outputs.VERSION }}
           generate_release_notes: true
           token: ${{ secrets.GITHUB_TOKEN }}
-#      - name: Creacion de la release
-#        uses: ncipollo/release-action@v1
-#        with:
-#          allowUpdates: true
-#          artifacts: "${{ github.workspace }}/target/*.jar"
-#          name: v${{ steps.get_version.outputs.VERSION }}
-#          generateReleaseNotes: true
-#          token: ${{ secrets.GITHUB_TOKEN }}
-#      - name: Publicacion en el repositorio de Maven Central
-#        run: |
-#          mvn \
-#            --no-transfer-progress \
-#            --batch-mode \
-#            clean package 
-#            # deploy
+      - name: Publicacion en el repositorio de Maven Central
+        run: |
+          mvn \
+            --no-transfer-progress \
+            --batch-mode \
+            clean package 
+            # deploy
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
