@@ -19,8 +19,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Se indica la version de Java con la que e publicara la libreria en Maven Central
-        uses: actions/setup-java@v1
+        uses: actions/setup-java@v3
         with:
+          distribution: adopt
           java-version: 11
           server-id: ossrh
           #server-username: MAVEN_USERNAME
