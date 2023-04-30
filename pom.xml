@@ -197,11 +197,8 @@
 		</profile>
 
 		<profile>
-			<!-- Perfil listo para el despliegue en MAVEN CENTRAL -->
-			<id>CENTRAL</id>
-			<!-- Revisado: Se incluye por la dependencia Spring Boot DevTools. Las
-				aplicaciones que usan spring-boot-devtools se reiniciarán automáticamente
-				cada vez que cambien los archivos en el classpath -->
+			<!-- Perfil listo para el despliegue en MAVEN CENTRAL en modo MANUAL -->
+			<id>CENTRAL-MANUAL</id>
             <build>
                 <plugins>
                     <!-- INICIO: Plugins requerido para publicar en MAVEN CENTRAL -->
@@ -252,7 +249,9 @@
                     </plugin>
 
                     <!-- Firma los archivos que se subiran a MAVEN CENTRAL -->
-                    <plugin>
+                    
+					<!-- OPCION1: Firma manual, sin usar GITHUB-ACTIONS. -->
+					<plugin>
                       <groupId>org.apache.maven.plugins</groupId>
                       <artifactId>maven-gpg-plugin</artifactId>
                       <version>3.0.1</version>
@@ -266,7 +265,103 @@
                         </execution>
                       </executions>
                     </plugin>
+					
+                </plugins>
+            </build>
+		</profile>
+
+		<profile>
+			<!-- Perfil listo para el despliegue en MAVEN CENTRAL con GITHUB-ACTIONS -->
+			<id>CENTRAL-GITHUB</id>
+            <build>
+                <plugins>
+                    <!-- INICIO: Plugins requerido para publicar en MAVEN CENTRAL -->
+                    <plugin>
+                      <groupId>org.sonatype.plugins</groupId>
+                      <artifactId>nexus-staging-maven-plugin</artifactId>
+                      <version>1.6.13</version>
+                      <extensions>true</extensions>
+                      <configuration>
+                        <serverId>ossrh</serverId>
+                        <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                      </configuration>
+                    </plugin>
+
+                    <!-- Genera los sources de la libreria para MAVEN CENTRAL -->
+                    <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-source-plugin</artifactId>
+                      <version>3.2.1</version>
+                      <executions>
+                        <execution>
+                          <id>attach-sources</id>
+                          <goals>
+                            <goal>jar-no-fork</goal>
+                          </goals>
+                        </execution>
+                      </executions>
+                    </plugin>
+
+                    <!-- Genera el javadoc de la libreria para MAVEN CENTRAL -->
+                    <plugin>
+                      <groupId>org.apache.maven.plugins</groupId>
+                      <artifactId>maven-javadoc-plugin</artifactId>
+                      <version>3.5.0</version>
+                      <executions>
+                        <execution>
+                          <id>attach-javadocs</id>
+                          <goals>
+                            <goal>jar</goal>
+                          </goals>
+                        </execution>
+                      </executions>
+                      <configuration>
+                        <failOnWarnings>false</failOnWarnings>
+                        <failOnError>false</failOnError>
+                      </configuration>
+                    </plugin>
+
+                    <!-- Firma los archivos que se subiran a MAVEN CENTRAL -->					
+					<!-- OPCION2: Firma automatica con GITHUB-ACTIONS -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>3.0.1</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+								<configuration>
+									<gpgArguments>
+										<arg>--pinentry-mode</arg>
+										<arg>loopback</arg>
+									</gpgArguments>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
                     <!-- FIN: Plugins requerido para publicar en MAVEN CENTRAL -->
+
+					<!-- INICIO: PENDIENTE PROBAR: 
+					     De forma predeterminada, los artefactos preparados deben obtenerse manualmente desde el sitio web de sonatype next staging.
+						 Sin embargo, esto se puede automatizar agregando nexus-staging-maven-pluginal proyecto pom. -->
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.13</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
+					<!-- FIN: PENDIENTE PROBAR: -->
+
                 </plugins>
             </build>
 		</profile>
@@ -308,5 +403,3 @@
 
 		</plugins>
 	</build>
-
-</project>
