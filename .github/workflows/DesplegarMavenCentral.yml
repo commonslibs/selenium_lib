@@ -32,7 +32,8 @@ jobs:
 #        run: mvn clean package -PCENTRAL-GITHUB
       - name: Obtenemos la version de la release a partir del nombre del TAG
         id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+#        run: echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+        run: echo "VERSION::${GITHUB_REF#refs/tags/}" >>$GITHUB_OUTPUT
       - name: Crear Release
         uses: softprops/action-gh-release@v1
         with:
