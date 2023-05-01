@@ -26,7 +26,9 @@ jobs:
 #        uses: gradle/gradle-build-action@v2
 #      - run: ./gradlew -V check
 #      - run: ./gradlew -V jacocoTestReport aggregateJacocoReport
-      - name: Upload coverage reports to Codecov
+      - name: Ejecutamos tests y conseguimos datos de coverage
+        run: mvn -B test
+      - name: Subimos el coverage a Codecov
         uses: codecov/codecov-action@v3
 #      - name: Upload coverage report
 #        uses: codecov/codecov-action@v3.1.3
