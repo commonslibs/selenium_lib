@@ -44,6 +44,7 @@ jobs:
           mvn \
             --no-transfer-progress \
             --batch-mode \
+            -PCENTRAL-GITHUB \
             deploy
 #            clean package 
         env:
