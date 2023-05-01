@@ -5,6 +5,9 @@
 #
 # ¿Cuando?:
 # - Cada vez que se crea un tag
+#
+# DOC:
+# https://theoverengineered.blog/posts/publishing-my-first-artifact-to-maven-central-using-github-actions
 
 name: Desplegar JAR en maven central
 
@@ -46,7 +49,6 @@ jobs:
             --batch-mode \
             -PCENTRAL-GITHUB \
             deploy
-#            clean package 
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
