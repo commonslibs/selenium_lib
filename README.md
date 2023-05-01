@@ -52,7 +52,7 @@ El proyecto usa la librería http://automation-remarks.com/video-recorder-java/ 
 
 # Versiones - Changelog
 
-0.1.0.6: 29/04/2023: Se actualizan tres librerias del proyecto
+0.1.0.6: 01/05/2023: Se actualizan tres librerias del proyecto
 
 0.1.0.5: 01/04/2023: Nuevas mejoras sobre el manejador de objetos de la libreria
 
@@ -71,11 +71,3 @@ El proyecto usa la librería http://automation-remarks.com/video-recorder-java/ 
 0.0.0.2: 23/02/2023: Primera version que se considera OK
 
 0.0.0.1: 06/02/2023: Version de prueba
-
-
-
-
-
-
-
-
