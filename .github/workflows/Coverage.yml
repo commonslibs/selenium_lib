@@ -1,12 +1,16 @@
 name: Analizar Coverage
 
 on:
+  # Cuando se ejecuta un push en la rama master
   push:
     branches:
       - master
+  # Cuando se ejecuta una pull_request en la rama master
   pull_request:
     branches:
       - master
+  # De manera manual desde Github-actions
+  workflow_dispatch:
 
 jobs:
   build:
