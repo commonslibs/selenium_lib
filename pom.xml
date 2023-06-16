@@ -57,7 +57,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.11</version>
+		<version>2.7.12</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -66,10 +66,10 @@
 		<java.version>11</java.version>
 		<ojdbc11.version>23.2.0.0</ojdbc11.version>
 		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
-		<testng.version>7.7.1</testng.version>
+		<testng.version>7.8.0</testng.version>
 		<jacoco.version>0.8.10</jacoco.version>
-		<bonigarcia-webdrivermanager.version>5.3.2</bonigarcia-webdrivermanager.version>
-		<selenium-java.version>4.9.0</selenium-java.version>
+		<bonigarcia-webdrivermanager.version>5.3.3</bonigarcia-webdrivermanager.version>
+		<selenium-java.version>4.10.0</selenium-java.version>
 	</properties>
 
 	<dependencies>
@@ -88,7 +88,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-            <version>3.0.6</version>
+            <version>3.1.0</version>
         </dependency>
 
         <!-- Util para logs y evitar escribir código getter/setter -->
@@ -157,7 +157,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.11.0</version>
+			<version>2.13.0</version>
 		</dependency>
 		<!-- FIN: video-recorder para commons-io -->
 
@@ -263,7 +263,7 @@
                     <plugin>
                       <groupId>org.apache.maven.plugins</groupId>
                       <artifactId>maven-source-plugin</artifactId>
-                      <version>3.2.1</version>
+                      <version>3.3.0</version>
                       <executions>
                         <execution>
                           <id>attach-sources</id>
@@ -337,7 +337,7 @@
                     <plugin>
                       <groupId>org.apache.maven.plugins</groupId>
                       <artifactId>maven-source-plugin</artifactId>
-                      <version>3.2.1</version>
+                      <version>3.3.0</version>
                       <executions>
                         <execution>
                           <id>attach-sources</id>
