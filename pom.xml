@@ -69,7 +69,7 @@
 		<testng.version>7.7.1</testng.version>
 		<jacoco.version>0.8.10</jacoco.version>
 		<bonigarcia-webdrivermanager.version>5.3.2</bonigarcia-webdrivermanager.version>
-		<selenium-java.version>4.9.0</selenium-java.version>
+		<selenium-java.version>4.10.0</selenium-java.version>
 	</properties>
 
 	<dependencies>
