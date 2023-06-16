@@ -7,6 +7,8 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.time.Duration;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
@@ -398,6 +400,14 @@ public class WebElementWrapper {
          throw new PruebaAceptacionExcepcion(mensaje);
       }
       return valorSeleccionado;
+   }
+
+   public void selectOneMenu(String id, String label) throws PruebaAceptacionExcepcion {
+      By selectOneMenu = By.id(id + "_label");
+      By opcion = By.xpath("//*[@id='" + id + "_panel']/div/ul/li[text()='" + label + "']");
+      this.click(selectOneMenu);
+      this.click(opcion);
+      this.click(selectOneMenu); // Para cerrar y que no tape nada.
    }
 
    public void verifyElementText(By testObject, String text) throws PruebaAceptacionExcepcion {
@@ -947,11 +957,56 @@ public class WebElementWrapper {
       WebElement paginador = t.findElement(checkSeleccionarLoteAnalisis);
 
       String cadena = paginador.getText();
+      return this.encontrarNumeroMayor(cadena);
+   }
+
+   /**
+    * Devuelve el número de elementos de la tabla tomándolo de currentPageReportTemplate
+    *
+    * @param tabla
+    *           valor para: tabla
+    * @param numElePag
+    *           valor para: elemento que muestra el texto de currentPageReportTemplate
+    * @param position
+    *           valor para: posición del número de elementos en el currentPageReportTemplate. Ej: Total {totalRecords}
+    *           elementos - Página {currentPage} de {totalPages}. En este caso el totalRecords está en la posición 1
+    *           (empieza por el 0).
+    * @return int Número de elementos en la tabla
+    * @throws PruebaAceptacionExcepcion
+    *            la prueba aceptacion excepcion
+    */
+   public int obtenerNumeroRegistrosTabla(By tabla, By numElePag, int position) throws PruebaAceptacionExcepcion {
+      WebElementWrapper.log.debug("obtenerNumeroRegistrosTabla->" + tabla.toString());
+      WebElement t = this.esperaBasica(tabla);
+
+      WebElement paginador = t.findElement(numElePag);
+
+      String cadena = paginador.getText();
       String[] aux = cadena.split(" ");
-      String res = aux[aux.length - 2];
-      Integer.valueOf(res);
+      String res = aux[position];
 
       return Integer.valueOf(res);
+   }
+
+   /**
+    * Encuentra el número mayor dentro de una cadena. Se usa para obtener el número de elementos en el
+    * currentPageReportTemplate. Ej: Total 15 elementos - Página 1 de 2 -> Devolverá 15.
+    *
+    * @param cadena
+    *           valor para: cadena
+    * @return int
+    */
+   private int encontrarNumeroMayor(String cadena) {
+      Pattern patron = Pattern.compile("\\b\\d+\\b");
+      Matcher matcher = patron.matcher(cadena);
+      int numeroMayor = 0;
+      while (matcher.find()) {
+         int numero = Integer.parseInt(matcher.group());
+         if (numero > numeroMayor) {
+            numeroMayor = numero;
+         }
+      }
+      return numeroMayor;
    }
 
    public void esperarHastaQueElementoNoPresente(By testObject) throws PruebaAceptacionExcepcion {
