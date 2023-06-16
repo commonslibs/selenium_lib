@@ -422,17 +422,16 @@ public class WebElementWrapper {
             this.resaltaObjeto(elemento, WebElementWrapper.COLOR_AZUL);
 
             WebElementWrapper.log.debug("Comprobando que " + text + " es igual que " + elemento.getText());
-            if (elemento != null && text.equals(elemento.getText())) {
+            if (text.equals(elemento.getText())) {
                conseguido = true;
             }
          }
          catch (PruebaAceptacionExcepcion e) {
-            conseguido = false;
             excepcion = e;
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al verificar el texto del elemento.";
+         String mensaje = "Error al verificar el texto del elemento " + testObject.toString() + ". Texto: " + text;
          if (excepcion != null) {
             mensaje += "Motivo del error: " + excepcion.getLocalizedMessage();
          }
@@ -853,7 +852,6 @@ public class WebElementWrapper {
             conseguido = true;
          }
          catch (PruebaAceptacionExcepcion e) {
-            conseguido = false;
             excepcion = e;
          }
          catch (InterruptedException e) {
