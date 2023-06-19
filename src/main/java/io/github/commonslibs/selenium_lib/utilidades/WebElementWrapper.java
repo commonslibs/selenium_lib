@@ -7,8 +7,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 import java.time.Duration;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
@@ -44,6 +43,54 @@ public class WebElementWrapper {
 
    private static final int    NUMERO_MAXIMO_INTENTOS = 5;
 
+   private static final String ERROR_CLICK            = "Error al hacer click";
+
+   private static final String ERROR_DBL_CLICK        = "Error al hacer doble click";
+
+   private static final String ERROR_MOSTRAR          = "Error al mostrar";
+
+   private static final String ERROR_ESCRIBIR         = "Error al escribir";
+
+   private static final String ERROR_SELECT           = "Error al seleccionar";
+
+   private static final String ERROR_SELECTED         = "No está seleccionado";
+
+   private static final String ERROR_VERIFICAR        = "Error al verificar";
+
+   private static final String ERROR_PRESENTE         = "No está presente y debería";
+
+   private static final String ERROR_NOT_PRESENTE     = "Está presente y no debería";
+
+   private static final String ERROR_CHECKED          = "No está chequeado y debería";
+
+   private static final String ERROR_NOT_CHECKED      = "Está chequeado y no debería";
+
+   private static final String ERROR_ATRIBUTO         = "No existe el atributo";
+
+   private static final String ERROR_ATRIBUTO_NE      = "Atributo con valor diferente al esperado";
+
+   private static final String ERROR_UPLOAD           = "Error al hacer click para upload";
+
+   private static final String ERROR_TEXTO            = "Error al obtener el texto";
+
+   private static final String ERROR_UPLOAD_INPUT     = "Error al completar input de upload";
+
+   private static final String ERROR_TABLA_FILA       = "Error al localizar la tabla";
+
+   private static final String ERROR_TABLA_ID         = "Error al localizar la fila";
+
+   private static final String ERROR_ESPERAR          = "Error espera";
+
+   private static final String ERROR_PROCESANDO       = "La ventana procesando no desaparece";
+
+   private static final String ERROR_NOT_VISIBLE      = "Error al esperar que no sea visible";
+
+   private static final String ERROR_VISIBLE          = "Error al esperar que sea visible";
+
+   private static final String ERROR_NOT_CLICKABLE    = "Error al esperar que el objeto sea clickable";
+
+   private static final String ERROR_RESALTAR         = "No se pudo resaltar";
+
    public WebElementWrapper(WebDriver driver) {
       this.driver = driver;
    }
@@ -60,8 +107,7 @@ public class WebElementWrapper {
     *            si se produce un error sobre el combo que se indica
     */
    public void seleccionarElementoComboConEspera(By testObject, String labelValue) throws PruebaAceptacionExcepcion {
-      this.click(testObject);
-      this.click(By.xpath("//span[text() = '" + labelValue + "']"));
+      this.seleccionarElementoCombo(testObject, labelValue);
       // Enviamos el label con el texto, para saber si ese elemento ya se ha eliminado.
       this.esperarHastaQueElementoNoSeaVisible(By.xpath("//span[text() = '" + labelValue + "']"));
    }
@@ -110,9 +156,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al hacer click en el elemento. Motivo del error: " + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_CLICK, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
 
       return elemento;
@@ -136,9 +181,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al hacer click en el elemento. Motivo del error: " + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_CLICK, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
 
       return elemento;
@@ -173,9 +217,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al hacer click en el elemento. Motivo del error: " + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_DBL_CLICK, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
 
    }
@@ -214,9 +257,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al hacer click en el elemento. Motivo del error: " + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_MOSTRAR, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
 
    }
@@ -251,9 +293,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al escribir texto. Motivo del error";
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_ESCRIBIR, null,
+               Optional.of(testObject), Optional.of(texto)));
       }
    }
 
@@ -277,10 +318,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al hacer seleccionar el valor del combo por índice. Motivo del error: "
-               + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_SELECT, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
    }
 
@@ -304,10 +343,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al hacer seleccionar el valor del combo por etiqueta. Motivo del error: "
-               + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_SELECT, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
    }
 
@@ -331,16 +368,13 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al hacer seleccionar el valor del combo por etiqueta. Motivo del error: "
-               + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_SELECT, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
       else { // Se ha obtenido el elemento web. Ahora se comprueba el valor del atributo
          if (!label.equals(etiquetaSeleccionada)) {
-            String mensaje = "En el combo no está seleccionado con el valor " + label;
-            WebElementWrapper.log.error(mensaje);
-            throw new PruebaAceptacionExcepcion(mensaje);
+            throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_SELECTED, excepcion,
+                  Optional.of(testObject), Optional.empty()));
          }
       }
    }
@@ -365,10 +399,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al hacer seleccionar el valor del combo por value del option. Motivo del error: "
-               + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_SELECT, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
    }
 
@@ -394,10 +426,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al hacer seleccionar el valor del combo por value del option. Motivo del error: "
-               + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_SELECT, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
       return valorSeleccionado;
    }
@@ -431,12 +461,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al verificar el texto del elemento " + testObject.toString() + ". Texto: " + text;
-         if (excepcion != null) {
-            mensaje += "Motivo del error: " + excepcion.getLocalizedMessage();
-         }
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_VERIFICAR, excepcion,
+               Optional.of(testObject), Optional.of(text)));
       }
    }
 
@@ -463,22 +489,14 @@ public class WebElementWrapper {
       while (!conseguido) {
          try {
             elemento = this.esperaBasica(testObject);
-
-            if (elemento == null) {
-               // Ha desaparecido --> ok
-               conseguido = true;
-            }
-            else if (StringUtils.isBlank(elemento.getText())) {
-               conseguido = true;
-            }
-            else if (!text.equals(elemento.getText())) {
+            // Desaparece o cambia.
+            if (elemento == null || StringUtils.isBlank(elemento.getText()) || !text.equals(elemento.getText())) {
                conseguido = true;
             }
 
             if (conseguido) {
                this.resaltaObjeto(elemento, WebElementWrapper.COLOR_AZUL);
             }
-
          }
          catch (Exception e) {
             WebElementWrapper.log.debug("waitUntilElementTextChangedOrDisapeared", e);
@@ -489,22 +507,18 @@ public class WebElementWrapper {
    }
 
    public boolean verifyElementPresentWithReturn(By testObject) throws PruebaAceptacionExcepcion {
-      WebElementWrapper.log.debug("verifyElementPresentWithReturn->" + testObject.toString());
       return this.verifyElementPresentWithReturn(testObject, WebElementWrapper.NUMERO_MAXIMO_INTENTOS);
    }
 
    public boolean verifyElementPresentWithReturn(By testObject, int numeroDeIntentos) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log
             .debug("verifyElementPresentWithReturn->" + testObject.toString() + " intentos: " + numeroDeIntentos);
-      if (!this.isObjetoPresente(testObject, numeroDeIntentos)) {
-         return false;
-      }
-      return true;
+      return this.checkObjetoPresente(testObject, numeroDeIntentos).isPresent();
    }
 
    public void verifyElementPresent(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("verifyElementPresent->" + testObject.toString());
-      if (!this.isObjetoPresente(testObject, WebElementWrapper.NUMERO_MAXIMO_INTENTOS)) {
+      if (this.checkObjetoPresente(testObject, WebElementWrapper.NUMERO_MAXIMO_INTENTOS).isEmpty()) {
          String mensaje = "El objeto con tipo selector no está presente cuando debería.";
          WebElementWrapper.log.error(mensaje);
          throw new PruebaAceptacionExcepcion(mensaje);
@@ -522,21 +536,17 @@ public class WebElementWrapper {
 
    public void verifyElementChecked(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("verifyElementChecked->" + testObject.toString());
-      boolean conseguido = this.isElementChecked(testObject);
-      if (!conseguido) {
-         String mensaje = "El objeto con tipo selector no está checkeado cuando debería";
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+      if (!this.isElementChecked(testObject)) {
+         throw new PruebaAceptacionExcepcion(
+               this.getMensajeError(WebElementWrapper.ERROR_CHECKED, null, Optional.of(testObject), Optional.empty()));
       }
    }
 
    public void verifyElementNotChecked(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("verifyElementNotChecked->" + testObject.toString());
-      boolean conseguido = this.isElementChecked(testObject);
-      if (conseguido) {
-         String mensaje = "El objeto con tipo selector está checkeado cuando no debería";
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+      if (this.isElementChecked(testObject)) {
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_NOT_CHECKED, null,
+               Optional.of(testObject), Optional.empty()));
       }
    }
 
@@ -559,10 +569,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje =
-               "Error al obtener el atributo del elemento web. Motivo del error: " + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_ATRIBUTO, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
       return valorAtributo;
    }
@@ -589,17 +597,13 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje =
-               "Error al obtener el atributo del elemento web. Motivo del error: " + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_ATRIBUTO, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
       else { // Se ha obtenido el elemento web. Ahora se comprueba el valor del atributo
          if (!value.equals(valorAtributo)) {
-            String mensaje =
-                  "El valor " + value + " del atributo " + atributo + " no es el esperado (" + valorAtributo + ")";
-            WebElementWrapper.log.error(mensaje);
-            throw new PruebaAceptacionExcepcion(mensaje);
+            throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_ATRIBUTO_NE, excepcion,
+                  Optional.of(testObject), Optional.empty()));
          }
       }
    }
@@ -632,7 +636,6 @@ public class WebElementWrapper {
             StringSelection ss = new StringSelection(rutaFichero);
             Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ss, null);
             Robot robot = new Robot();
-            // robot.keyRelease(KeyEvent.VK_ENTER);
             robot.delay(tiempoMedio); // NOTE THE DELAY (500, 1000, 1500 MIGHT WORK FOR YOU)
             robot.keyPress(KeyEvent.VK_CONTROL);
             robot.keyPress(KeyEvent.VK_V);
@@ -654,10 +657,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al hacer click para subir fichero en el elemento. Motivo del error: "
-               + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_UPLOAD, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
    }
 
@@ -689,10 +690,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje =
-               "Error al completar el input de fichero. Motivo del error: " + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_UPLOAD_INPUT, excepcion,
+               Optional.of(inputTestObject), Optional.empty()));
       }
    }
 
@@ -715,10 +714,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje =
-               "Error al obtener el texto del elemento. Motivo del error: " + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_TEXTO, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
       return cadena;
    }
@@ -754,10 +751,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al hacer seleccionar el valor del combo por índice. Motivo del error: "
-               + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_SELECT, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
       return numeroOpciones;
    }
@@ -812,17 +807,13 @@ public class WebElementWrapper {
          }
       }
       else {
-         String mensaje =
-               "Error al obtener el id del cuerpo de la tabla. Motivo del error: " + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_TABLA_ID, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
 
       if (fila == -1) {
-         String mensaje = "No se encuentra la fila de la tabla con idBodyTabla: " + table.getAttribute("id")
-               + " y texto buscado: " + texto;
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_TABLA_FILA, excepcion,
+               Optional.of(testObject), Optional.of("idBodyTabla: " + table.getAttribute("id") + texto)));
       }
 
       return fila;
@@ -845,7 +836,7 @@ public class WebElementWrapper {
             // del listado.
             Thread.sleep(
                   Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_CORTO.name()))
-                        * 1000);
+                        * 1000L);
             table = this.esperaBasica(testObject);
             rows = table.findElements(By.tagName("tr"));
             numeroDeFilas = rows.size();
@@ -860,10 +851,8 @@ public class WebElementWrapper {
       }
 
       if (!conseguido) {
-         String mensaje = "Error al hacer seleccionar el valor del combo por índice. Motivo del error: "
-               + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_SELECT, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
 
       return numeroDeFilas;
@@ -899,16 +888,13 @@ public class WebElementWrapper {
             }
          }
          catch (PruebaAceptacionExcepcion e) {
-            conseguido = false;
             excepcion = e;
          }
       }
 
       if (!conseguido) {
-         String mensaje = "Error al hacer seleccionar el valor del combo por índice. Motivo del error: "
-               + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_TABLA_ID, excepcion,
+               Optional.of(testObject), Optional.empty()));
       }
    }
 
@@ -947,15 +933,8 @@ public class WebElementWrapper {
     */
    public int obtenerNumeroRegistrosTabla(By tabla) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("obtenerNumeroRegistrosTabla->" + tabla.toString());
-      WebElement t = this.esperaBasica(tabla);
-
-      // Identificador de la informacion del nº de registros del listado. (Ej: 1-10 de
-      // 100 resultados)
-      By checkSeleccionarLoteAnalisis = By.cssSelector("span.ui-paginator-current");
-      WebElement paginador = t.findElement(checkSeleccionarLoteAnalisis);
-
-      String cadena = paginador.getText();
-      return this.encontrarNumeroMayor(cadena);
+      By spanPaginator = By.cssSelector("span.ui-paginator-current");
+      return this.obtenerNumeroRegistrosTabla(tabla, spanPaginator, 1);
    }
 
    /**
@@ -963,7 +942,7 @@ public class WebElementWrapper {
     *
     * @param tabla
     *           valor para: tabla
-    * @param numElePag
+    * @param spanPaginator
     *           valor para: elemento que muestra el texto de currentPageReportTemplate
     * @param position
     *           valor para: posición del número de elementos en el currentPageReportTemplate. Ej: Total {totalRecords}
@@ -973,38 +952,17 @@ public class WebElementWrapper {
     * @throws PruebaAceptacionExcepcion
     *            la prueba aceptacion excepcion
     */
-   public int obtenerNumeroRegistrosTabla(By tabla, By numElePag, int position) throws PruebaAceptacionExcepcion {
+   public int obtenerNumeroRegistrosTabla(By tabla, By spanPaginator, int position) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("obtenerNumeroRegistrosTabla->" + tabla.toString());
       WebElement t = this.esperaBasica(tabla);
 
-      WebElement paginador = t.findElement(numElePag);
+      WebElement paginador = t.findElement(spanPaginator);
 
       String cadena = paginador.getText();
       String[] aux = cadena.split(" ");
       String res = aux[position];
 
       return Integer.valueOf(res);
-   }
-
-   /**
-    * Encuentra el número mayor dentro de una cadena. Se usa para obtener el número de elementos en el
-    * currentPageReportTemplate. Ej: Total 15 elementos - Página 1 de 2 -> Devolverá 15.
-    *
-    * @param cadena
-    *           valor para: cadena
-    * @return int
-    */
-   private int encontrarNumeroMayor(String cadena) {
-      Pattern patron = Pattern.compile("\\b\\d+\\b");
-      Matcher matcher = patron.matcher(cadena);
-      int numeroMayor = 0;
-      while (matcher.find()) {
-         int numero = Integer.parseInt(matcher.group());
-         if (numero > numeroMayor) {
-            numeroMayor = numero;
-         }
-      }
-      return numeroMayor;
    }
 
    public void esperarHastaQueElementoNoPresente(By testObject) throws PruebaAceptacionExcepcion {
@@ -1017,9 +975,8 @@ public class WebElementWrapper {
          wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(testObject)));
       }
       catch (TimeoutException e) {
-         String mensaje = "Error al esperar que el objeto " + testObject + " NO esté presente";
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(
+               this.getMensajeError(WebElementWrapper.ERROR_ESPERAR, null, Optional.of(testObject), Optional.empty()));
       }
    }
 
@@ -1038,31 +995,28 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "El objeto " + testObject + " NO está chequeado";
-         WebElementWrapper.log.error(mensaje);
+         this.getMensajeError(WebElementWrapper.ERROR_NOT_CHECKED, null, Optional.of(testObject), Optional.empty());
       }
       return conseguido;
    }
 
-   private boolean isObjetoPresente(By testObject, int numeroDeIntentos) throws PruebaAceptacionExcepcion {
+   private Optional<WebElement> checkObjetoPresente(By testObject, int numeroDeIntentos)
+         throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("isObjetoPresente->" + testObject.toString());
-      boolean conseguido = false;
       WebElement elemento = null;
-      for (int i = 1; !conseguido && i <= numeroDeIntentos; i++) {
+      for (int i = 1; i <= numeroDeIntentos; i++) {
          try {
             elemento = this.esperaBasica(testObject);
             this.resaltaObjeto(elemento, WebElementWrapper.COLOR_AZUL);
-            conseguido = true;
+            return Optional.of(elemento);
          }
          catch (PruebaAceptacionExcepcion e) {
-            conseguido = false;
+            WebElementWrapper.log.debug("Reintentando checkObjetoPresente");
          }
       }
-      if (!conseguido) {
-         String mensaje = "El objeto " + testObject + " NO está presente";
-         WebElementWrapper.log.error(mensaje);
-      }
-      return conseguido;
+      WebElementWrapper.log.warn(
+            this.getMensajeError(WebElementWrapper.ERROR_PRESENTE, null, Optional.of(testObject), Optional.empty()));
+      return Optional.empty();
    }
 
    private boolean isObjetoNoPresente(By testObject) throws PruebaAceptacionExcepcion {
@@ -1075,8 +1029,8 @@ public class WebElementWrapper {
          conseguido = true;
       }
       if (!conseguido) {
-         String mensaje = "El objeto " + testObject + " está presente";
-         WebElementWrapper.log.error(mensaje);
+         WebElementWrapper.log.warn(this.getMensajeError(WebElementWrapper.ERROR_NOT_PRESENTE, null,
+               Optional.of(testObject), Optional.empty()));
       }
       return conseguido;
    }
@@ -1102,24 +1056,21 @@ public class WebElementWrapper {
       driver.manage().timeouts().implicitlyWait(Duration.ofMillis(1));
       List<WebElement> elementos = driver.findElements(elemento);
       try {
-         if (!elementos.isEmpty()) {
-            if (elementos.get(0).isDisplayed()) {
-               int tiempo = 0;
-               while (elementos.get(0).isDisplayed()) {
-                  try {
-                     Thread.sleep(100);
-                  }
-                  catch (InterruptedException e) {
-                     // Seguramente nunca se produzca esta excepción
-                     WebElementWrapper.log.error("Error al parar el procesamiento del hilo de ejecución");
-                  }
-                  tiempo += 100;
-                  if (tiempo > Integer.parseInt(
-                        VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_MEDIO.name())) * 1000) {
-                     String mensaje = "La ventana \"Procesando...\" no desaparece";
-                     WebElementWrapper.log.error(mensaje);
-                     throw new PruebaAceptacionExcepcion(mensaje);
-                  }
+         if (!elementos.isEmpty() && elementos.get(0).isDisplayed()) {
+            int tiempo = 0;
+            while (elementos.get(0).isDisplayed()) {
+               try {
+                  Thread.sleep(100);
+               }
+               catch (InterruptedException e) {
+                  // Seguramente nunca se produzca esta excepción
+                  WebElementWrapper.log.error("Error al parar el procesamiento del hilo de ejecución");
+               }
+               tiempo += 100;
+               if (tiempo > Integer.parseInt(
+                     VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_MEDIO.name())) * 1000) {
+                  throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_PROCESANDO, null,
+                        Optional.empty(), Optional.empty()));
                }
             }
          }
@@ -1139,20 +1090,17 @@ public class WebElementWrapper {
 
    private WebElement esperarHastaQueElementoVisible(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("esperarHastaQueElementoVisible->" + testObject.toString());
-      WebElement exito;
       WebDriverWait wait = new WebDriverWait(this.driver,
             Duration.ofSeconds(
                   Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_MEDIO.name()))),
             Duration.ofMillis(100));
       try {
-         exito = wait.until(ExpectedConditions.visibilityOfElementLocated(testObject));
+         return wait.until(ExpectedConditions.visibilityOfElementLocated(testObject));
       }
       catch (TimeoutException e) {
-         String mensaje = "Error al esperar que el objeto " + testObject.toString() + " sea visible";
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_NOT_VISIBLE, null,
+               Optional.of(testObject), Optional.empty()));
       }
-      return exito;
    }
 
    /**
@@ -1174,46 +1122,39 @@ public class WebElementWrapper {
 
       }
       catch (TimeoutException e) {
-         String mensaje = "Error al esperar que el objeto " + testObject.toString() + " dejara de ser visible";
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(
+               this.getMensajeError(WebElementWrapper.ERROR_VISIBLE, null, Optional.of(testObject), Optional.empty()));
       }
    }
 
    private WebElement esperarHastaQueElementoPresente(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("esperarHastaQueElementoPresente->" + testObject.toString());
-      WebElement exito;
       WebDriverWait wait = new WebDriverWait(this.driver,
             Duration.ofSeconds(
                   Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_MEDIO.name()))),
             Duration.ofMillis(100));
       try {
-         exito = wait.until(ExpectedConditions.presenceOfElementLocated(testObject));
+         return wait.until(ExpectedConditions.presenceOfElementLocated(testObject));
       }
       catch (TimeoutException e) {
-         String mensaje = "Error al esperar que el objeto " + testObject + " esté presente";
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(
+               this.getMensajeError(WebElementWrapper.ERROR_PRESENTE, null, Optional.of(testObject), Optional.empty()));
       }
-      return exito;
    }
 
    private WebElement esperarHastaQueElementoClickable(WebElement testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("esperarHastaQueElementoClickable->" + testObject.getAttribute("id"));
-      WebElement exito;
       WebDriverWait wait = new WebDriverWait(this.driver,
             Duration.ofSeconds(
                   Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_MEDIO.name()))),
             Duration.ofMillis(100));
       try {
-         exito = wait.until(ExpectedConditions.elementToBeClickable(testObject));
+         return wait.until(ExpectedConditions.elementToBeClickable(testObject));
       }
       catch (TimeoutException e) {
-         String mensaje = "Error al esperar que el objeto " + testObject + " sea clickable";
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_NOT_CLICKABLE, null,
+               Optional.empty(), Optional.of("Id: " + testObject.getAttribute("id"))));
       }
-      return exito;
    }
 
    /**
@@ -1234,9 +1175,8 @@ public class WebElementWrapper {
                "background: " + color + "; color: black; border: 3px solid black;");
       }
       catch (Exception e) {
-         String mensaje = "El elemento " + element + " no puede ser resaltado con color";
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_RESALTAR, null,
+               Optional.empty(), Optional.of("Elemento: " + element.toString())));
       }
    }
 
@@ -1251,23 +1191,14 @@ public class WebElementWrapper {
     */
    public String obtenerTextoElemento(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("obtenerTextoElemento->" + testObject.toString());
-      WebElement elemento = null;
-      try {
-         if (this.isObjetoPresente(testObject, WebElementWrapper.NUMERO_MAXIMO_INTENTOS)) {
-            elemento = this.esperaBasica(testObject);
-
-            this.resaltaObjeto(elemento, WebElementWrapper.COLOR_AZUL);
-            return elemento.getText();
-         }
-
+      Optional<WebElement> owe = this.checkObjetoPresente(testObject, WebElementWrapper.NUMERO_MAXIMO_INTENTOS);
+      if (owe.isPresent()) {
+         return owe.get().getText();
       }
-      catch (PruebaAceptacionExcepcion e) {
-         String mensaje = "Error al verificar el texto del elemento. Motivo del error: " + e.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+      else {
+         throw new PruebaAceptacionExcepcion(
+               this.getMensajeError(WebElementWrapper.ERROR_PRESENTE, null, Optional.of(testObject), Optional.empty()));
       }
-
-      return "";
    }
 
    public boolean verifyElementVisibleWithReturn(By testObject) throws PruebaAceptacionExcepcion {
@@ -1275,7 +1206,7 @@ public class WebElementWrapper {
       return this.verifyElementPresentWithReturn(testObject, WebElementWrapper.NUMERO_MAXIMO_INTENTOS);
    }
 
-   private boolean verificarElementoVisible(By testObject) throws PruebaAceptacionExcepcion {
+   public boolean verificarElementoVisible(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("verificarElementoVisible->" + testObject.toString());
       WebDriverWait wait = new WebDriverWait(this.driver, Duration.ofMillis(100), Duration.ofMillis(100));
       try {
@@ -1289,33 +1220,21 @@ public class WebElementWrapper {
 
    public WebElement obtenerElemento(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("obtenerElemento->" + testObject.toString());
-      WebElement elemento = null;
-      try {
-         if (this.isObjetoPresente(testObject, WebElementWrapper.NUMERO_MAXIMO_INTENTOS)) {
-            elemento = this.esperaBasica(testObject);
-
-            this.resaltaObjeto(elemento, WebElementWrapper.COLOR_AZUL);
-            return elemento;
-         }
-
+      Optional<WebElement> owe = this.checkObjetoPresente(testObject, WebElementWrapper.NUMERO_MAXIMO_INTENTOS);
+      if (owe.isPresent()) {
+         return owe.get();
       }
-      catch (PruebaAceptacionExcepcion e) {
-         String mensaje = "Error al obtenerElemento el elemento. Motivo del error: " + e.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+      else {
+         throw new PruebaAceptacionExcepcion(
+               this.getMensajeError(WebElementWrapper.ERROR_PRESENTE, null, Optional.of(testObject), Optional.empty()));
       }
-
-      return elemento;
-
    }
 
    public void seleccionaDesplegableByLabel(String idDivSelect, String labelBuscada) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("seleccionaDesplegableByLabel->" + idDivSelect + ", " + labelBuscada);
-
       By label = By.id(idDivSelect + "_label");
       By filtro = By.id(idDivSelect + "_filter");
       this.seleccionaDesplegableByLabel(labelBuscada, label, filtro);
-
    }
 
    public void seleccionaDesplegableByLabel(String labelBuscada, By label, By filtro) throws PruebaAceptacionExcepcion {
@@ -1325,15 +1244,11 @@ public class WebElementWrapper {
       PruebaAceptacionExcepcion excepcion = null;
       for (int i = 1; !conseguido && i <= WebElementWrapper.NUMERO_MAXIMO_INTENTOS; i++) {
          try {
-
             elementoLabel = this.esperaBasica(label);
             this.resaltaObjeto(elementoLabel, WebElementWrapper.COLOR_AMARILLO);
             this.esperarHastaQueElementoClickable(elementoLabel).click();
-
             this.esperarHastaQueElementoVisible(filtro).click();
-
             this.escribeTexto(filtro, labelBuscada);
-
             conseguido = true;
          }
          catch (Exception e) {
@@ -1342,11 +1257,26 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         String mensaje = "Error al hacer click en el elemento. Motivo del error: " + excepcion.getLocalizedMessage();
-         WebElementWrapper.log.error(mensaje);
-         throw new PruebaAceptacionExcepcion(mensaje);
+         throw new PruebaAceptacionExcepcion(
+               this.getMensajeError(WebElementWrapper.ERROR_SELECT, excepcion, Optional.of(label), Optional.empty()));
       }
-
    }
 
+   private String getMensajeError(String preMsg, PruebaAceptacionExcepcion excepcion, Optional<By> testObject,
+         Optional<String> moreInfo) {
+      StringBuilder msg = new StringBuilder("");
+      msg.append(preMsg);
+      if (testObject.isPresent()) {
+         msg.append(" - Elemento: ").append(testObject.get().toString());
+      }
+      if (moreInfo.isPresent()) {
+         msg.append(" - ").append(moreInfo.get());
+      }
+      if (excepcion != null) {
+         msg.append(" - Motivo error: ").append(excepcion.getLocalizedMessage());
+      }
+      String mensaje = msg.toString();
+      WebElementWrapper.log.error(mensaje);
+      return mensaje;
+   }
 }
