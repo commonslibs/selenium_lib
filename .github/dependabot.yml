@@ -21,6 +21,6 @@ updates:
     # Ignorar determinadas actualizaciones de librerias
     ignore:
       # Ignoramos las actualizaciones de spring boot rama 3.x ya que el proyecto se compila con Java 11 y debemos usar exclusivamente las versiones 2.x
-      - dependency-name: "spring-boot-starter-parent"
+      - dependency-name: "org.springframework.boot:spring-boot-starter-parent"
         # Ignora cualquier actualizacion de la libreria que sea 3.x.x
         versions: ["3.x.x"]
