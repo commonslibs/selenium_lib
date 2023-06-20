@@ -436,8 +436,10 @@ public class WebElementWrapper {
       By selectOneMenu = By.id(id + "_label");
       By opcion = By.xpath("//*[@id='" + id + "_panel']/div/ul/li[text()='" + label + "']");
       this.click(selectOneMenu);
-      this.click(opcion);
-      this.click(selectOneMenu); // Para cerrar y que no tape nada.
+      WebElement we = this.click(opcion);
+      if (we.isDisplayed()) {
+         this.click(selectOneMenu); // Para cerrar y que no tape nada.
+      }
    }
 
    public void verifyElementText(By testObject, String text) throws PruebaAceptacionExcepcion {
