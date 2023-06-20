@@ -436,10 +436,13 @@ public class WebElementWrapper {
       By selectOneMenu = By.id(id + "_label");
       By opcion = By.xpath("//*[@id='" + id + "_panel']/div/ul/li[text()='" + label + "']");
       this.click(selectOneMenu);
+      WebElementWrapper.log.info("Ver si está abierto...");
       WebElement we = this.click(opcion);
       if (we.isDisplayed()) {
+         WebElementWrapper.log.info("...está 'displayed'... lo cierro...");
          this.click(selectOneMenu); // Para cerrar y que no tape nada.
       }
+      WebElementWrapper.log.info("... fin de selectOneMenu");
    }
 
    public void verifyElementText(By testObject, String text) throws PruebaAceptacionExcepcion {
@@ -997,7 +1000,8 @@ public class WebElementWrapper {
          }
       }
       if (!conseguido) {
-         this.getMensajeError(WebElementWrapper.ERROR_NOT_CHECKED, null, Optional.of(testObject), Optional.empty());
+         this.getMensajeAndLogWarn(WebElementWrapper.ERROR_NOT_CHECKED, null, Optional.of(testObject),
+               Optional.empty());
       }
       return conseguido;
    }
@@ -1016,8 +1020,7 @@ public class WebElementWrapper {
             WebElementWrapper.log.debug("Reintentando checkObjetoPresente");
          }
       }
-      WebElementWrapper.log.warn(
-            this.getMensajeError(WebElementWrapper.ERROR_PRESENTE, null, Optional.of(testObject), Optional.empty()));
+      this.getMensajeAndLogWarn(WebElementWrapper.ERROR_PRESENTE, null, Optional.of(testObject), Optional.empty());
       return Optional.empty();
    }
 
@@ -1031,8 +1034,8 @@ public class WebElementWrapper {
          conseguido = true;
       }
       if (!conseguido) {
-         WebElementWrapper.log.warn(this.getMensajeError(WebElementWrapper.ERROR_NOT_PRESENTE, null,
-               Optional.of(testObject), Optional.empty()));
+         this.getMensajeAndLogWarn(WebElementWrapper.ERROR_NOT_PRESENTE, null, Optional.of(testObject),
+               Optional.empty());
       }
       return conseguido;
    }
@@ -1266,6 +1269,20 @@ public class WebElementWrapper {
 
    private String getMensajeError(String preMsg, PruebaAceptacionExcepcion excepcion, Optional<By> testObject,
          Optional<String> moreInfo) {
+      String mensaje = this.getMensajeSinLog(preMsg, excepcion, testObject, moreInfo);
+      WebElementWrapper.log.error(mensaje);
+      return mensaje;
+   }
+
+   private String getMensajeAndLogWarn(String preMsg, PruebaAceptacionExcepcion excepcion, Optional<By> testObject,
+         Optional<String> moreInfo) {
+      String mensaje = this.getMensajeSinLog(preMsg, excepcion, testObject, moreInfo);
+      WebElementWrapper.log.warn(mensaje);
+      return mensaje;
+   }
+
+   private String getMensajeSinLog(String preMsg, PruebaAceptacionExcepcion excepcion, Optional<By> testObject,
+         Optional<String> moreInfo) {
       StringBuilder msg = new StringBuilder("");
       msg.append(preMsg);
       if (testObject.isPresent()) {
@@ -1277,8 +1294,6 @@ public class WebElementWrapper {
       if (excepcion != null) {
          msg.append(" - Motivo error: ").append(excepcion.getLocalizedMessage());
       }
-      String mensaje = msg.toString();
-      WebElementWrapper.log.error(mensaje);
-      return mensaje;
+      return msg.toString();
    }
 }
