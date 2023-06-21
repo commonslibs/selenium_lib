@@ -52,7 +52,7 @@ El proyecto usa la librería http://automation-remarks.com/video-recorder-java/ 
 
 # Versiones - Changelog
 
-0.1.0.7: 16/06/2023: Se actualizan diversas del proyecto y seincluyen varias mejoras relativas al manejo de combos y generación de logs.
+0.1.0.7: 21/06/2023: Se actualizan diversas del proyecto y seincluyen varias mejoras relativas al manejo de combos y generación de logs.
 		     Se realiza limpieza de código fuente
 
 0.1.0.6: 01/05/2023: Se actualizan tres librerias del proyecto
