@@ -9,6 +9,7 @@ import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
+import org.testng.ITestContext;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Listeners;
@@ -41,18 +42,22 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
    @Getter
    protected Navegador navegador;
 
+   @Getter
+   protected String    codigoTest = null;
+
    /**
     * Metodo que se ejecuta antes de los test.
     *
-    * @throws PruebaAceptacionExcepcion si se produce un error en las operaciones Pretest
+    * @throws PruebaAceptacionExcepcion
+    *            si se produce un error en las operaciones Pretest
     */
    @BeforeTest
-   public void beforeTest() throws PruebaAceptacionExcepcion {
+   public void beforeTest(ITestContext context) throws PruebaAceptacionExcepcion {
       try {
          TestSeleniumAbstracto.log.debug("Pretest");
          // Indicara la carpeta donde se guardaran los videos.
          System.setProperty("video.folder", System.getProperty("user.dir") + "//target//surefire-reports//video//"
-               + this.getClass().getSimpleName());
+               + (this.codigoTest != null ? this.codigoTest + "//" : this.getClass().getSimpleName()));
 
          // System.setProperty("video.screen.size", "102x76");
          // System.setProperty("ffmpeg.display", "1.0");
