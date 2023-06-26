@@ -34,7 +34,7 @@ Posteriormente y desde consola, ejecutaremos el siguiente comando:
 mvn clean deploy -PCENTRAL
 ```
 
-URLs de repositorios donde se encuentra disponible la librería: 
+URLs de repositorios donde se encuentra disponible la librería:
 https://mvnrepository.com/artifact/io.github.commonslibs/selenium_lib
 https://central.sonatype.com/namespace/io.github.commonslibs
 
@@ -51,6 +51,8 @@ Una vez ejecutado el comando anterior, se habrá generado el fichero _dependency
 El proyecto usa la librería http://automation-remarks.com/video-recorder-java/ para guardar vídeos de las pruebas. Opcionalmente, es posible añadir propiedades adicionales al fichero properties usado, con las propiedades que permite el propio componente para refinar la configuración de los vídeos generados.
 
 # Versiones - Changelog
+
+0.1.0.8: 26/06/2023: Actualizacion de librerias y se incluyen mejoras para organizar menjor la información que se muestra en los informes de casos de pruebas y directorio de videos.
 
 0.1.0.7: 21/06/2023: Se actualizan diversas del proyecto y seincluyen varias mejoras relativas al manejo de combos y generación de logs.
 		     Se realiza limpieza de código fuente
