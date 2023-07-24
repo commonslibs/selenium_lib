@@ -436,8 +436,9 @@ public class WebElementWrapper {
       By selectOneMenu = By.id(id + "_label");
       By opcion = By.xpath("//*[@id='" + id + "_panel']/div/ul/li[text()='" + label + "']");
       this.click(selectOneMenu);
-      WebElementWrapper.log.info("Ver si está abierto...");
       WebElement we = this.click(opcion);
+      this.esperaIncondicionalMilisegundos(100);
+      WebElementWrapper.log.info("Ver si está abierto...");
       if (we.isDisplayed()) {
          WebElementWrapper.log.info("...está 'displayed'... lo cierro...");
          this.click(selectOneMenu); // Para cerrar y que no tape nada.
