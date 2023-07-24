@@ -11,47 +11,47 @@
 
 	<name>Librería para realizar pruebas con Selenium</name>
 	<description>Proyecto con las funcionalidades comunes de todos los
-	             proyectos que vayan a usar Selenium como framework de pruebas funcionales</description>
+				proyectos que vayan a usar Selenium como framework de pruebas funcionales</description>
 	<url>https://github.com/commonslibs/selenium_lib</url>
 
 	<licenses>
-	  <license>
-		  <name>GPL-v3.0</name>
-		  <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
-	  </license>
+		<license>
+			<name>GPL-v3.0</name>
+			<url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+		</license>
 	</licenses>
 
 	<developers>
 		<developer>
-		  <name>Ignacio Dominguez Martín</name>
-		  <email>ignacio.dominguez@juntadeandalucia.es</email>
-		  <organization>AGAPA</organization>
-		  <organizationUrl>https://www.juntadeandalucia.es/agenciaagrariaypesquera</organizationUrl>
-		</developer>	
+			<name>Ignacio Dominguez Martín</name>
+			<email>ignacio.dominguez@juntadeandalucia.es</email>
+			<organization>AGAPA</organization>
+			<organizationUrl>https://www.juntadeandalucia.es/agenciaagrariaypesquera</organizationUrl>
+			</developer>
 		<developer>
-		  <name>Luis Escamilla Martin</name>
-		  <email>luis.escamilla@juntadeandalucia.es</email>
-		  <organization>AGAPA</organization>
-		  <organizationUrl>https://www.juntadeandalucia.es/agenciaagrariaypesquera</organizationUrl>
-		</developer>		
+			<name>Luis Escamilla Martin</name>
+			<email>luis.escamilla@juntadeandalucia.es</email>
+			<organization>AGAPA</organization>
+			<organizationUrl>https://www.juntadeandalucia.es/agenciaagrariaypesquera</organizationUrl>
+			</developer>
 		<developer>
-		  <name>Raul Morales de los Santos</name>
-		  <email>raul.morales@juntadeandalucia.es</email>
-		  <organization>AGAPA</organization>
-		  <organizationUrl>https://www.juntadeandalucia.es/agenciaagrariaypesquera</organizationUrl>
+			<name>Raul Morales de los Santos</name>
+			<email>raul.morales@juntadeandalucia.es</email>
+			<organization>AGAPA</organization>
+			<organizationUrl>https://www.juntadeandalucia.es/agenciaagrariaypesquera</organizationUrl>
 		</developer>
 		<developer>
-		  <name>Jose Carlos Serrano Catena</name>
-		  <email>josec.serrano@gmail.com</email>
-		  <organization>AGAPA</organization>
-		  <organizationUrl>https://www.juntadeandalucia.es/agenciaagrariaypesquera</organizationUrl>
+			<name>Jose Carlos Serrano Catena</name>
+			<email>josec.serrano@gmail.com</email>
+			<organization>AGAPA</organization>
+			<organizationUrl>https://www.juntadeandalucia.es/agenciaagrariaypesquera</organizationUrl>
 		</developer>
 	</developers>
 
 	<scm>
-	  <connection>scm:git:git://github.com/commonslibs/selenium_lib.git</connection>
-	  <developerConnection>scm:git:ssh://github.com/commonslibs/selenium_lib.git</developerConnection>
-	  <url>htts://github.com/commonslibs/selenium_lib.git</url>
+		<connection>scm:git:git://github.com/commonslibs/selenium_lib.git</connection>
+		<developerConnection>scm:git:ssh://github.com/commonslibs/selenium_lib.git</developerConnection>
+		<url>htts://github.com/commonslibs/selenium_lib.git</url>
 	</scm>
 
 	<parent>
@@ -73,24 +73,24 @@
 	</properties>
 
 	<dependencies>
-		
+
 		<!-- LIBRERIA: snakeyaml. A partir de SB 2.7.10 podemos actualizar esta libreria snakeyaml que en la version anterior que trae el propio SB tiene vulnerabilidades
-                 Se sube manualmente pero hay que estar pendiente de que en cualquier momento SB la suba por defecto.
-                 En la rama de SB 3.X ya la llevan de serie. https://github.com/spring-projects/spring-boot/issues/34405
-                 Se usa para la lectura de fichero YAML. Si el proyecto no usa YAML y esta todo en properties, no se requeriria -->
-        <dependency>
-            <groupId>org.yaml</groupId>
-            <artifactId>snakeyaml</artifactId>
-            <version>2.0</version>
-        </dependency>
-        <!-- FIN LIBRERIA: snakeyaml -->
-	
+				Se sube manualmente pero hay que estar pendiente de que en cualquier momento SB la suba por defecto.
+				En la rama de SB 3.X ya la llevan de serie. https://github.com/spring-projects/spring-boot/issues/34405
+				Se usa para la lectura de fichero YAML. Si el proyecto no usa YAML y esta todo en properties, no se requeriria -->
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>2.0</version>
+		</dependency>
+		<!-- FIN LIBRERIA: snakeyaml -->
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-        </dependency>
+		</dependency>
 
-        <!-- Util para logs y evitar escribir código getter/setter -->
+		<!-- Util para logs y evitar escribir código getter/setter -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -102,23 +102,23 @@
 		</dependency>
 
 		<dependency>
-		    <groupId>org.junit.vintage</groupId>
-		    <artifactId>junit-vintage-engine</artifactId>
-		    <exclusions>
-		        <exclusion>
-		            <groupId>org.hamcrest</groupId>
-		            <artifactId>hamcrest-core</artifactId>
-		        </exclusion>
-		    </exclusions>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hamcrest</groupId>
+					<artifactId>hamcrest-core</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<!-- Framework de TestNG -->
-        <dependency>
+		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>${testng.version}</version>
 		</dependency>
-		
+
 		<!-- INICIO: video-recorder para TESTNG -->
 		<dependency>
 			<groupId>com.automation-remarks</groupId>
@@ -134,16 +134,16 @@
 					<artifactId>json</artifactId>
 				</exclusion>
 				<exclusion>  <!-- evitamos el uso de la version de la libreria json para recuperar la ultima por tema de vulnerabilidades -->
-				    <groupId>org.apache.httpcomponents</groupId>
-				    <artifactId>httpclient</artifactId>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpclient</artifactId>
 				</exclusion>
 				<exclusion>  <!-- evitamos el uso de la version de la libreria json para recuperar la ultima por tema de vulnerabilidades -->
-				    <groupId>commons-io</groupId>
-				    <artifactId>commons-io</artifactId>
+					<groupId>commons-io</groupId>
+					<artifactId>commons-io</artifactId>
 				</exclusion>
-			</exclusions> 
+			</exclusions>
 		</dependency>
-		
+
 		<!-- Libreria requerida por: video-recorder para TESTNG. La ponemos aparte ya que la version que trae la propia libreria "video-recorder-testng" tiene vulnerabilidades -->
 		<dependency>
 			<groupId>org.json</groupId>
@@ -151,7 +151,7 @@
 			<version>20230618</version>
 		</dependency>
 		<!-- FIN: video-recorder para json -->
-		
+
 		<!-- Libreria requerida por: video-recorder para TESTNG. La ponemos aparte ya que la version que trae la propia libreria "video-recorder-testng" tiene vulnerabilidades -->
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -162,13 +162,13 @@
 
 		<!-- Para actualizacion de webdrivermanager -->
 		<dependency>
-		    <groupId>io.github.bonigarcia</groupId>
-		    <artifactId>webdrivermanager</artifactId>
-		    <version>${bonigarcia-webdrivermanager.version}</version>
-		    <exclusions>
-		    	<exclusion>  <!-- evitamos el uso de la version de la libreria json para recuperar la ultima por tema de vulnerabilidades -->
-				    <groupId>org.apache.httpcomponents.client5</groupId>
-				    <artifactId>httpclient5</artifactId>
+			<groupId>io.github.bonigarcia</groupId>
+			<artifactId>webdrivermanager</artifactId>
+			<version>${bonigarcia-webdrivermanager.version}</version>
+			<exclusions>
+				<exclusion>  <!-- evitamos el uso de la version de la libreria json para recuperar la ultima por tema de vulnerabilidades -->
+					<groupId>org.apache.httpcomponents.client5</groupId>
+					<artifactId>httpclient5</artifactId>
 				</exclusion>
 		    	<exclusion>  <!-- Eliminamos la libreria bcpkix-jdk15on (compilada para JDK 1.5 e incluimos la misma para JDK 1.8 o superiores -->
 					<groupId>org.bouncycastle</groupId>
@@ -178,9 +178,9 @@
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5 -->
 		<dependency>
-		    <groupId>org.apache.httpcomponents.client5</groupId>
-		    <artifactId>httpclient5</artifactId>
-		    <version>5.2.1</version>
+			<groupId>org.apache.httpcomponents.client5</groupId>
+			<artifactId>httpclient5</artifactId>
+			<version>5.2.1</version>
 		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk18on -->
@@ -197,7 +197,7 @@
 			<version>${selenium-java.version}</version>
 		</dependency>
 
-  		<!-- Conexión con la BD para establecer condiciones iniciales en las pruebas -->
+		<!-- Conexión con la BD para establecer condiciones iniciales en las pruebas -->
 		<dependency>
 			<groupId>com.oracle.database.jdbc</groupId>
 			<artifactId>ojdbc11</artifactId>
@@ -210,30 +210,30 @@
 	<!-- Requerido para el despliegue de la libreria en el repositorio Maven Central -->
 	<!--
 	<distributionManagement>
-	  <snapshotRepository>
+	<snapshotRepository>
 		<id>ossrh</id>
 		<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-	  </snapshotRepository>
-	  <repository>
+	</snapshotRepository>
+	<repository>
 		<id>ossrh</id>
 		<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-	  </repository>
+	</repository>
 	</distributionManagement>
 	-->
-	
+
 	<distributionManagement>
-	    <repository>
+		<repository>
 		<id>ossrh</id>
 		<name>Central Repository OSSRH</name>
 		<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-	    </repository>
+		</repository>
 	</distributionManagement>
 
 	<!-- Definicion de perfiles -->
 	<profiles>
 
 		<profile>
-            <!-- Perfil LOCAL para realizar empaquetados y despliegues de la libreria en local -->
+			<!-- Perfil LOCAL para realizar empaquetados y despliegues de la libreria en local -->
 			<id>LOCAL</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -243,130 +243,128 @@
 		<profile>
 			<!-- Perfil listo para el despliegue en MAVEN CENTRAL en modo MANUAL -->
 			<id>CENTRAL-MANUAL</id>
-            <build>
-                <plugins>
-                    <!-- INICIO: Plugins requerido para publicar en MAVEN CENTRAL -->
-                    <plugin>
-                      <groupId>org.sonatype.plugins</groupId>
-                      <artifactId>nexus-staging-maven-plugin</artifactId>
-                      <version>1.6.13</version>
-                      <extensions>true</extensions>
-                      <configuration>
-                        <serverId>ossrh</serverId>
-                        <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                      </configuration>
-                    </plugin>
+			<build>
+				<plugins>
+					<!-- INICIO: Plugins requerido para publicar en MAVEN CENTRAL -->
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.13</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
 
-                    <!-- Genera los sources de la libreria para MAVEN CENTRAL -->
-                    <plugin>
-                      <groupId>org.apache.maven.plugins</groupId>
-                      <artifactId>maven-source-plugin</artifactId>
-                      <version>3.3.0</version>
-                      <executions>
-                        <execution>
-                          <id>attach-sources</id>
-                          <goals>
-                            <goal>jar-no-fork</goal>
-                          </goals>
-                        </execution>
-                      </executions>
-                    </plugin>
+					<!-- Genera los sources de la libreria para MAVEN CENTRAL -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>3.3.0</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 
-                    <!-- Genera el javadoc de la libreria para MAVEN CENTRAL -->
-                    <plugin>
-                      <groupId>org.apache.maven.plugins</groupId>
-                      <artifactId>maven-javadoc-plugin</artifactId>
-                      <version>3.5.0</version>
-                      <executions>
-                        <execution>
-                          <id>attach-javadocs</id>
-                          <goals>
-                            <goal>jar</goal>
-                          </goals>
-                        </execution>
-                      </executions>
-                      <configuration>
-                        <failOnWarnings>false</failOnWarnings>
-                        <failOnError>false</failOnError>
-                      </configuration>
-                    </plugin>
+					<!-- Genera el javadoc de la libreria para MAVEN CENTRAL -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>3.5.0</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<failOnWarnings>false</failOnWarnings>
+							<failOnError>false</failOnError>
+						</configuration>
+					</plugin>
 
-                    <!-- Firma los archivos que se subiran a MAVEN CENTRAL -->
-                    
+					<!-- Firma los archivos que se subiran a MAVEN CENTRAL -->
 					<!-- OPCION1: Firma manual, sin usar GITHUB-ACTIONS. -->
 					<plugin>
-                      <groupId>org.apache.maven.plugins</groupId>
-                      <artifactId>maven-gpg-plugin</artifactId>
-                      <version>3.1.0</version>
-                      <executions>
-                        <execution>
-                          <id>sign-artifacts</id>
-                          <phase>verify</phase>
-                          <goals>
-                            <goal>sign</goal>
-                          </goals>
-                        </execution>
-                      </executions>
-                    </plugin>
-					
-                </plugins>
-            </build>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>3.1.0</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
 		</profile>
 
 		<profile>
 			<!-- Perfil listo para el despliegue en MAVEN CENTRAL con GITHUB-ACTIONS -->
 			<id>CENTRAL-GITHUB</id>
-            <build>
-                <plugins>
-                    <!-- INICIO: Plugins requerido para publicar en MAVEN CENTRAL -->
-                    <plugin>
-                      <groupId>org.sonatype.plugins</groupId>
-                      <artifactId>nexus-staging-maven-plugin</artifactId>
-                      <version>1.6.13</version>
-                      <extensions>true</extensions>
-                      <configuration>
-                        <serverId>ossrh</serverId>
-                        <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-                        <autoReleaseAfterClose>true</autoReleaseAfterClose>
-                      </configuration>
-                    </plugin>
+			<build>
+				<plugins>
+					<!-- INICIO: Plugins requerido para publicar en MAVEN CENTRAL -->
+					<plugin>
+						<groupId>org.sonatype.plugins</groupId>
+						<artifactId>nexus-staging-maven-plugin</artifactId>
+						<version>1.6.13</version>
+						<extensions>true</extensions>
+						<configuration>
+							<serverId>ossrh</serverId>
+							<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+						</configuration>
+					</plugin>
 
-                    <!-- Genera los sources de la libreria para MAVEN CENTRAL -->
-                    <plugin>
-                      <groupId>org.apache.maven.plugins</groupId>
-                      <artifactId>maven-source-plugin</artifactId>
-                      <version>3.3.0</version>
-                      <executions>
-                        <execution>
-                          <id>attach-sources</id>
-                          <goals>
-                            <goal>jar-no-fork</goal>
-                          </goals>
-                        </execution>
-                      </executions>
-                    </plugin>
+					<!-- Genera los sources de la libreria para MAVEN CENTRAL -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-source-plugin</artifactId>
+						<version>3.3.0</version>
+						<executions>
+							<execution>
+								<id>attach-sources</id>
+								<goals>
+									<goal>jar-no-fork</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
 
-                    <!-- Genera el javadoc de la libreria para MAVEN CENTRAL -->
-                    <plugin>
-                      <groupId>org.apache.maven.plugins</groupId>
-                      <artifactId>maven-javadoc-plugin</artifactId>
-                      <version>3.5.0</version>
-                      <executions>
-                        <execution>
-                          <id>attach-javadocs</id>
-                          <goals>
-                            <goal>jar</goal>
-                          </goals>
-                        </execution>
-                      </executions>
-                      <configuration>
-                        <failOnWarnings>false</failOnWarnings>
-                        <failOnError>false</failOnError>
-                      </configuration>
-                    </plugin>
+					<!-- Genera el javadoc de la libreria para MAVEN CENTRAL -->
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-javadoc-plugin</artifactId>
+						<version>3.5.0</version>
+						<executions>
+							<execution>
+								<id>attach-javadocs</id>
+								<goals>
+									<goal>jar</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<failOnWarnings>false</failOnWarnings>
+							<failOnError>false</failOnError>
+						</configuration>
+					</plugin>
 
-                    <!-- Firma los archivos que se subiran a MAVEN CENTRAL -->					
+					<!-- Firma los archivos que se subiran a MAVEN CENTRAL -->
 					<!-- OPCION2: Firma automatica con GITHUB-ACTIONS -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -388,10 +386,10 @@
 							</execution>
 						</executions>
 					</plugin>
-                    <!-- FIN: Plugins requerido para publicar en MAVEN CENTRAL -->
+					<!-- FIN: Plugins requerido para publicar en MAVEN CENTRAL -->
 
-                </plugins>
-            </build>
+				</plugins>
+			</build>
 		</profile>
 
 	</profiles>
