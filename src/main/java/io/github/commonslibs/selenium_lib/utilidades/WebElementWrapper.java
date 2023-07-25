@@ -287,6 +287,20 @@ public class WebElementWrapper {
 
       boolean conseguido = false;
 
+      try {
+         WebElement elemento = this.click(testObject);
+         elemento.clear();
+         elemento.sendKeys(texto);
+         elemento.sendKeys(Keys.TAB.toString()); // Hay veces que si no se pulsa TAB, no funciona
+         conseguido = true;
+         }
+
+      catch (Exception e) {
+         conseguido = false;
+      }
+
+      /* El siguiente codigo se usa por si nos interesa enviar el texto caracter a caracter.*/
+      /*
       for (int i = 1; !conseguido && i <= WebElementWrapper.NUMERO_MAXIMO_INTENTOS; i++) {
          try {
             WebElement elemento = this.click(testObject);
@@ -300,7 +314,8 @@ public class WebElementWrapper {
          catch (Exception e) {
             conseguido = false;
          }
-      }
+      */
+
       if (!conseguido) {
          throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_ESCRIBIR, null,
                Optional.of(testObject), Optional.of(texto)));
