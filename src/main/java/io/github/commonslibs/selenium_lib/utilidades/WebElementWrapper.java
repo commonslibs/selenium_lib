@@ -465,11 +465,12 @@ public class WebElementWrapper {
    public void selectOneMenu(String id, String label) throws PruebaAceptacionExcepcion {
       By selectOneMenu = By.id(id + "_label");
       By opcion = By.xpath("//*[@id='" + id + "_panel']/div/ul/li[text()='" + label + "']");
-      this.click(selectOneMenu);
-      WebElement we = this.click(opcion);
-      this.esperaIncondicionalMilisegundos(100);
+      WebElement weCombo = this.click(selectOneMenu);
+      WebElement weValue = this.click(opcion);
+      weCombo.sendKeys(Keys.TAB.toString()); // Hay veces que si no se pulsa TAB, no funciona
+      this.esperaIncondicionalMilisegundos(300);
       WebElementWrapper.log.info("Ver si está abierto...");
-      if (we.isDisplayed()) {
+      if (weValue.isDisplayed()) {
          WebElementWrapper.log.info("...está 'displayed'... lo cierro...");
          this.click(selectOneMenu); // Para cerrar y que no tape nada.
       }
