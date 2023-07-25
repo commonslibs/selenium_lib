@@ -163,6 +163,15 @@ public class WebElementWrapper {
       return elemento;
    }
 
+   /**
+    * Acción de hacer click en un elemento identificado por el @param testObject sin que sea coloreado.
+    *
+    * @param testObject,
+    *           objeto donde se hace click
+    * @return elemento elemento
+    * @throws PruebaAceptacionExcepcion
+    *            si se produce error al hacer click en el objeto que se indica
+    */
    public WebElement clickSinColorear(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("click->" + testObject.toString());
       boolean conseguido = false;
@@ -298,6 +307,16 @@ public class WebElementWrapper {
       }
    }
 
+   /**
+    * Acción de seleccionar una opción en un elemento identificado por el @param testObject y seleccionando el elemento con el @param index
+    *
+    * @param testObject,
+    *           objeto al que se le quiere indicar un texto
+    * @param index,
+    *           elemento que se selecciona
+    * @throws PruebaAceptacionExcepcion
+    *            si se produce error al seleccionar el elemento
+    */
    public void selectOptionByIndex(By testObject, Integer index) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("selectOptionByIndex->" + testObject.toString() + ". Index=" + index);
       boolean conseguido = false;
@@ -323,6 +342,16 @@ public class WebElementWrapper {
       }
    }
 
+   /**
+    * Acción de seleccionar una opción en un elemento identificado por el @param testObject y seleccionando el elemento con el @param label
+    *
+    * @param testObject,
+    *           objeto al que se le quiere indicar un texto
+    * @param label,
+    *           etiqueta que se selecciona
+    * @throws PruebaAceptacionExcepcion
+    *            si se produce error al seleccionar el elemento
+    */
    public void selectOptionByLabel(By testObject, String label) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("selectOptionByLabel->" + testObject.toString() + ". Label=" + label);
       boolean conseguido = false;
@@ -335,6 +364,31 @@ public class WebElementWrapper {
 
             Select comboBox = new Select(elemento);
             comboBox.selectByVisibleText(label);
+            conseguido = true;
+         }
+         catch (PruebaAceptacionExcepcion e) {
+            conseguido = false;
+            excepcion = e;
+         }
+      }
+      if (!conseguido) {
+         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_SELECT, excepcion,
+               Optional.of(testObject), Optional.empty()));
+      }
+   }
+
+   public void selectOptionByValue(By testObject, String value) throws PruebaAceptacionExcepcion {
+      WebElementWrapper.log.debug("selectOptionByValue->" + testObject.toString() + ". Value=" + value);
+      boolean conseguido = false;
+      WebElement elemento = null;
+      PruebaAceptacionExcepcion excepcion = null;
+      for (int i = 1; !conseguido && i <= WebElementWrapper.NUMERO_MAXIMO_INTENTOS; i++) {
+         try {
+            elemento = this.esperaBasica(testObject);
+            this.resaltaObjeto(elemento, WebElementWrapper.COLOR_AMARILLO);
+
+            Select comboBox = new Select(elemento);
+            comboBox.selectByValue(value);
             conseguido = true;
          }
          catch (PruebaAceptacionExcepcion e) {
@@ -379,31 +433,6 @@ public class WebElementWrapper {
       }
    }
 
-   public void selectOptionByValue(By testObject, String value) throws PruebaAceptacionExcepcion {
-      WebElementWrapper.log.debug("selectOptionByValue->" + testObject.toString() + ". Value=" + value);
-      boolean conseguido = false;
-      WebElement elemento = null;
-      PruebaAceptacionExcepcion excepcion = null;
-      for (int i = 1; !conseguido && i <= WebElementWrapper.NUMERO_MAXIMO_INTENTOS; i++) {
-         try {
-            elemento = this.esperaBasica(testObject);
-            this.resaltaObjeto(elemento, WebElementWrapper.COLOR_AMARILLO);
-
-            Select comboBox = new Select(elemento);
-            comboBox.selectByValue(value);
-            conseguido = true;
-         }
-         catch (PruebaAceptacionExcepcion e) {
-            conseguido = false;
-            excepcion = e;
-         }
-      }
-      if (!conseguido) {
-         throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_SELECT, excepcion,
-               Optional.of(testObject), Optional.empty()));
-      }
-   }
-
    public String obtieneValorSeleccionadoEnCombo(By testObject, String selector) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log
             .debug("obtieneValorSeleccionadoEnCombo->" + testObject.toString() + ". Selector=" + selector);
@@ -432,6 +461,7 @@ public class WebElementWrapper {
       return valorSeleccionado;
    }
 
+
    public void selectOneMenu(String id, String label) throws PruebaAceptacionExcepcion {
       By selectOneMenu = By.id(id + "_label");
       By opcion = By.xpath("//*[@id='" + id + "_panel']/div/ul/li[text()='" + label + "']");
@@ -446,6 +476,17 @@ public class WebElementWrapper {
       WebElementWrapper.log.info("... fin de selectOneMenu");
    }
 
+
+   /**
+    * Acción de comprueba que el texto de un objeto identificado por el @param testObject es igual al texto de @param text
+    *
+    * @param testObject,
+    *           objeto al que se le quiere comprobar el texto que tiene
+    * @param text,
+    *           texto que se quiere comprobar
+    * @throws PruebaAceptacionExcepcion
+    *            si se produce error al seleccionar el elemento
+    */
    public void verifyElementText(By testObject, String text) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("verifyElementText->" + testObject.toString() + ". Text=" + text);
       boolean conseguido = false;
@@ -701,6 +742,15 @@ public class WebElementWrapper {
       }
    }
 
+   /**
+    * Devuelve el texto de un objeto identificado por el @param testObject
+    *
+    * @param testObject
+    *           objeto del que se quiere obtener su texto
+    * @return texto del objeto
+    * @throws PruebaAceptacionExcepcion
+    *            para la prueba de aceptacion
+    */
    public String getText(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("getText->" + testObject.toString());
       boolean conseguido = false;
@@ -825,6 +875,15 @@ public class WebElementWrapper {
       return fila;
    }
 
+   /**
+    * Obtiene el numero de filas de un listado identificado por el @param testObject
+    *
+    * @param testObject
+    *           objeto listado al que se le quiere obtener el número de filas
+    * @return int numero de filas
+    * @throws PruebaAceptacionExcepcion
+    *            la prueba aceptacion excepcion
+    */
    public int obtieneNumeroDeFilasListado(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("obtieneNumeroDeFilasListado->" + testObject.toString());
       boolean conseguido = false;
@@ -904,11 +963,23 @@ public class WebElementWrapper {
       }
    }
 
+   /**
+    * Se realiza una espera explicita incondicional en segundos indicados por el @param segundos
+    *
+    * @param segundos
+    *           número de segundos de la espera incondicional
+    */
    public void esperaIncondicional(int segundos) {
       WebElementWrapper.log.debug("esperaIncondicional-> " + segundos + " segundos");
       this.esperaIncondicionalMilisegundos(segundos * 1000);
    }
 
+   /**
+    * Se realiza una espera explicita incondicional en milisegundos indicados por el @param milisegundos
+    *
+    * @param milisegundos
+    *           número de milisegundos de la espera incondicional
+    */
    public void esperaIncondicionalMilisegundos(int milisegundos) {
       WebElementWrapper.log.debug("esperaIncondicionalMilisegundos-> " + milisegundos + " segundos");
       try {
@@ -929,7 +1000,7 @@ public class WebElementWrapper {
    }
 
    /**
-    * Devuelve el nº de elementos de la @param tabla
+    * Devuelve el número de elementos de la @param tabla
     *
     * @param tabla,
     *           identificador de la tabla de la que se quiere tener el nº de registros
@@ -969,21 +1040,6 @@ public class WebElementWrapper {
       String res = aux[position];
 
       return Integer.valueOf(res);
-   }
-
-   public void esperarHastaQueElementoNoPresente(By testObject) throws PruebaAceptacionExcepcion {
-      WebElementWrapper.log.debug("esperarHastaQueElementoNoPresente->" + testObject.toString());
-      WebDriverWait wait = new WebDriverWait(this.driver,
-            Duration.ofSeconds(
-                  Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_LARGO.name()))),
-            Duration.ofMillis(100));
-      try {
-         wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(testObject)));
-      }
-      catch (TimeoutException e) {
-         throw new PruebaAceptacionExcepcion(
-               this.getMensajeError(WebElementWrapper.ERROR_ESPERAR, null, Optional.of(testObject), Optional.empty()));
-      }
    }
 
    private boolean isElementChecked(By testObject) throws PruebaAceptacionExcepcion {
@@ -1041,6 +1097,39 @@ public class WebElementWrapper {
       return conseguido;
    }
 
+
+   /**
+    * Se realiza una espera hasta que el elemento identificado por el @param testObject no este presente
+    *
+    * @param testObject
+    *           identificador del objeto al que se espera que no este presente
+    * @throws PruebaAceptacionExcepcion
+    *            la prueba aceptacion excepcion
+    */
+   public void esperarHastaQueElementoNoPresente(By testObject) throws PruebaAceptacionExcepcion {
+      WebElementWrapper.log.debug("esperarHastaQueElementoNoPresente->" + testObject.toString());
+      WebDriverWait wait = new WebDriverWait(this.driver,
+            Duration.ofSeconds(
+                  Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_LARGO.name()))),
+            Duration.ofMillis(100));
+      try {
+         wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(testObject)));
+      }
+      catch (TimeoutException e) {
+         throw new PruebaAceptacionExcepcion(
+               this.getMensajeError(WebElementWrapper.ERROR_ESPERAR, null, Optional.of(testObject), Optional.empty()));
+      }
+   }
+
+
+   /**
+    * Se realiza una espera hasta que desaparezca el elemento Procesando
+    *
+    * @param driver
+    *           driver de selenium
+    * @throws PruebaAceptacionExcepcion
+    *            la prueba aceptacion excepcion
+    */
    public void esperarDesaparezcaProcesando(WebDriver driver) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("esperarDesaparezcaProcesando");
 
@@ -1057,8 +1146,17 @@ public class WebElementWrapper {
       }
    }
 
+   /**
+    * Se realiza una espera hasta que desaparezca el elemento identificado por @param elemento
+    *
+    * @param driver
+    *           driver de selenium
+    * @param elemento
+    *           elemento que se espera desaparezca
+    * @throws PruebaAceptacionExcepcion
+    *            la prueba aceptacion excepcion
+    */
    public void esperarDesaparezcaElemento(WebDriver driver, By elemento) throws PruebaAceptacionExcepcion {
-
       driver.manage().timeouts().implicitlyWait(Duration.ofMillis(1));
       List<WebElement> elementos = driver.findElements(elemento);
       try {
@@ -1087,6 +1185,14 @@ public class WebElementWrapper {
 
    }
 
+   /**
+    * Se realiza una espera basica hasta que elemento identificado en @param testObject este presente
+    *
+    * @param testObject
+    *           objeto al que se espera que este presente
+    * @throws PruebaAceptacionExcepcion
+    *            la prueba aceptacion excepcion
+    */
    public WebElement esperaBasica(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("esperaBasica->" + testObject.toString());
       this.esperarDesaparezcaProcesando(this.driver);
@@ -1094,6 +1200,15 @@ public class WebElementWrapper {
       return this.esperarHastaQueElementoVisible(testObject);
    }
 
+
+   /**
+    * Se realiza una espera hasta que elemento identificado en @param testObject este visible
+    *
+    * @param testObject
+    *           objeto al que se espera que este visible
+    * @throws PruebaAceptacionExcepcion
+    *            la prueba aceptacion excepcion
+    */
    private WebElement esperarHastaQueElementoVisible(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("esperarHastaQueElementoVisible->" + testObject.toString());
       WebDriverWait wait = new WebDriverWait(this.driver,
@@ -1133,6 +1248,14 @@ public class WebElementWrapper {
       }
    }
 
+   /**
+    * Se realiza una espera hasta que elemento identificado en @param testObject este presente
+    *
+    * @param testObject
+    *           objeto al que se espera que este presente
+    * @throws PruebaAceptacionExcepcion
+    *            la prueba aceptacion excepcion
+    */
    private WebElement esperarHastaQueElementoPresente(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("esperarHastaQueElementoPresente->" + testObject.toString());
       WebDriverWait wait = new WebDriverWait(this.driver,
@@ -1148,6 +1271,14 @@ public class WebElementWrapper {
       }
    }
 
+   /**
+    * Se realiza una espera hasta que elemento identificado en @param testObject sea clickable
+    *
+    * @param testObject
+    *           objeto al que se espera sea clickable
+    * @throws PruebaAceptacionExcepcion
+    *            la prueba aceptacion excepcion
+    */
    private WebElement esperarHastaQueElementoClickable(WebElement testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("esperarHastaQueElementoClickable->" + testObject.getAttribute("id"));
       WebDriverWait wait = new WebDriverWait(this.driver,
@@ -1212,6 +1343,15 @@ public class WebElementWrapper {
       return this.verifyElementPresentWithReturn(testObject, WebElementWrapper.NUMERO_MAXIMO_INTENTOS);
    }
 
+   /**
+    * Comprueba si el elemento identificado por @param es visible (devuelve true). Si no lo es (devuelve false)
+    *
+    * @param testObject
+    *           identificador del objeto que se quiere comprobar si es visible o no
+    * @return true si es visible, false si no lo es
+    * @throws PruebaAceptacionExcepcion
+    *            para la prueba de aceptacion
+    */
    public boolean verificarElementoVisible(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("verificarElementoVisible->" + testObject.toString());
       WebDriverWait wait = new WebDriverWait(this.driver, Duration.ofMillis(100), Duration.ofMillis(100));

@@ -6,7 +6,7 @@
 
 	<groupId>io.github.commonslibs</groupId>
 	<artifactId>selenium_lib</artifactId>
-	<version>0.1.0.9</version>
+	<version>0.2.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>Librería para realizar pruebas con Selenium</name>
@@ -63,9 +63,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 		<ojdbc11.version>23.2.0.0</ojdbc11.version>
-		<maven-compiler-plugin.version>3.11.0</maven-compiler-plugin.version>
 		<testng.version>7.8.0</testng.version>
 		<jacoco.version>0.8.10</jacoco.version>
 		<bonigarcia-webdrivermanager.version>5.4.1</bonigarcia-webdrivermanager.version>
@@ -73,17 +72,6 @@
 	</properties>
 
 	<dependencies>
-
-		<!-- LIBRERIA: snakeyaml. A partir de SB 2.7.10 podemos actualizar esta libreria snakeyaml que en la version anterior que trae el propio SB tiene vulnerabilidades
-				Se sube manualmente pero hay que estar pendiente de que en cualquier momento SB la suba por defecto.
-				En la rama de SB 3.X ya la llevan de serie. https://github.com/spring-projects/spring-boot/issues/34405
-				Se usa para la lectura de fichero YAML. Si el proyecto no usa YAML y esta todo en properties, no se requeriria -->
-		<dependency>
-			<groupId>org.yaml</groupId>
-			<artifactId>snakeyaml</artifactId>
-			<version>2.0</version>
-		</dependency>
-		<!-- FIN LIBRERIA: snakeyaml -->
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -170,20 +158,21 @@
 					<groupId>org.apache.httpcomponents.client5</groupId>
 					<artifactId>httpclient5</artifactId>
 				</exclusion>
-		    	<exclusion>  <!-- Eliminamos la libreria bcpkix-jdk15on (compilada para JDK 1.5 e incluimos la misma para JDK 1.8 o superiores -->
+				<exclusion>  <!-- Eliminamos la libreria bcpkix-jdk15on (compilada para JDK 1.5 e incluimos la misma para JDK 1.8 o superiores -->
 					<groupId>org.bouncycastle</groupId>
 					<artifactId>bcpkix-jdk15on</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.apache.httpcomponents.client5/httpclient5 -->
+
+		<!-- Dado que se ha excluido la libreria en cuestion de webdriver, se incluye la mas actual -->
 		<dependency>
 			<groupId>org.apache.httpcomponents.client5</groupId>
 			<artifactId>httpclient5</artifactId>
 			<version>5.2.1</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk18on -->
+		<!-- Dado que se ha excluido la libreria en cuestion de webdrivermanager, se incluye la mas actual -->
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcpkix-jdk18on</artifactId>
@@ -400,6 +389,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
