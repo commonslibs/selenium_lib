@@ -619,11 +619,36 @@ public class WebElementWrapper {
       }
    }
 
+   public void verifyElementNotPresentInmediate(By testObject) throws PruebaAceptacionExcepcion {
+      WebElementWrapper.log.debug("verifyElementNotPresentInmediate->" + testObject.toString());
+      if (!this.isObjetoNoPresenteInmediate(testObject)) {
+         String mensaje = "El objeto con tipo selector está presente cuando no debería.";
+         WebElementWrapper.log.error(mensaje);
+         throw new PruebaAceptacionExcepcion(mensaje);
+      }
+   }
+
    private boolean isObjetoNoPresente(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("isObjetoNoPresente->" + testObject.toString());
       boolean conseguido = false;
       try {
          this.esperaBasica(testObject);
+      }
+      catch (PruebaAceptacionExcepcion e) {
+         conseguido = true;
+      }
+      if (!conseguido) {
+         this.getMensajeAndLogWarn(WebElementWrapper.ERROR_NOT_PRESENTE, null, Optional.of(testObject),
+               Optional.empty());
+      }
+      return conseguido;
+   }
+
+   private boolean isObjetoNoPresenteInmediate(By testObject) throws PruebaAceptacionExcepcion {
+      WebElementWrapper.log.debug("isObjetoNoPresenteInmediate->" + testObject.toString());
+      boolean conseguido = false;
+      try {
+         this.esperarHastaQueElementoVisibleTiempoMinimo(testObject);
       }
       catch (PruebaAceptacionExcepcion e) {
          conseguido = true;
@@ -1144,7 +1169,7 @@ public class WebElementWrapper {
       WebElementWrapper.log.debug("esperarHastaQueElementoNoPresente->" + testObject.toString());
 
       try {
-         wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(testObject)));
+         this.wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(testObject)));
       }
       catch (TimeoutException e) {
          throw new PruebaAceptacionExcepcion(
@@ -1227,7 +1252,7 @@ public class WebElementWrapper {
       WebElementWrapper.log.debug("esperaBasica->" + testObject.toString());
       this.esperarDesaparezcaProcesando(this.driver);
       this.esperarHastaQueElementoPresente(testObject);
-      return this.esperarHastaQueElementoVisible(testObject);
+      return this.esperarHastaQueElementoVisibleTiempoMedio(testObject);
    }
 
    /**
@@ -1238,9 +1263,36 @@ public class WebElementWrapper {
     * @throws PruebaAceptacionExcepcion
     *            la prueba aceptacion excepcion
     */
-   private WebElement esperarHastaQueElementoVisible(By testObject) throws PruebaAceptacionExcepcion {
-      WebElementWrapper.log.debug("esperarHastaQueElementoVisible->" + testObject.toString());
+   private WebElement esperarHastaQueElementoVisibleTiempoMinimo(By testObject) throws PruebaAceptacionExcepcion {
+      Duration timeOut = Duration.ofMillis(100);
+      return this.esperarHastaQueElementoVisible(testObject, timeOut);
+   }
 
+   /**
+    * Se realiza una espera hasta que elemento identificado en @param testObject este visible
+    *
+    * @param testObject
+    *           objeto al que se espera que este visible
+    * @throws PruebaAceptacionExcepcion
+    *            la prueba aceptacion excepcion
+    */
+   private WebElement esperarHastaQueElementoVisibleTiempoMedio(By testObject) throws PruebaAceptacionExcepcion {
+      Duration timeOut = Duration.ofSeconds(
+            Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_MEDIO.name())));
+      return this.esperarHastaQueElementoVisible(testObject, timeOut);
+   }
+
+   /**
+    * Se realiza una espera hasta que elemento identificado en @param testObject este visible
+    *
+    * @param testObject
+    *           objeto al que se espera que este visible
+    * @throws PruebaAceptacionExcepcion
+    *            la prueba aceptacion excepcion
+    */
+   private WebElement esperarHastaQueElementoVisible(By testObject, Duration timeOut) throws PruebaAceptacionExcepcion {
+      WebElementWrapper.log.debug("esperarHastaQueElementoVisible->" + testObject.toString() + " timeOut: " + timeOut);
+      WebDriverWait wait = new WebDriverWait(this.driver, timeOut, Duration.ofMillis(100));
       try {
          return wait.until(ExpectedConditions.visibilityOfElementLocated(testObject));
       }
@@ -1262,7 +1314,7 @@ public class WebElementWrapper {
       WebElementWrapper.log.debug("esperarHastaQueElementoNoSeaVisible->" + testObject.toString());
 
       try {
-         wait.until(ExpectedConditions.invisibilityOf(this.driver.findElement(testObject)));
+         this.wait.until(ExpectedConditions.invisibilityOf(this.driver.findElement(testObject)));
 
       }
       catch (TimeoutException e) {
@@ -1283,7 +1335,7 @@ public class WebElementWrapper {
       WebElementWrapper.log.debug("esperarHastaQueElementoPresente->" + testObject.toString());
 
       try {
-         return wait.until(ExpectedConditions.presenceOfElementLocated(testObject));
+         return this.wait.until(ExpectedConditions.presenceOfElementLocated(testObject));
       }
       catch (TimeoutException e) {
          throw new PruebaAceptacionExcepcion(
@@ -1303,7 +1355,7 @@ public class WebElementWrapper {
       WebElementWrapper.log.debug("esperarHastaQueElementoClickable->" + testObject.getAttribute("id"));
 
       try {
-         return wait.until(ExpectedConditions.elementToBeClickable(testObject));
+         return this.wait.until(ExpectedConditions.elementToBeClickable(testObject));
       }
       catch (TimeoutException e) {
          throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_NOT_CLICKABLE, null,
@@ -1395,7 +1447,7 @@ public class WebElementWrapper {
       WebElementWrapper.log.debug("verificarElementoVisible->" + testObject.toString());
 
       try {
-         wait.until(ExpectedConditions.visibilityOfElementLocated(testObject));
+         this.wait.until(ExpectedConditions.visibilityOfElementLocated(testObject));
       }
       catch (TimeoutException e) {
          return false;
@@ -1432,7 +1484,7 @@ public class WebElementWrapper {
             elementoLabel = this.esperaBasica(label);
             this.resaltaObjeto(elementoLabel, WebElementWrapper.COLOR_AMARILLO);
             this.esperarHastaQueElementoClickable(elementoLabel).click();
-            this.esperarHastaQueElementoVisible(filtro).click();
+            this.esperarHastaQueElementoVisibleTiempoMedio(filtro).click();
             this.escribeTexto(filtro, labelBuscada);
             conseguido = true;
          }
