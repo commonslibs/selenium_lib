@@ -52,7 +52,7 @@ El proyecto usa la librería http://automation-remarks.com/video-recorder-java/ 
 
 # Versiones - Changelog
 
-0.2.0.0: 25/07/2023: Pasamos a Java 17. Actualizacion de librerias (SB: 2.7.14), se realizan diversos comentarios en el código del proyecto y se mejora la gestión de los combos
+0.2.0.0: 27/07/2023: Pasamos a Java 17. Actualizacion de librerias (SB: 2.7.14), se realizan diversos comentarios en el código del proyecto y se mejora la gestión de los combos
 
 0.1.0.8: 26/06/2023: Actualizacion de librerias y se incluyen mejoras para organizar menjor la información que se muestra en los informes de casos de pruebas y directorio de videos.
 
