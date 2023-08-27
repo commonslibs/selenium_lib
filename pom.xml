@@ -67,7 +67,7 @@
 		<ojdbc11.version>23.2.0.0</ojdbc11.version>
 		<testng.version>7.8.0</testng.version>
 		<jacoco.version>0.8.10</jacoco.version>
-		<bonigarcia-webdrivermanager.version>5.4.1</bonigarcia-webdrivermanager.version>
+		<bonigarcia-webdrivermanager.version>5.5.2</bonigarcia-webdrivermanager.version>
 		<selenium-java.version>4.10.0</selenium-java.version>
 	</properties>
 
