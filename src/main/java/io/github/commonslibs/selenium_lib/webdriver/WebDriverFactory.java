@@ -53,6 +53,9 @@ public class WebDriverFactory {
    private static final String                              HTTP_HUB_SELENIUM       =
          VariablesGlobalesTest.getPropiedad("HTTP_HUB_SELENIUM");
 
+   // FUENTES:
+   // https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
+   // https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/pref_names.h
    private static final Supplier<WebDriver>                 chromeDriverSupplier    = () -> {
                                                                                        WebDriverManager.chromedriver()
                                                                                              .proxy(
@@ -74,8 +77,9 @@ public class WebDriverFactory {
 
                                                                                        options.addArguments(
                                                                                              "--no-sandbox");
-																						
-																					   // IMPORTANTE: Para que sirve la siguiente propiedad?	
+
+                                                                                       // IMPORTANTE: Para que sirve la
+                                                                                       // siguiente propiedad?
                                                                                        options.addArguments(
                                                                                              "--enable-npapi");
 
@@ -119,6 +123,39 @@ public class WebDriverFactory {
                                                                                        options.addArguments(
                                                                                              "--mute-audio");
 
+                                                                                       // Desactiva la traducción de
+                                                                                       // Chrome, tanto la opción manual
+                                                                                       // como el mensaje emergente
+                                                                                       // cuando se detecta una página
+                                                                                       // con un idioma diferente.
+                                                                                       options.addArguments(
+                                                                                             "--disable-features=Translate");
+
+                                                                                       // Desactive la verificación del
+                                                                                       // navegador predeterminado, no
+                                                                                       // solicite configurarlo como tal
+                                                                                       options.addArguments(
+                                                                                             "--no-default-browser-check");
+
+                                                                                       // No actualice los 'componentes'
+                                                                                       // del navegador enumerados en
+                                                                                       // chrome://components/
+                                                                                       options.addArguments(
+                                                                                             "--disable-component-update");
+
+                                                                                       // Desactiva la comunicación del
+                                                                                       // servidor de autocompletar.
+                                                                                       // Esta función no se desactiva
+                                                                                       // mediante otras banderas
+                                                                                       // "principales".
+                                                                                       options.addArguments(
+                                                                                             "--disable-features=AutofillServerCommunication");
+
+                                                                                       // Desactivar la sincronización
+                                                                                       // con una cuenta de Google
+                                                                                       options.addArguments(
+                                                                                             "--disable-sync");
+
                                                                                        // Para lanzar en modo incognito
                                                                                        if (WebDriverFactory.IS_MODO_INCOGNITO) {
                                                                                           options.addArguments(
@@ -142,8 +179,40 @@ public class WebDriverFactory {
                                                                                                 "excludeSwitches",
                                                                                                 Collections
                                                                                                       .singletonList(
-                                                                                                            "enable-automation"));
+                                                                                                            "--enable-automation"));
                                                                                        }
+
+                                                                                       // Experimental OPTIONS
+                                                                                       HashMap<String, Object> prefs =
+                                                                                             new HashMap<>();
+                                                                                       // Para descargar archivos XML
+                                                                                       prefs.put(
+                                                                                             "download.extensions_to_open",
+                                                                                             "application/xml");
+                                                                                       // Para no mostrar el dialogo de
+                                                                                       // "donde guardar archivos"
+                                                                                       prefs.put("safebrowsing.enabled",
+                                                                                             false);
+                                                                                       prefs.put(
+                                                                                             "download.prompt_for_download",
+                                                                                             false);
+                                                                                       prefs.put(
+                                                                                             "download.directory_upgrade",
+                                                                                             true);
+                                                                                       prefs.put(
+                                                                                             "profile.default_content_settings.popups",
+                                                                                             0);
+                                                                                       prefs.put(
+                                                                                             "profile.default_content_setting_values.automatic_downloads",
+                                                                                             1);
+                                                                                       // Boolean that specifies if file
+                                                                                       // selection dialogs are shown.
+                                                                                       prefs.put(
+                                                                                             "select_file_dialogs.allowed",
+                                                                                             false);
+
+                                                                                       options.setExperimentalOption(
+                                                                                             "prefs", prefs);
 
                                                                                        // Para lanzar en modo incognito
                                                                                        if (WebDriverFactory.IS_REMOTE_SELENIUM_GRID) {
