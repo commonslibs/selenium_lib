@@ -6,7 +6,7 @@
 
 	<groupId>io.github.commonslibs</groupId>
 	<artifactId>selenium_lib</artifactId>
-	<version>0.2.0.2</version>
+	<version>0.2.0.3</version>
 	<packaging>jar</packaging>
 
 	<name>Librería para realizar pruebas con Selenium</name>
@@ -57,7 +57,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.16</version>
+		<version>2.7.17</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -66,7 +66,7 @@
 		<java.version>17</java.version>
 		<ojdbc11.version>23.3.0.23.09</ojdbc11.version>
 		<testng.version>7.8.0</testng.version>
-		<jacoco.version>0.8.10</jacoco.version>
+		<jacoco.version>0.8.11</jacoco.version>
 		<bonigarcia-webdrivermanager.version>5.5.3</bonigarcia-webdrivermanager.version>
 		<selenium-java.version>4.14.1</selenium-java.version>
 	</properties>
