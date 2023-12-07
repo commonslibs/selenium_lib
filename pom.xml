@@ -57,7 +57,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.17</version>
+		<version>2.7.18</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 
@@ -67,7 +67,7 @@
 		<ojdbc11.version>23.3.0.23.09</ojdbc11.version>
 		<testng.version>7.8.0</testng.version>
 		<jacoco.version>0.8.11</jacoco.version>
-		<bonigarcia-webdrivermanager.version>5.6.1</bonigarcia-webdrivermanager.version>
+		<bonigarcia-webdrivermanager.version>5.6.2</bonigarcia-webdrivermanager.version>
 		<selenium-java.version>4.15.0</selenium-java.version>
 	</properties>
 
@@ -144,7 +144,7 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.15.0</version>
+			<version>2.15.1</version>
 		</dependency>
 		<!-- FIN: video-recorder para commons-io -->
 
@@ -169,14 +169,14 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents.client5</groupId>
 			<artifactId>httpclient5</artifactId>
-			<version>5.2.1</version>
+			<version>5.2.3</version>
 		</dependency>
 
 		<!-- Dado que se ha excluido la libreria en cuestion de webdrivermanager, se incluye la mas actual -->
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcpkix-jdk18on</artifactId>
-			<version>1.76</version>
+			<version>1.77</version>
 		</dependency>
 
 		<!-- WebDrivers de selenium -->
@@ -266,7 +266,7 @@
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>3.6.0</version>
+						<version>3.6.3</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
