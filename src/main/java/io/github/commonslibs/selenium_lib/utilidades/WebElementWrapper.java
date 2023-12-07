@@ -40,68 +40,92 @@ public class WebElementWrapper {
 
    private final WebDriverWait wait;
 
-   private static final String COLOR_AMARILLO         = "yellow";
+   private final long          milisegundosEsperaObligatoria;
 
-   private static final String COLOR_AZUL             = "cyan";
+   private boolean             esperarMilisegundosEsperaObligatoria = true;
 
-   private static final int    NUMERO_MAXIMO_INTENTOS = 5;
+   private static final String COLOR_AMARILLO                       = "yellow";
 
-   private static final String ERROR_CLICK            = "Error al hacer click";
+   private static final String COLOR_AZUL                           = "cyan";
 
-   private static final String ERROR_DBL_CLICK        = "Error al hacer doble click";
+   private static final int    NUMERO_MAXIMO_INTENTOS               = 5;
 
-   private static final String ERROR_MOSTRAR          = "Error al mostrar";
+   private static final String ERROR_CLICK                          = "Error al hacer click";
 
-   private static final String ERROR_ESCRIBIR         = "Error al escribir";
+   private static final String ERROR_DBL_CLICK                      = "Error al hacer doble click";
 
-   private static final String ERROR_SELECT           = "Error al seleccionar";
+   private static final String ERROR_MOSTRAR                        = "Error al mostrar";
 
-   private static final String ERROR_SELECTED         = "No está seleccionado";
+   private static final String ERROR_ESCRIBIR                       = "Error al escribir";
 
-   private static final String ERROR_VERIFICAR        = "Error al verificar";
+   private static final String ERROR_SELECT                         = "Error al seleccionar";
 
-   private static final String ERROR_PRESENTE         = "No está presente y debería";
+   private static final String ERROR_SELECTED                       = "No está seleccionado";
 
-   private static final String ERROR_NOT_PRESENTE     = "Está presente y no debería";
+   private static final String ERROR_VERIFICAR                      = "Error al verificar";
 
-   private static final String ERROR_CHECKED          = "No está chequeado y debería";
+   private static final String ERROR_PRESENTE                       = "No está presente y debería";
 
-   private static final String ERROR_NOT_CHECKED      = "Está chequeado y no debería";
+   private static final String ERROR_NOT_PRESENTE                   = "Está presente y no debería";
 
-   private static final String ERROR_ATRIBUTO         = "No existe el atributo";
+   private static final String ERROR_CHECKED                        = "No está chequeado y debería";
 
-   private static final String ERROR_ATRIBUTO_NE      = "Atributo con valor diferente al esperado";
+   private static final String ERROR_NOT_CHECKED                    = "Está chequeado y no debería";
 
-   private static final String ERROR_UPLOAD           = "Error al hacer click para upload";
+   private static final String ERROR_ATRIBUTO                       = "No existe el atributo";
 
-   private static final String ERROR_TEXTO            = "Error al obtener el texto";
+   private static final String ERROR_ATRIBUTO_NE                    = "Atributo con valor diferente al esperado";
 
-   private static final String ERROR_UPLOAD_INPUT     = "Error al completar input de upload";
+   private static final String ERROR_UPLOAD                         = "Error al hacer click para upload";
 
-   private static final String ERROR_TABLA_FILA       = "Error al localizar la tabla";
+   private static final String ERROR_TEXTO                          = "Error al obtener el texto";
 
-   private static final String ERROR_TABLA_ID         = "Error al localizar la fila";
+   private static final String ERROR_UPLOAD_INPUT                   = "Error al completar input de upload";
 
-   private static final String ERROR_ESPERAR          = "Error espera";
+   private static final String ERROR_TABLA_FILA                     = "Error al localizar la tabla";
 
-   private static final String ERROR_PROCESANDO       = "La ventana procesando no desaparece";
+   private static final String ERROR_TABLA_ID                       = "Error al localizar la fila";
 
-   private static final String ERROR_NOT_VISIBLE      = "Error al esperar que no sea visible";
+   private static final String ERROR_ESPERAR                        = "Error espera";
 
-   private static final String ERROR_VISIBLE          = "Error al esperar que sea visible";
+   private static final String ERROR_PROCESANDO                     = "La ventana procesando no desaparece";
 
-   private static final String ERROR_NOT_CLICKABLE    = "Error al esperar que el objeto sea clickable";
+   private static final String ERROR_NOT_VISIBLE                    = "Error al esperar que no sea visible";
 
-   private static final String ERROR_NOT_INTERACTABLE = "Error al esperar que el objeto sea interaccionable";
+   private static final String ERROR_VISIBLE                        = "Error al esperar que sea visible";
 
-   private static final String ERROR_RESALTAR         = "No se pudo resaltar";
+   private static final String ERROR_NOT_CLICKABLE                  = "Error al esperar que el objeto sea clickable";
+
+   private static final String ERROR_NOT_INTERACTABLE               =
+         "Error al esperar que el objeto sea interaccionable";
+
+   private static final String ERROR_RESALTAR                       = "No se pudo resaltar";
+
+   public boolean isEsperarMilisegundosEsperaObligatoria() {
+      return this.esperarMilisegundosEsperaObligatoria;
+   }
+
+   public void setEsperarMilisegundosEsperaObligatoria(boolean esperarMilisegundosEsperaObligatoria) {
+      this.esperarMilisegundosEsperaObligatoria = esperarMilisegundosEsperaObligatoria;
+   }
 
    public WebElementWrapper(WebDriver driver) {
-      this.driver = driver;
+      String valorEsperaObligatoria;
+      try {
+         valorEsperaObligatoria =
+               VariablesGlobalesTest.getPropiedad(PropiedadesTest.MILISEGUNDOS_ESPERA_OBLIGATORIA.name()).trim();
+      }
+      catch (Exception e) {
+         WebElementWrapper.log.error("Se establece el valor de MILISEGUNDOS_ESPERA_OBLIGATORIA a cero.", e);
+         valorEsperaObligatoria = "0";
+      }
+      this.milisegundosEsperaObligatoria = Long.parseLong(valorEsperaObligatoria);
 
-      this.wait = new WebDriverWait(this.driver, Duration.ofSeconds(
+      this.driver = driver;
+      this.wait = new WebDriverWait(this.driver,
+            Duration.ofSeconds(
                   Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_LARGO.name()))),
-                  Duration.ofMillis(100));
+            Duration.ofMillis(100));
 
    }
 
@@ -303,28 +327,19 @@ public class WebElementWrapper {
          elemento.sendKeys(texto);
          elemento.sendKeys(Keys.TAB.toString()); // Hay veces que si no se pulsa TAB, no funciona
          conseguido = true;
-         }
+      }
 
       catch (Exception e) {
          conseguido = false;
       }
 
-      /* El siguiente codigo se usa por si nos interesa enviar el texto caracter a caracter.*/
+      /* El siguiente codigo se usa por si nos interesa enviar el texto caracter a caracter. */
       /*
-      for (int i = 1; !conseguido && i <= WebElementWrapper.NUMERO_MAXIMO_INTENTOS; i++) {
-         try {
-            WebElement elemento = this.click(testObject);
-            elemento.clear();
-            for (int x = 0; x < texto.length(); x++) {
-               elemento.sendKeys(texto.substring(x, x + 1));
-            }
-            elemento.sendKeys(Keys.TAB.toString()); // Hay veces que si no se pulsa TAB, no funciona
-            conseguido = true;
-         }
-         catch (Exception e) {
-            conseguido = false;
-         }
-      */
+       * for (int i = 1; !conseguido && i <= WebElementWrapper.NUMERO_MAXIMO_INTENTOS; i++) { try { WebElement elemento
+       * = this.click(testObject); elemento.clear(); for (int x = 0; x < texto.length(); x++) {
+       * elemento.sendKeys(texto.substring(x, x + 1)); } elemento.sendKeys(Keys.TAB.toString()); // Hay veces que si no
+       * se pulsa TAB, no funciona conseguido = true; } catch (Exception e) { conseguido = false; }
+       */
 
       if (!conseguido) {
          throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_ESCRIBIR, null,
@@ -333,7 +348,8 @@ public class WebElementWrapper {
    }
 
    /**
-    * Acción de seleccionar una opción en un elemento identificado por el @param testObject y seleccionando el elemento con el @param index
+    * Acción de seleccionar una opción en un elemento identificado por el @param testObject y seleccionando el elemento
+    * con el @param index
     *
     * @param testObject,
     *           objeto al que se le quiere indicar un texto
@@ -368,7 +384,8 @@ public class WebElementWrapper {
    }
 
    /**
-    * Acción de seleccionar una opción en un elemento identificado por el @param testObject y seleccionando el elemento con el @param label
+    * Acción de seleccionar una opción en un elemento identificado por el @param testObject y seleccionando el elemento
+    * con el @param label
     *
     * @param testObject,
     *           objeto al que se le quiere indicar un texto
@@ -486,7 +503,6 @@ public class WebElementWrapper {
       return valorSeleccionado;
    }
 
-
    /**
     * Acción que permite seleccionar un registro con la etiqueta @param label del combo identificado por el @param id
     *
@@ -503,7 +519,7 @@ public class WebElementWrapper {
       WebElement weCombo = this.click(selectOneMenu);
       WebElement weValue = this.click(opcion);
 
-      //weCombo.sendKeys(Keys.TAB.toString()); // Hay veces que si no se pulsa TAB, no funciona
+      // weCombo.sendKeys(Keys.TAB.toString()); // Hay veces que si no se pulsa TAB, no funciona
 
       this.esperaIncondicionalMilisegundos(300);
       WebElementWrapper.log.info("Ver si está abierto...");
@@ -514,9 +530,9 @@ public class WebElementWrapper {
       WebElementWrapper.log.info("... fin de selectOneMenu");
    }
 
-
    /**
-    * Acción de comprueba que el texto de un objeto identificado por el @param testObject es igual al texto de @param text
+    * Acción de comprueba que el texto de un objeto identificado por el @param testObject es igual al texto de @param
+    * text
     *
     * @param testObject,
     *           objeto al que se le quiere comprobar el texto que tiene
@@ -696,7 +712,6 @@ public class WebElementWrapper {
       }
       return conseguido;
    }
-
 
    public String getAttribute(By testObject, String atributo) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("getAttribute->" + testObject.toString() + ". Atributo=" + atributo);
@@ -1143,19 +1158,19 @@ public class WebElementWrapper {
       return Integer.valueOf(res);
    }
 
-
-
    /* APARTADO DE ESPERAS. Son las siguientes: */
 
-   /* - esperarHastaQueElementoNoPresente     */
-   /* - esperarDesaparezcaProcesando          */
-   /* - esperarDesaparezcaElemento            */
-   /* - esperaBasica --> )esperarDesaparezcaProcesando, esperarHastaQueElementoPresente y esperarHastaQueElementoVisible) */
-   /* - (private) esperarHastaQueElementoVisible        */
-   /* - (private) esperarHastaQueElementoNoSeaVisible   */
-   /* - (private) esperarHastaQueElementoPresente       */
-   /* - (private) esperarHastaQueElementoClickable      */
-
+   /* - esperarHastaQueElementoNoPresente */
+   /* - esperarDesaparezcaProcesando */
+   /* - esperarDesaparezcaElemento */
+   /*
+    * - esperaBasica --> )esperarDesaparezcaProcesando, esperarHastaQueElementoPresente y
+    * esperarHastaQueElementoVisible)
+    */
+   /* - (private) esperarHastaQueElementoVisible */
+   /* - (private) esperarHastaQueElementoNoSeaVisible */
+   /* - (private) esperarHastaQueElementoPresente */
+   /* - (private) esperarHastaQueElementoClickable */
 
    /**
     * Se realiza una espera hasta que el elemento identificado por el @param testObject no este presente
@@ -1250,6 +1265,7 @@ public class WebElementWrapper {
     */
    public WebElement esperaBasica(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("esperaBasica->" + testObject.toString());
+      this.esperarObligada();
       this.esperarDesaparezcaProcesando(this.driver);
       this.esperarHastaQueElementoPresente(testObject);
       return this.esperarHastaQueElementoVisibleTiempoMedio(testObject);
@@ -1527,5 +1543,18 @@ public class WebElementWrapper {
          msg.append(" - Motivo error: ").append(excepcion.getLocalizedMessage());
       }
       return msg.toString();
+   }
+
+   public void esperarObligada() {
+      try {
+         if (this.esperarMilisegundosEsperaObligatoria && this.milisegundosEsperaObligatoria > 0) {
+            Thread.sleep(this.milisegundosEsperaObligatoria);
+         }
+      }
+      catch (InterruptedException e) {
+         WebElementWrapper.log.error("Error en la esperaObligada", e);
+         Thread.currentThread().interrupt();
+      }
+
    }
 }
