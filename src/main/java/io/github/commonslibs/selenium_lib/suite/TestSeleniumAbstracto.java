@@ -2,7 +2,6 @@ package io.github.commonslibs.selenium_lib.suite;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Point;
@@ -90,9 +89,15 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
          // Para ejecutar en segundo monitor
          if (!WebDriverFactory.IS_VIDEO_ENABLED) {
             GraphicsDevice[] screens = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices();
+            int posicion = 0;
             if (screens.length > 1) {
-               Rectangle area = screens[1].getDefaultConfiguration().getBounds();
-               this.driver.manage().window().setPosition(new Point(area.x, 0));
+               for (GraphicsDevice screen : screens) {
+                  int margen = screen.getDefaultConfiguration().getBounds().x;
+                  if (margen != 0) {
+                     posicion = margen;
+                  }
+               }
+               this.driver.manage().window().setPosition(new Point(posicion, 0));
             }
          }
 
