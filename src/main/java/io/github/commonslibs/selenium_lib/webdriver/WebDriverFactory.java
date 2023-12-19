@@ -182,6 +182,14 @@ public class WebDriverFactory {
                                                                                                             "--enable-automation"));
                                                                                        }
 
+                                                                                       // Para no mostrar el dialogo de
+                                                                                       // "donde guardar archivos".
+                                                                                       // Bandera especial para el modo
+                                                                                       // incognito a partir de chrome
+                                                                                       // 119
+                                                                                       options.addArguments(
+                                                                                             "disable-features=DownloadBubble,DownloadBubbleV2");
+
                                                                                        // Experimental OPTIONS
                                                                                        HashMap<String, Object> prefs =
                                                                                              new HashMap<>();
@@ -205,6 +213,7 @@ public class WebDriverFactory {
                                                                                        prefs.put(
                                                                                              "profile.default_content_setting_values.automatic_downloads",
                                                                                              1);
+
                                                                                        // Boolean that specifies if file
                                                                                        // selection dialogs are shown.
                                                                                        prefs.put(
