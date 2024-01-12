@@ -6,7 +6,7 @@
 
 	<groupId>io.github.commonslibs</groupId>
 	<artifactId>selenium_lib</artifactId>
-	<version>0.2.0.7</version>
+	<version>0.2.0.8</version>
 	<packaging>jar</packaging>
 
 	<name>Librería para realizar pruebas con Selenium</name>
@@ -65,9 +65,9 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>17</java.version>
 		<ojdbc11.version>23.3.0.23.09</ojdbc11.version>
-		<testng.version>7.8.0</testng.version>
+		<testng.version>7.9.0</testng.version>
 		<jacoco.version>0.8.11</jacoco.version>
-		<bonigarcia-webdrivermanager.version>5.6.2</bonigarcia-webdrivermanager.version>
+		<bonigarcia-webdrivermanager.version>5.6.3</bonigarcia-webdrivermanager.version>
 		<selenium-java.version>4.16.1</selenium-java.version>
 	</properties>
 
@@ -389,7 +389,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.12.0</version>
+				<version>3.12.1</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
