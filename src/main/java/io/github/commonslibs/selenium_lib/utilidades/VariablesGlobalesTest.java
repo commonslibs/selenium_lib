@@ -56,8 +56,8 @@ public class VariablesGlobalesTest {
             String httpsProxyFichero = VariablesGlobalesTest.propiedades.get("HTTPS_PROXY").toString();
             if (StringUtils.isBlank(httpsProxyFichero)) {
                String httpsProxySistema = System.getenv("https_proxy");
-               httpsProxySistema = httpsProxySistema.replace("http://", "").replace("https://", "");
                if (!StringUtils.isBlank(httpsProxySistema)) {
+                  httpsProxySistema = httpsProxySistema.replace("http://", "").replace("https://", "");
                   VariablesGlobalesTest.propiedades.put("HTTPS_PROXY", httpsProxySistema);
                }
             }
