@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
+
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,6 +49,19 @@ public class VariablesGlobalesTest {
          else {
             VariablesGlobalesTest.propiedades =
                   VariablesGlobalesTest.getFilePathToSaveStatic("application-ic.properties");
+         }
+         // HTTPS_PROXY - Se consulta el valor del fichero .properties, si está vacío se consulta el del sistema
+         // y si tiene valor se establece este valor como proxy
+         if (VariablesGlobalesTest.propiedades.containsKey("HTTPS_PROXY")) {
+            String httpsProxyFichero = VariablesGlobalesTest.propiedades.get("HTTPS_PROXY").toString();
+            if (StringUtils.isBlank(httpsProxyFichero)) {
+               String httpsProxySistema = System.getenv("https_proxy");
+               httpsProxySistema = httpsProxySistema.replace("http://", "").replace("https://", "");
+               if (!StringUtils.isBlank(httpsProxySistema)) {
+                  VariablesGlobalesTest.propiedades.put("HTTPS_PROXY", httpsProxySistema);
+               }
+            }
+
          }
       }
 
