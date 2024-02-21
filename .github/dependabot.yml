@@ -10,9 +10,10 @@ updates:
     directory: "/"
     schedule:
       # Intervalo para la busqueda de nuevas versiones de librerias
-      interval: "weekly" 
-      # Dia de la semana en la que buscará las nuevas versiones de librerias
-      day: "sunday"
+      interval: "daily" 
+      # En caso de que se indicara que la frecuencia es semanal, se indica el dia de la semana que hace
+      # el analisis de librerias vulnerables
+      # day: "sunday"
     # Usuario asignado (Pendiente de analizar esta propiedad)   
     assignees:
     - "Jose Carlos Serrano Catena"
