@@ -57,6 +57,7 @@ public class WebDriverFactory {
    // https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
    // https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/pref_names.h
    private static final Supplier<WebDriver>                 chromeDriverSupplier    = () -> {
+                                                                                       // WebDriverManager.chromedriver().clearDriverCache();
                                                                                        WebDriverManager.chromedriver()
                                                                                              .proxy(
                                                                                                    WebDriverFactory.HTTPS_PROXY)

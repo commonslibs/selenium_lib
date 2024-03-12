@@ -6,7 +6,7 @@
 
 	<groupId>io.github.commonslibs</groupId>
 	<artifactId>selenium_lib</artifactId>
-	<version>0.2.1.0</version>
+	<version>0.2.1.1</version>
 	<packaging>jar</packaging>
 
 	<name>Librería para realizar pruebas con Selenium</name>
@@ -67,7 +67,7 @@
 		<ojdbc11.version>23.3.0.23.09</ojdbc11.version>
 		<testng.version>7.9.0</testng.version>
 		<jacoco.version>0.8.11</jacoco.version>
-		<bonigarcia-webdrivermanager.version>5.6.3</bonigarcia-webdrivermanager.version>
+		<bonigarcia-webdrivermanager.version>5.7.0</bonigarcia-webdrivermanager.version>
 		<selenium-java.version>4.17.0</selenium-java.version>
 	</properties>
 
