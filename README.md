@@ -2,6 +2,8 @@
 
 Esta librería define una serie de métodos comunes para utilizar en las pruebas funcionales basadas en Selenium.
 
+IMPORTANTE: Se ha iniciado el desarrollo de la rama 0.3.0.0. Esta será una actualización importante dirigida a la optimización del uso de memoria del driver de selenium y otros mejoras de algunos metodos mas.
+
 ## CONFIGURACIÓN DE LAS PRUEBAS
 
 En el fichero de properties de la aplicación que se vaya a usar deberán existir las siguientes propiedades:
@@ -51,6 +53,14 @@ Una vez ejecutado el comando anterior, se habrá generado el fichero _dependency
 El proyecto usa la librería http://automation-remarks.com/video-recorder-java/ para guardar vídeos de las pruebas. Opcionalmente, es posible añadir propiedades adicionales al fichero properties usado, con las propiedades que permite el propio componente para refinar la configuración de los vídeos generados.
 
 # Versiones - Changelog
+
+0.2.1.2: 07/05/2024: Se actualizan diversas librerias y se incluyen diversos metodos para cuando se cierra el driver de selenium, ya que se ha encontrado un problema de memoria cuando se usa el driver de selenium
+
+0.2.1.1: 12/03/2024: Se actualizan diversas librerias
+
+0.2.1.0: 08/02/2024: Se corrige error de replace NULL
+
+0.2.0.9: 08/02/2024: Se actualizan diversas librerias y se obtiene del sistema los valores del proxy
 
 0.2.0.8: 12/01/2024: Se actualizan diversas librerias (testng, webdrivermanager y maven-compiler)
 
