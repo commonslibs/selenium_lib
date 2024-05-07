@@ -120,7 +120,10 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
    }
 
    private void terminar() throws PruebaAceptacionExcepcion {
-      this.driver.quit();
+	  this.driver.close();
+	  this.driver.quit();
+	  this.driver = null;
+	  
    }
 
 }
