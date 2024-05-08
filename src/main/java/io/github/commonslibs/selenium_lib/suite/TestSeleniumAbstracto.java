@@ -2,10 +2,12 @@ package io.github.commonslibs.selenium_lib.suite;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.time.Duration;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.ITestContext;
@@ -38,8 +40,8 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
    @Getter
    protected WebDriver driver;
 
-   @Getter
-   protected Navegador navegador;
+   // @Getter
+   // protected Navegador navegador;
 
    @Getter
    protected String    codigoTest = null;
@@ -76,12 +78,18 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
    }
 
    private void iniciar() throws PruebaAceptacionExcepcion {
-      this.navegador = Navegador.valueOf(VariablesGlobalesTest.getPropiedad(PropiedadesTest.NAVEGADOR.name()));
-      this.driver = WebDriverFactory.obtenerInstancia(this.navegador);
-      Assert.assertNotNull(this.driver, "Error al instanciar el driver de " + this.navegador);
+      Navegador navegador = Navegador.valueOf(VariablesGlobalesTest.getPropiedad(PropiedadesTest.NAVEGADOR.name()));
+      WebDriverFactory.setDriver(WebDriverFactory.obtenerInstancia(navegador));
+      WebDriverFactory.setWait(new WebDriverWait(WebDriverFactory.getDriver(),
+            Duration.ofSeconds(
+                  Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_LARGO.name()))),
+            Duration.ofMillis(100)));
+      this.driver = WebDriverFactory.getDriver();
+
+      Assert.assertNotNull(this.driver, "Error al instanciar el driver de " + navegador);
 
       // Borrado de todas las Cookies
-      this.driver.manage().deleteAllCookies();
+      this.getDriver().manage().deleteAllCookies();
 
       // Si estamos en modo GRAFICO, pasamos a segundo monitor y maximizamos.
       if (!WebDriverFactory.IS_HEADLESS) {
@@ -97,7 +105,7 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
                      posicion = margen;
                   }
                }
-               this.driver.manage().window().setPosition(new Point(posicion, 0));
+               this.getDriver().manage().window().setPosition(new Point(posicion, 0));
             }
          }
 
@@ -114,13 +122,21 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
             maximizar = Boolean.valueOf(propiedadMaximizar);
          }
          if (maximizar) {
-            this.driver.manage().window().maximize();
+            this.getDriver().manage().window().maximize();
          }
       }
    }
 
    private void terminar() throws PruebaAceptacionExcepcion {
-      this.driver.quit();
+      this.driver = null;
+      WebDriverFactory.setWait(null);
+      if (WebDriverFactory.getDriver() != null) {
+         WebDriverFactory.getDriver().close();
+      }
+      if (WebDriverFactory.getDriver() != null) {
+         WebDriverFactory.getDriver().quit();
+      }
+      WebDriverFactory.setDriver(null);
    }
 
 }

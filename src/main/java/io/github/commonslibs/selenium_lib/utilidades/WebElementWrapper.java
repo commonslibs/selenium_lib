@@ -25,6 +25,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.github.commonslibs.selenium_lib.excepciones.PruebaAceptacionExcepcion;
 import io.github.commonslibs.selenium_lib.utilidades.VariablesGlobalesTest.PropiedadesTest;
+import io.github.commonslibs.selenium_lib.webdriver.WebDriverFactory;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -36,9 +37,19 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WebElementWrapper {
 
-   private final WebDriver     driver;
+   // // Almacén del WebDriver compartido por todos los servicios y clases de test del proyecto.
+   // @Getter
+   // @Setter
+   // private static WebDriver driver;
+   //
+   // // Almacén del WebDriver compartido por todos los servicios y clases de test del proyecto.
+   // @Getter
+   // @Setter
+   // private static WebDriverWait wait;
 
-   private final WebDriverWait wait;
+   // private final WebDriver driver;
+   //
+   // private final WebDriverWait wait;
 
    private final long          milisegundosEsperaObligatoria;
 
@@ -109,6 +120,26 @@ public class WebElementWrapper {
       this.esperarMilisegundosEsperaObligatoria = esperarMilisegundosEsperaObligatoria;
    }
 
+   public WebElementWrapper() {
+      String valorEsperaObligatoria;
+      try {
+         valorEsperaObligatoria =
+               VariablesGlobalesTest.getPropiedad(PropiedadesTest.MILISEGUNDOS_ESPERA_OBLIGATORIA.name()).trim();
+      }
+      catch (Exception e) {
+         WebElementWrapper.log.error("Se establece el valor de MILISEGUNDOS_ESPERA_OBLIGATORIA a cero.", e);
+         valorEsperaObligatoria = "0";
+      }
+      this.milisegundosEsperaObligatoria = Long.parseLong(valorEsperaObligatoria);
+
+      // RAULM PENDIENTE!!
+      // WebElementWrapper.setDriver(WebDriverFactory.getDriver());
+      // WebElementWrapper.setWait(new WebDriverWait(WebElementWrapper.getDriver(),
+      // Duration.ofSeconds(
+      // Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_LARGO.name()))),
+      // Duration.ofMillis(100)));
+   }
+
    public WebElementWrapper(WebDriver driver) {
       String valorEsperaObligatoria;
       try {
@@ -121,11 +152,11 @@ public class WebElementWrapper {
       }
       this.milisegundosEsperaObligatoria = Long.parseLong(valorEsperaObligatoria);
 
-      this.driver = driver;
-      this.wait = new WebDriverWait(this.driver,
-            Duration.ofSeconds(
-                  Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_LARGO.name()))),
-            Duration.ofMillis(100));
+      // WebElementWrapper.setDriver(driver);
+      // WebElementWrapper.setWait(new WebDriverWait(WebElementWrapper.getDriver(),
+      // Duration.ofSeconds(
+      // Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_LARGO.name()))),
+      // Duration.ofMillis(100)));
 
    }
 
@@ -250,7 +281,7 @@ public class WebElementWrapper {
             this.resaltaObjeto(elemento, WebElementWrapper.COLOR_AMARILLO);
 
             this.esperarHastaQueElementoClickable(elemento);
-            Actions actions = new Actions(this.driver);
+            Actions actions = new Actions(WebDriverFactory.getDriver());
             actions.doubleClick(elemento).perform();
             conseguido = true;
          }
@@ -284,7 +315,7 @@ public class WebElementWrapper {
          try {
             elemento = this.esperarHastaQueElementoPresente(testObject);
             try {
-               JavascriptExecutor js = (JavascriptExecutor) this.driver;
+               JavascriptExecutor js = (JavascriptExecutor) WebDriverFactory.getDriver();
                js.executeScript("arguments[0].setAttribute('style', arguments[1]);", elemento, "display: block;");
             }
             catch (Exception e) {
@@ -1112,7 +1143,8 @@ public class WebElementWrapper {
     */
    public void scrollTopPagina() {
       WebElementWrapper.log.debug("scrollTopPagina");
-      ((JavascriptExecutor) this.driver).executeScript("window.scrollTo(0, -document.body.scrollHeight)");
+      ((JavascriptExecutor) WebDriverFactory.getDriver())
+            .executeScript("window.scrollTo(0, -document.body.scrollHeight)");
    }
 
    /**
@@ -1184,7 +1216,8 @@ public class WebElementWrapper {
       WebElementWrapper.log.debug("esperarHastaQueElementoNoPresente->" + testObject.toString());
 
       try {
-         this.wait.until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(testObject)));
+         WebDriverFactory.getWait()
+               .until(ExpectedConditions.not(ExpectedConditions.presenceOfAllElementsLocatedBy(testObject)));
       }
       catch (TimeoutException e) {
          throw new PruebaAceptacionExcepcion(
@@ -1266,7 +1299,7 @@ public class WebElementWrapper {
    public WebElement esperaBasica(By testObject) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("esperaBasica->" + testObject.toString());
       this.esperarObligada();
-      this.esperarDesaparezcaProcesando(this.driver);
+      this.esperarDesaparezcaProcesando(WebDriverFactory.getDriver());
       this.esperarHastaQueElementoPresente(testObject);
       return this.esperarHastaQueElementoVisibleTiempoMedio(testObject);
    }
@@ -1308,7 +1341,7 @@ public class WebElementWrapper {
     */
    private WebElement esperarHastaQueElementoVisible(By testObject, Duration timeOut) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.debug("esperarHastaQueElementoVisible->" + testObject.toString() + " timeOut: " + timeOut);
-      WebDriverWait wait = new WebDriverWait(this.driver, timeOut, Duration.ofMillis(100));
+      WebDriverWait wait = new WebDriverWait(WebDriverFactory.getDriver(), timeOut, Duration.ofMillis(100));
       try {
          return wait.until(ExpectedConditions.visibilityOfElementLocated(testObject));
       }
@@ -1330,7 +1363,8 @@ public class WebElementWrapper {
       WebElementWrapper.log.debug("esperarHastaQueElementoNoSeaVisible->" + testObject.toString());
 
       try {
-         this.wait.until(ExpectedConditions.invisibilityOf(this.driver.findElement(testObject)));
+         WebDriverFactory.getWait()
+               .until(ExpectedConditions.invisibilityOf(WebDriverFactory.getDriver().findElement(testObject)));
 
       }
       catch (TimeoutException e) {
@@ -1351,7 +1385,7 @@ public class WebElementWrapper {
       WebElementWrapper.log.debug("esperarHastaQueElementoPresente->" + testObject.toString());
 
       try {
-         return this.wait.until(ExpectedConditions.presenceOfElementLocated(testObject));
+         return WebDriverFactory.getWait().until(ExpectedConditions.presenceOfElementLocated(testObject));
       }
       catch (TimeoutException e) {
          throw new PruebaAceptacionExcepcion(
@@ -1371,7 +1405,7 @@ public class WebElementWrapper {
       WebElementWrapper.log.debug("esperarHastaQueElementoClickable->" + testObject.getAttribute("id"));
 
       try {
-         return this.wait.until(ExpectedConditions.elementToBeClickable(testObject));
+         return WebDriverFactory.getWait().until(ExpectedConditions.elementToBeClickable(testObject));
       }
       catch (TimeoutException e) {
          throw new PruebaAceptacionExcepcion(this.getMensajeError(WebElementWrapper.ERROR_NOT_CLICKABLE, null,
@@ -1396,7 +1430,7 @@ public class WebElementWrapper {
    private void resaltaObjeto(WebElement element, String color) throws PruebaAceptacionExcepcion {
       WebElementWrapper.log.trace("resaltaObjeto->" + element.toString() + ". Color=" + color);
       try {
-         JavascriptExecutor js = (JavascriptExecutor) this.driver;
+         JavascriptExecutor js = (JavascriptExecutor) WebDriverFactory.getDriver();
          js.executeScript("arguments[0].setAttribute('style', arguments[1]);", element,
                "background: " + color + "; color: black; border: 3px solid black;");
       }
@@ -1463,7 +1497,7 @@ public class WebElementWrapper {
       WebElementWrapper.log.debug("verificarElementoVisible->" + testObject.toString());
 
       try {
-         this.wait.until(ExpectedConditions.visibilityOfElementLocated(testObject));
+         WebDriverFactory.getWait().until(ExpectedConditions.visibilityOfElementLocated(testObject));
       }
       catch (TimeoutException e) {
          return false;
