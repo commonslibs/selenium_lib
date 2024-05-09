@@ -112,6 +112,9 @@ public class WebDriverFactory {
       }
    }
 
+   // FUENTES:
+   // https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
+   // https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/pref_names.h
    private static WebDriver chrome() {
       WebDriverManager webDriver = WebDriverManager.chromedriver();
       WebDriverManager webDriverConProxy = WebDriverFactory.asignarProxy(webDriver);
@@ -122,8 +125,7 @@ public class WebDriverFactory {
       ChromeOptions options = new ChromeOptions();
 
       // Parametros para evitar errores al ejecutar Google Chrome con usuario root en linux (se aconseja incluirla
-      // cuando se ejecuta chrome
-      // en un entorno docker como es el caso
+      // cuando se ejecuta chrome en un entorno docker como es el caso
       options.addArguments("--no-sandbox");
 
       // IMPORTANTE: Para que sirve la siguiente propiedad?
@@ -158,8 +160,7 @@ public class WebDriverFactory {
       options.addArguments("--mute-audio");
 
       // Desactiva la traducción de Chrome, tanto la opción manual como el mensaje emergente cuando se detecta una
-      // página con un idioma
-      // diferente.
+      // página con un idioma diferente.
       options.addArguments("--disable-features=Translate");
 
       // Desactive la verificación del navegador predeterminado, no solicite configurarlo como tal
@@ -184,10 +185,9 @@ public class WebDriverFactory {
       if (WebDriverFactory.IS_HEADLESS) {
          options.addArguments("--headless=new");
       }
-      else {
-         // Deshabilitamos el mensaje delnavegador: "Un Software automatizado de pruebas está controlando Chrome."
-         options.setExperimentalOption("excludeSwitches", Collections.singletonList("--enable-automation"));
-      }
+
+      // Deshabilitamos el mensaje delnavegador: "Un Software automatizado de pruebas está controlando Chrome."
+      options.setExperimentalOption("excludeSwitches", Collections.singletonList("--enable-automation"));
 
       // Para no mostrar el dialogo de "donde guardar archivos". Bandera especial para el modo incognito a partir de
       // chrome 119
@@ -212,9 +212,7 @@ public class WebDriverFactory {
       // Para lanzar en modo incognito
       if (WebDriverFactory.IS_REMOTE_SELENIUM_GRID) {
          DesiredCapabilities capabilities = new DesiredCapabilities();
-
          capabilities.setCapability(ChromeOptions.CAPABILITY, options);
-
          return webDriver.capabilities(capabilities).create();
       }
       else {
