@@ -2,12 +2,10 @@ package io.github.commonslibs.selenium_lib.suite;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.time.Duration;
 
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.Point;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.Assert;
 import org.testng.ITestContext;
@@ -23,9 +21,11 @@ import io.github.commonslibs.selenium_lib.reports.ResumenListener;
 import io.github.commonslibs.selenium_lib.utilidades.Traza;
 import io.github.commonslibs.selenium_lib.utilidades.VariablesGlobalesTest;
 import io.github.commonslibs.selenium_lib.utilidades.VariablesGlobalesTest.PropiedadesTest;
+import io.github.commonslibs.selenium_lib.utilidades.WebElementWrapper;
 import io.github.commonslibs.selenium_lib.webdriver.WebDriverFactory;
 import io.github.commonslibs.selenium_lib.webdriver.WebDriverFactory.Navegador;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -36,15 +36,19 @@ import lombok.extern.slf4j.Slf4j;
 @Listeners({ ResumenListener.class, InformeListener.class, UniversalVideoListener.class })
 public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextTests {
 
-   /** Instacia de webdriver usado en el caso de prueba */
    @Getter
-   protected WebDriver driver;
+   @Setter
+   private WebElementWrapper webElementWrapper = null;
+
+   // /** Instacia de webdriver usado en el caso de prueba */
+   // @Getter
+   // protected WebDriver driver;
 
    // @Getter
    // protected Navegador navegador;
 
    @Getter
-   protected String    codigoTest = null;
+   protected String          codigoTest        = null;
 
    /**
     * Metodo que se ejecuta antes de los test.
@@ -78,18 +82,24 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
    }
 
    private void iniciar() throws PruebaAceptacionExcepcion {
+      TestSeleniumAbstracto.log.info("Iniciar WebDriver");
       Navegador navegador = Navegador.valueOf(VariablesGlobalesTest.getPropiedad(PropiedadesTest.NAVEGADOR.name()));
-      WebDriverFactory.setDriver(WebDriverFactory.obtenerInstancia(navegador));
-      WebDriverFactory.setWait(new WebDriverWait(WebDriverFactory.getDriver(),
-            Duration.ofSeconds(
-                  Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_LARGO.name()))),
-            Duration.ofMillis(100)));
-      this.driver = WebDriverFactory.getDriver();
+      TestSeleniumAbstracto.log.info("WebDriver, set + obtenerInstancia");
+      try {
+         WebDriverFactory webDriverFactory = new WebDriverFactory();
+         WebDriver driver = webDriverFactory.obtenerInstancia(navegador);
+         this.webElementWrapper = new WebElementWrapper(driver);
+      }
+      catch (Throwable e) {
+         TestSeleniumAbstracto.log.error("error", e);
+         throw new PruebaAceptacionExcepcion("error");
+      }
 
-      Assert.assertNotNull(this.driver, "Error al instanciar el driver de " + navegador);
+      Assert.assertNotNull(this.webElementWrapper, "Error al instanciar el driver de " + navegador);
 
       // Borrado de todas las Cookies
-      this.getDriver().manage().deleteAllCookies();
+      TestSeleniumAbstracto.log.info("WebDriver, borrar cookies");
+      this.webElementWrapper.getDriver().manage().deleteAllCookies();
 
       // Si estamos en modo GRAFICO, pasamos a segundo monitor y maximizamos.
       if (!WebDriverFactory.IS_HEADLESS) {
@@ -105,7 +115,7 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
                      posicion = margen;
                   }
                }
-               this.getDriver().manage().window().setPosition(new Point(posicion, 0));
+               this.webElementWrapper.getDriver().manage().window().setPosition(new Point(posicion, 0));
             }
          }
 
@@ -122,21 +132,21 @@ public abstract class TestSeleniumAbstracto extends AbstractTestNGSpringContextT
             maximizar = Boolean.valueOf(propiedadMaximizar);
          }
          if (maximizar) {
-            this.getDriver().manage().window().maximize();
+            this.webElementWrapper.getDriver().manage().window().maximize();
          }
       }
    }
 
    private void terminar() throws PruebaAceptacionExcepcion {
-      this.driver = null;
-      WebDriverFactory.setWait(null);
-      if (WebDriverFactory.getDriver() != null) {
-         WebDriverFactory.getDriver().close();
+      if (this.webElementWrapper != null) {
+         this.webElementWrapper.setWait(null);
+         if (this.webElementWrapper.getDriver() != null) {
+            this.webElementWrapper.getDriver().close();
+         }
+         if (this.webElementWrapper.getDriver() != null) {
+            this.webElementWrapper.getDriver().quit();
+         }
       }
-      if (WebDriverFactory.getDriver() != null) {
-         WebDriverFactory.getDriver().quit();
-      }
-      WebDriverFactory.setDriver(null);
    }
 
 }

@@ -2,7 +2,7 @@ package io.github.commonslibs.selenium_lib.reports;
 
 import java.io.File;
 import java.io.IOException;
-import lombok.extern.slf4j.Slf4j;
+
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -14,6 +14,7 @@ import org.testng.ITestResult;
 import org.testng.Reporter;
 
 import io.github.commonslibs.selenium_lib.suite.TestSeleniumAbstracto;
+import lombok.extern.slf4j.Slf4j;
 
 
 @Slf4j
@@ -57,7 +58,7 @@ public class ResumenListener implements ITestListener {
       this.escribirTraza("getMethod : " + arg0.getMethod());
 
       Object testClass = arg0.getInstance();
-      WebDriver driver = ((TestSeleniumAbstracto) testClass).getDriver();
+      WebDriver driver = ((TestSeleniumAbstracto) testClass).getWebElementWrapper().getDriver();
       this.takeSnapShot(driver);
    }
 
@@ -81,7 +82,7 @@ public class ResumenListener implements ITestListener {
     * Escribe en consola y en la seccion ReporterOutput del informe html
     */
    private void escribirTraza(String msg) {
-      log.info(msg);
+      ResumenListener.log.info(msg);
       Reporter.log(msg);
    }
 
@@ -98,7 +99,7 @@ public class ResumenListener implements ITestListener {
          FileUtils.copyFile(SrcFile, DestFile);
       }
       catch (IOException e) {
-         log.error("No se ha podido guardar la foto", e);
+         ResumenListener.log.error("No se ha podido guardar la foto", e);
       }
    }
 }

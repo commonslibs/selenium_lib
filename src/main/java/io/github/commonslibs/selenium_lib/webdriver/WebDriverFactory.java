@@ -12,15 +12,9 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
-import com.aventstack.extentreports.ExtentTest;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.github.commonslibs.selenium_lib.utilidades.VariablesGlobalesTest;
-import io.github.commonslibs.selenium_lib.utilidades.WebElementWrapper;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -32,20 +26,20 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class WebDriverFactory {
 
-   // RAULM Pendiente
-   @Getter
-   static @Setter private ExtentTest logger;
+   // // RAULM Pendiente
+   // @Getter
+   // static @Setter private ExtentTest logger;
 
-   // Almacén del WebDriver compartido por todos los servicios y clases de test del proyecto.
-   @Getter
-   @Setter
-   private static WebDriver          driver;
+   // // Almacén del WebDriver compartido por todos los servicios y clases de test del proyecto.
+   // @Getter
+   // @Setter
+   // private WebDriver driver;
 
-   @Getter
-   @Setter
-   private static WebDriverWait      wait;
-
-   private static WebElementWrapper  webElementWrapper;
+   // @Getter
+   // @Setter
+   // private WebDriverWait wait;
+   //
+   // private WebElementWrapper webElementWrapper;
 
    public enum Navegador {
       CHROME, FIREFOX, MSEDGE
@@ -71,39 +65,14 @@ public class WebDriverFactory {
 
    private static final String HTTP_HUB_SELENIUM       = VariablesGlobalesTest.getPropiedad("HTTP_HUB_SELENIUM");
 
-   /**
-    * No se implementa como singleton debido a una posible ejecución en paralelo.
-    *
-    * @param navegador
-    *           navegador web que se usara para la prueba
-    * @return wd el webdriver
-    */
-   public static WebDriver obtenerInstancia(Navegador navegador) {
-      WebDriverFactory.log.info("Obteniendo una nueva instancia del navegador " + navegador.toString());
-      WebDriver wd = null;
-      switch (navegador) {
-         case CHROME:
-            wd = WebDriverFactory.chrome();
-            break;
-         case FIREFOX:
-            wd = WebDriverFactory.firefox();
-            break;
-         case MSEDGE:
-            wd = WebDriverFactory.edge();
-            break;
-      }
-      WebDriverFactory.log.info("Instancia obtenida: " + wd.toString());
-      return wd;
-   }
+   // public WebElementWrapper getWebElementWrapper() {
+   // if (this.webElementWrapper == null) {
+   // this.webElementWrapper = new WebElementWrapper();
+   // }
+   // return this.webElementWrapper;
+   // }
 
-   public static WebElementWrapper getWebElementWrapper() {
-      if (WebDriverFactory.webElementWrapper == null) {
-         WebDriverFactory.webElementWrapper = new WebElementWrapper();
-      }
-      return WebDriverFactory.webElementWrapper;
-   }
-
-   private static WebDriverManager asignarProxy(WebDriverManager webDriver) {
+   private WebDriverManager asignarProxy(WebDriverManager webDriver) {
       if (StringUtils.isNotBlank(WebDriverFactory.HTTPS_PROXY)) {
          return webDriver.proxy(WebDriverFactory.HTTPS_PROXY);
       }
@@ -115,9 +84,12 @@ public class WebDriverFactory {
    // FUENTES:
    // https://github.com/GoogleChrome/chrome-launcher/blob/main/docs/chrome-flags-for-tools.md
    // https://source.chromium.org/chromium/chromium/src/+/main:chrome/common/pref_names.h
-   private static WebDriver chrome() {
+   private WebDriver chrome() {
+      WebDriverFactory.log.info("Instancia de WebDriverManager.chromedriver()");
       WebDriverManager webDriver = WebDriverManager.chromedriver();
-      WebDriverManager webDriverConProxy = WebDriverFactory.asignarProxy(webDriver);
+      WebDriverFactory.log.info("asignarProxy");
+      WebDriverManager webDriverConProxy = this.asignarProxy(webDriver);
+      WebDriverFactory.log.info("setup()");
       webDriverConProxy.setup();
 
       System.setProperty("webdriver.chrome.whitelistedIps", "");
@@ -209,20 +181,31 @@ public class WebDriverFactory {
 
       options.setExperimentalOption("prefs", prefs);
 
+      WebDriverFactory.log.info("Fin set de opciones y preferencias");
       // Para lanzar en modo incognito
       if (WebDriverFactory.IS_REMOTE_SELENIUM_GRID) {
          DesiredCapabilities capabilities = new DesiredCapabilities();
          capabilities.setCapability(ChromeOptions.CAPABILITY, options);
-         return webDriver.capabilities(capabilities).create();
+         try {
+            WebDriverFactory.log.info("Llamada a webDriver.capabilities(capabilities)");
+            webDriver.capabilities(capabilities).remoteAddress(WebDriverFactory.HTTP_HUB_SELENIUM);
+            WebDriverFactory.log.info("Llamada a webDriver.create()");
+            return webDriver.create();
+         }
+         catch (Throwable e) {
+            WebDriverFactory.log.error("Error en webDriver.create()", e);
+         }
+         return null;
       }
       else {
+         WebDriverFactory.log.info("Llamada a new ChromeDriver(options)");
          return new ChromeDriver(options);
       }
    }
 
-   private static WebDriver firefox() {
+   private WebDriver firefox() {
       WebDriverManager webDriver = WebDriverManager.firefoxdriver();
-      WebDriverManager webDriverConProxy = WebDriverFactory.asignarProxy(webDriver);
+      WebDriverManager webDriverConProxy = this.asignarProxy(webDriver);
       webDriverConProxy.setup();
 
       FirefoxOptions options = new FirefoxOptions();
@@ -252,9 +235,9 @@ public class WebDriverFactory {
       }
    }
 
-   private static WebDriver edge() {
+   private WebDriver edge() {
       WebDriverManager webDriver = WebDriverManager.edgedriver();
-      WebDriverManager webDriverConProxy = WebDriverFactory.asignarProxy(webDriver);
+      WebDriverManager webDriverConProxy = this.asignarProxy(webDriver);
       webDriverConProxy.setup();
 
       EdgeOptions options = new EdgeOptions();
@@ -282,4 +265,46 @@ public class WebDriverFactory {
       }
    }
 
+   /**
+    * No se implementa como singleton debido a una posible ejecución en paralelo.
+    *
+    * @param navegador
+    *           navegador web que se usara para la prueba
+    * @return wd el webdriver
+    */
+   public WebDriver obtenerInstancia(Navegador navegador) throws Throwable {
+      WebDriverFactory.log.info("Obteniendo una nueva instancia del navegador " + navegador.toString());
+      WebDriver wd = null;
+      try {
+         switch (navegador) {
+            case CHROME:
+               wd = this.chrome();
+               break;
+            case FIREFOX:
+               wd = this.firefox();
+               break;
+            case MSEDGE:
+               wd = this.edge();
+               break;
+            default:
+               wd = this.chrome();
+         }
+         WebDriverFactory.log.info("Instancia obtenida: " + wd.toString());
+         if (wd == null) {
+            throw new Throwable("WD null");
+         }
+         // this.driver = wd;
+         // WebDriverFactory.log.info("WebDriverWait");
+         // this.setWait(new WebDriverWait(wd,
+         // Duration.ofSeconds(
+         // Integer.parseInt(VariablesGlobalesTest.getPropiedad(PropiedadesTest.TIEMPO_RETRASO_LARGO.name()))),
+         // Duration.ofMillis(100)));
+
+         return wd;
+      }
+      catch (Throwable e) {
+         WebDriverFactory.log.error("Error no controlado", e);
+         throw e;
+      }
+   }
 }
