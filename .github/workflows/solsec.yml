@@ -37,7 +37,7 @@ jobs:
 
       - name: Verify secret4
         run: |
-          if [ "${{ secrets.OSSRH_USERNAME }}" = "josec.serrano@gmail.com" ]; then
+          if [ "${{ secrets.OSSRH_USERNAME }}" = "carlossona" ]; then
             echo "The secret is correctly set."
           else
             echo "The secret is not correctly set."
