@@ -1,0 +1,13 @@
+name: Show Secret
+
+on: [push]
+
+jobs:
+  show-secret:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Show secret
+        run: echo "The secret is: ${{ secrets.CODECOV_TOKEN }}"
