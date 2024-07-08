@@ -21,7 +21,7 @@ jobs:
 
       - name: Verify secret2
         run: |
-          if [ "${{ secrets.OSSRH_GPG_SECRET_KEY }}" = "josec.serrano@gmail.com" ]; then
+          if [ "${{ secrets.OSSRH_GPG_SECRET_KEY }}" = "lIYEY+FPlhYJKwYBBAHaRw8BAQdAmsdG3KpojBHFXZF3rZGb0aYWjF/BJlRJYG5fsZCnCb/+BwMCApE+CTk3SXT1G51ZHJajX4akSEpVymHHRIfBjrJOYoEbV5dksXx9MsDREVzxAUr/v0reQjz07XNjyhFJE/POUuhryy3a05YZMqlmvdGkPLQ0Sm9zZSBDYXJsb3MgU2VycmFubyBDYXRlbmEgPGpvc2VjLnNlcnJhbm9AZ21haWwuY29tPoiZBBMWCgBBFiEEPkpRDenl2qayP4OYcueu14bYFpgFAmPhT5YCGwMFCQPDRpoFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgkQcueu14bYFpjDIQD8CT152XPvqTo8+lugwZjTqp2S+39gZ7VpnL/p030roHgA/3b6IMk/QZkCrjhJQvRk60GN8pzkW3IZ4XQGTxYlPT0JnIsEY+FPlhIKKwYBBAGXVQEFAQEHQHKA67oRmi5PxX4te+ci2MK7fHF1naTVIZz1sBkjkIBnAwEIB/4HAwJyk8hvn8J70fWYhC4QwN2lqax3vlv1396EMoc5cBXqh6RNAm3aY6EBusar8iOKpMaEt77yh1xRsxiyZ73g92JJ7CDA6MAdn1q6Ny0ABXETiH4EGBYKACYWIQQ+SlEN6eXaprI/g5hy567XhtgWmAUCY+FPlgIbDAUJA8NGmgAKCRBy567XhtgWmL64AP9cpJZwRSEalVYRye4AscbwqCIh/kdkcnY9d9MFuUTnVAEAmu5sR6cbWiJk1cZ9Ntg3CZNDczoGsByG5pX7863XKgs==OfjD" ]; then
             echo "The secret is correctly set."
           else
             echo "The secret is not correctly set."
