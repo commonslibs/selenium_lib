@@ -1,8 +1,8 @@
 name: Verify Secret
 
 on:
-   # De manera manual desde Github-actions
-   workflow_dispatch:
+  # De manera manual desde Github-actions
+  workflow_dispatch:
 
 jobs:
   verify-secret:
