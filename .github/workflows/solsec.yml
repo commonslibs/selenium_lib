@@ -11,7 +11,7 @@ jobs:
 
       - name: Verify secret
         run: |
-          if [ "${{ secrets.OSSRH_GPG_SECRET_KEY }}" = "josec.serrano@gmail.com" ]; then
+          if [ "${{ secrets.EJM }}" = "josec.serrano@gmail.com" ]; then
             echo "The secret is correctly set."
           else
             echo "The secret is not correctly set."
