@@ -29,7 +29,7 @@ jobs:
 
       - name: Verify secret3
         run: |
-          if [ "${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" = "josec.serrano@gmail.com" ]; then
+          if [ "${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" = "pacasacarl_221" ]; then
             echo "The secret is correctly set."
           else
             echo "The secret is not correctly set."
