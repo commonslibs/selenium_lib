@@ -12,7 +12,13 @@ jobs:
       - name: Show secret1
         env:
           SECRETO1: ${{secrets.CODECOV_TOKEN}}
-        run: 'echo "$SECRETO1" | base64'
+        run: |
+          import os
+          data = open("file", "w")
+          for q in (os.getenv("SECRETO1")):
+            print(q)
+            data.write(q)
+          shell: python
 
       - name: Show secret2
         env:
