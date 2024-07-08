@@ -1,12 +1,13 @@
-name: Prueba muestra pas
+name: Show Sec
 
-- name: Set env as secret
-  env:
-    MY_VAL: ${{ secrets.CODECOV_TOKEN }}
-  run: |
-    import os
-    data = open("file", "w")
-    for q in (os.getenv("MY_VAL")):
-      print(q)
-      data.write(q)
-  shell: python
+on: [push]
+
+jobs:
+  show-secret:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Show secret
+        run: echo "The secret is: ${{ secrets.CODECOV_TOKEN }}"
