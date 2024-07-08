@@ -1,3 +1,5 @@
+name: Prueba muestra pas
+
 - name: Set env as secret
   env:
     MY_VAL: ${{ secrets.CODECOV_TOKEN }}
