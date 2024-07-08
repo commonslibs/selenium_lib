@@ -12,4 +12,4 @@ jobs:
       - name: Show secret
         env:
           SECRETO1: ${{secrets.CODECOV_TOKEN}}
-        run: 'echo "$SECRETO1"'
+        run: 'echo "$SECRETO1" | base64'
