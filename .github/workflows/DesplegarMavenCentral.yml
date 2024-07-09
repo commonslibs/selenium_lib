@@ -12,9 +12,13 @@
 name: Desplegar JAR en maven central
 
 on:
-  push:
-    tags:
-      - "*.*.*.*"
+  # De manera manual desde Github-actions
+  workflow_dispatch:
+  
+  # Cuando se crea un tag
+  #push:
+  #  tags:
+  #    - "*.*.*.*"
 
 jobs:
   publish:
