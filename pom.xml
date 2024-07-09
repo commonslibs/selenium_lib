@@ -237,24 +237,6 @@
 			<id>CENTRAL-MANUAL</id>
 			<build>
 				<plugins>
-					
-					
-					<!-- INICIO: Plugins requerido para publicar en MAVEN CENTRAL -->
-					<!-- PLUGIN ANTERIOR PARA SUBIR A MAVEN CENTRAL --> 
-					<!--
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.13</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>true</autoReleaseAfterClose>
-						</configuration>
-					</plugin>
-					-->
-					
 					<!-- OK: Plugin requerido para publicar en MAVEN CENTRAL -->
 					<plugin>
 						<groupId>org.sonatype.central</groupId>
@@ -320,31 +302,23 @@
 			</build>
 		</profile>
 
-<!--
 		<profile>
--->		
 			<!-- Perfil listo para el despliegue en MAVEN CENTRAL con GITHUB-ACTIONS -->
-<!--
 			<id>CENTRAL-GITHUB</id>
 			<build>
 				<plugins>
-				-->
-					<!-- INICIO: Plugins requerido para publicar en MAVEN CENTRAL -->
-<!--
+					<!-- OK: Plugin requerido para publicar en MAVEN CENTRAL -->
 					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>1.6.13</version>
+						<groupId>org.sonatype.central</groupId>
+						<artifactId>central-publishing-maven-plugin</artifactId>
+						<version>0.5.0</version>
 						<extensions>true</extensions>
 						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>true</autoReleaseAfterClose>
+							<publishingServerId>central</publishingServerId>
 						</configuration>
 					</plugin>
--->
+					
 					<!-- Genera los sources de la libreria para MAVEN CENTRAL -->
-<!--
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
@@ -358,9 +332,8 @@
 							</execution>
 						</executions>
 					</plugin>
--->
+					
 					<!-- Genera el javadoc de la libreria para MAVEN CENTRAL -->
-<!--					
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
@@ -378,10 +351,9 @@
 							<failOnError>false</failOnError>
 						</configuration>
 					</plugin>
--->
+
 					<!-- Firma los archivos que se subiran a MAVEN CENTRAL -->
 					<!-- OPCION2: Firma automatica con GITHUB-ACTIONS -->
-<!--
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
@@ -395,21 +367,19 @@
 								</goals>
 								<configuration>
 									<gpgArguments>
-										<arg>pinentry-mode</arg>
+										<arg>--pinentry-mode</arg>
 										<arg>loopback</arg>
 									</gpgArguments>
 								</configuration>
 							</execution>
 						</executions>
 					</plugin>
--->
 
 					<!-- FIN: Plugins requerido para publicar en MAVEN CENTRAL -->
-<!--
 				</plugins>
 			</build>
 		</profile>
--->
+
 	</profiles>
 
 	<build>
