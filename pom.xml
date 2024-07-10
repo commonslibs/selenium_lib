@@ -208,7 +208,8 @@
 		</profile>
 
 		<profile>
-			<!-- Perfil listo para el despliegue en MAVEN CENTRAL en modo MANUAL -->
+			<!-- Perfil listo para el despliegue en MAVEN CENTRAL en modo MANUAL con Maven (SIN GITHUB-ACTIONS, 
+			     por ejemplo con maven desde linea de comandos) -->
 			<id>CENTRAL-MANUAL</id>
 			<build>
 				<plugins>
@@ -221,6 +222,7 @@
 						<extensions>true</extensions>
 						<configuration>
 							<publishingServerId>central</publishingServerId>
+							<tokenAuth>true</tokenAuth>							
 						</configuration>
 					</plugin>
 
@@ -232,6 +234,7 @@
 						<executions>
 							<execution>
 								<id>attach-sources</id>
+								<phase>verify</phase>								
 								<goals>
 									<goal>jar-no-fork</goal>
 								</goals>
@@ -255,6 +258,7 @@
 						<configuration>
 							<failOnWarnings>false</failOnWarnings>
 							<failOnError>false</failOnError>
+							<doclint>none</doclint>							
 						</configuration>
 					</plugin>
 
@@ -329,7 +333,6 @@
 						<configuration>
 							<failOnWarnings>false</failOnWarnings>
 							<failOnError>false</failOnError>
-							<stylesheet>java</stylesheet>
 							<doclint>none</doclint>
 						</configuration>
 					</plugin>
