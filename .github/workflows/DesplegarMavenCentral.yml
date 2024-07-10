@@ -46,7 +46,8 @@ jobs:
 # diferente al codigo de la version en el fichero pom.xml
       - name: Aplicamos la misma version en el fichero pom.xml con la que se ha creado el tag
         run: mvn versions:set -DnewVersion=${{ github.event.release.tag_name }}
-# Se crea release en GITHUB      
+# Se crea release en GITHUB 
+# IMPORTANTE: SOLO FUNCIONA SI SE CREA UN TAG. Si se ejecuta el action a demanda, eliminar esta tarea
       - name: Creamos release
         uses: softprops/action-gh-release@v1
         with:
