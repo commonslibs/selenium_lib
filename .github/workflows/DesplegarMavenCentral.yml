@@ -7,7 +7,8 @@
 # - Cada vez que se crea un tag
 #
 # DOC:
-# https://theoverengineered.blog/posts/publishing-my-first-artifact-to-maven-central-using-github-actions
+# METODO ANTERIOR: https://theoverengineered.blog/posts/publishing-my-first-artifact-to-maven-central-using-github-actions
+# METODO ACTUAL: https://medium.com/@jtbsorensen/publish-your-artifact-to-the-maven-central-repository-using-github-actions-15d3b5d9ce88
 
 name: Desplegar JAR en maven central
 
@@ -20,40 +21,78 @@ on:
   #  tags:
   #    - "*.*.*.*"
 
+# METODO ACTUAL
 jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Se indica la version de Java con la que e publicara la libreria en Maven Central
-        uses: actions/setup-java@v3
+      - uses: actions/checkout@v4
+      - name: Set up Maven Central Repository
+        uses: actions/setup-java@v4
         with:
-          distribution: adopt
-          java-version: 17
+          java-version: '17'
+          distribution: 'temurin'
           server-id: central
           server-username: MAVEN_USERNAME
           server-password: MAVEN_PASSWORD
-          gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+          gpg-private-key: CERTIFICADO_DIGITAL
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
-      - name: Construccion del artefacto
+#      - name: Asignar version
+#        run: mvn versions:set -DnewVersion=${{ github.event.release.tag_name }}
+      - name: Construccion del JAR
         run: mvn clean package -PCENTRAL-GITHUB
-      - name: Obtenemos la version de la release a partir del nombre del TAG
-        id: get_version
-        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
-      - name: Crear Release
-        uses: softprops/action-gh-release@v1
-        with:
-          name: v${{ steps.get_version.outputs.VERSION }}
-          generate_release_notes: true
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Publicacion en el repositorio de Maven Central
-        run: |
-          mvn \
-            --no-transfer-progress \
-            --batch-mode \
-            -PCENTRAL-GITHUB \
-            deploy
+#      - name: Obtenemos la version de la release a partir del nombre del TAG
+#        id: get_version
+#        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+#      - name: Crear Release
+#        uses: softprops/action-gh-release@v1
+#        with:
+#          name: v${{ steps.get_version.outputs.VERSION }}
+#          generate_release_notes: true
+#          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publicacion del JAR en Maven Central
+        run: mvn --batch-mode deploy -DskipTests -P CENTRAL-MANUAL
         env:
-          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          MAVEN_USERNAME: ${{ secrets.CENTRAL_TOKEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.CENTRAL_TOKEN_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.GPG_SIGNING_KEY_PASSWORD }}
+          CERTIFICADO_DIGITAL: ${{ secrets.GPG_SIGNING_KEY }}
+
+# METODO ANTERIOR
+#jobs:
+#  publish:
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v3
+#      - name: Se indica la version de Java con la que e publicara la libreria en Maven Central
+#        uses: actions/setup-java@v3
+#        with:
+#          distribution: adopt
+#          java-version: 17
+#          server-id: central
+#          server-username: MAVEN_USERNAME
+#          server-password: MAVEN_PASSWORD
+#          gpg-private-key: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
+#          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+#      - name: Construccion del artefacto
+#        run: mvn clean package -PCENTRAL-GITHUB
+#      - name: Obtenemos la version de la release a partir del nombre del TAG
+#        id: get_version
+#        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+#      - name: Crear Release
+#        uses: softprops/action-gh-release@v1
+#        with:
+#          name: v${{ steps.get_version.outputs.VERSION }}
+#          generate_release_notes: true
+#          token: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Publicacion en el repositorio de Maven Central
+#        run: |
+#          mvn \
+#            --no-transfer-progress \
+#            --batch-mode \
+#            -PCENTRAL-GITHUB \
+#            deploy
+#        env:
+#          MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+#          MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
+#          MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
