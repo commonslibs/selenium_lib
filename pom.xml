@@ -196,31 +196,6 @@
 
 	</dependencies>
 
-	<!-- Requerido para el despliegue de la libreria en el repositorio Maven Central -->
-	<!--
-	<distributionManagement>
-	<snapshotRepository>
-		<id>ossrh</id>
-		<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
-	</snapshotRepository>
-	<repository>
-		<id>ossrh</id>
-		<url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-	</repository>
-	</distributionManagement>
-	-->
-
-	<!-- PLUGIN ANTERIOR PARA SUBIR A MAVEN CENTRAL --> 
-	<!--
-	<distributionManagement>
-		<repository>
-		<id>ossrh</id>
-		<name>Central Repository OSSRH</name>
-		<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-		</repository>
-	</distributionManagement>
-	-->
-
 	<!-- Definicion de perfiles -->
 	<profiles>
 
@@ -237,6 +212,7 @@
 			<id>CENTRAL-MANUAL</id>
 			<build>
 				<plugins>
+					
 					<!-- OK: Plugin requerido para publicar en MAVEN CENTRAL -->
 					<plugin>
 						<groupId>org.sonatype.central</groupId>
@@ -307,6 +283,7 @@
 			<id>CENTRAL-GITHUB</id>
 			<build>
 				<plugins>
+
 					<!-- OK: Plugin requerido para publicar en MAVEN CENTRAL -->
 					<plugin>
 						<groupId>org.sonatype.central</groupId>
@@ -315,9 +292,11 @@
 						<extensions>true</extensions>
 						<configuration>
 							<publishingServerId>central</publishingServerId>
+							<tokenAuth>true</tokenAuth>
+							<!-- <autoPublish>true</autoPublish> -->
 						</configuration>
 					</plugin>
-					
+
 					<!-- Genera los sources de la libreria para MAVEN CENTRAL -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -326,13 +305,14 @@
 						<executions>
 							<execution>
 								<id>attach-sources</id>
+								<phase>verify</phase>
 								<goals>
 									<goal>jar-no-fork</goal>
 								</goals>
 							</execution>
 						</executions>
 					</plugin>
-					
+
 					<!-- Genera el javadoc de la libreria para MAVEN CENTRAL -->
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
@@ -349,6 +329,8 @@
 						<configuration>
 							<failOnWarnings>false</failOnWarnings>
 							<failOnError>false</failOnError>
+							<stylesheet>java</stylesheet>
+							<doclint>none</doclint>
 						</configuration>
 					</plugin>
 
@@ -374,12 +356,11 @@
 							</execution>
 						</executions>
 					</plugin>
-
 					<!-- FIN: Plugins requerido para publicar en MAVEN CENTRAL -->
+
 				</plugins>
 			</build>
 		</profile>
-
 	</profiles>
 
 	<build>
