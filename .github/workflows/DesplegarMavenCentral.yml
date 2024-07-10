@@ -36,10 +36,10 @@ jobs:
           server-password: MAVEN_PASSWORD
           gpg-private-key: ${{ secrets.GPG_SIGNING_KEY }}
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
-#      - name: Set version
-#        run: mvn versions:set -DnewVersion=${{ github.event.release.tag_name }}
-      - name: Compilar con Maven 
-        run: mvn -B clean package
+      - name: Set version
+        run: mvn versions:set -DnewVersion=${{ github.event.release.tag_name }}
+#      - name: Compilar con Maven 
+#        run: mvn -B clean package
       - name: Publicar JAR
         run: mvn --no-transfer-progress --batch-mode -DskipTests -P CENTRAL-GITHUB deploy
         env:
