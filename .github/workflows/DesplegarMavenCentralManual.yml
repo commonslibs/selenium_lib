@@ -1,7 +1,7 @@
 # Las tareas que hace son las siguientes: 
 # - Configura Maven y Java
 # - El codigo del tag creado se copia como version de la libreria en el pom.xml
-# - Se crea una release en el proyecto GITHUB
+# (NO LO HACE. SOLO SE HACE CUANDO EL DESPLIEGUE ES AUTOMATICO)- Se crea una release en el proyecto GITHUB
 # - Se publica el JAR en Maven Central
 #
 # ¿Cuando?:
@@ -11,14 +11,13 @@
 # METODO ANTERIOR: https://theoverengineered.blog/posts/publishing-my-first-artifact-to-maven-central-using-github-actions
 # METODO ACTUAL: https://medium.com/@jtbsorensen/publish-your-artifact-to-the-maven-central-repository-using-github-actions-15d3b5d9ce88
 
-name: Desplegar JAR en maven central
+name: Desplegar JAR en maven central (Manual)
 
 # Esta actions se ejecuta a demanda por el usuario o cada vez que se crea un TAG
 on:
-  # Cuando se crea un tag
-  push:
-    tags:
-      - "*.*.*.*"
+  # De manera manual desde Github-actions
+  workflow_dispatch:
+
 # Las tareas que hace son las siguientes: 
 # - Configura Maven y Java
 # - El codigo del tag creado se copia como version de la libreria en el pom.xml
@@ -47,12 +46,12 @@ jobs:
         run: mvn versions:set -DnewVersion=${{ github.event.release.tag_name }}
 # Se crea release en GITHUB 
 # IMPORTANTE: SOLO FUNCIONA SI SE CREA UN TAG. Si se ejecuta el action a demanda, eliminar esta tarea
-      - name: Creamos release
-        uses: softprops/action-gh-release@v1
-        with:
-          name: v${{ steps.get_version.outputs.VERSION }}
-          generate_release_notes: true
-          token: ${{ secrets.GITHUB_TOKEN }}
+#      - name: Creamos release
+#        uses: softprops/action-gh-release@v1
+#        with:
+#          name: v${{ steps.get_version.outputs.VERSION }}
+#          generate_release_notes: true
+#          token: ${{ secrets.GITHUB_TOKEN }}
 # Se publica el JAR en Maven Central
       - name: Publicamos JAR en Maven Central
         run: mvn --no-transfer-progress --batch-mode -DskipTests -P CENTRAL-GITHUB deploy
