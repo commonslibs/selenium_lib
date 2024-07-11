@@ -222,7 +222,7 @@
 						<extensions>true</extensions>
 						<configuration>
 							<publishingServerId>central</publishingServerId>
-							<tokenAuth>true</tokenAuth>							
+							<tokenAuth>false</tokenAuth>							
 						</configuration>
 					</plugin>
 
@@ -297,7 +297,7 @@
 						<configuration>
 							<publishingServerId>central</publishingServerId>
 							<tokenAuth>true</tokenAuth>
-							<!-- <autoPublish>true</autoPublish> -->
+							<autoPublish>true</autoPublish>
 						</configuration>
 					</plugin>
 
